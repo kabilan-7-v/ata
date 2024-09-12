@@ -1,5 +1,6 @@
 import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
+import 'package:ata/pages/Profile/membership.dart';
 import 'package:flutter/material.dart';
 
 class Profilepage extends StatefulWidget {
@@ -43,8 +44,10 @@ class _ProfilepageState extends State<Profilepage> {
             children: [
               customeditorshareprofile(context, Icons.person, "Edit Profile",
                   () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Editprofile()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Editprofile()));
               }),
               customeditorshareprofile(
                   context, Icons.share, "Share Profile", () {}),
@@ -135,32 +138,38 @@ class _ProfilepageState extends State<Profilepage> {
   }
 
   Widget custommembership(BuildContext context) {
-    return Container(
-      height: 45,
-      width: MediaQuery.of(context).size.width - 50,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                blurRadius: 5,
-                spreadRadius: 5)
-          ],
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: const Color.fromRGBO(225, 104, 17, 1))),
-      child: const Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.wallet_membership_outlined),
-            SizedBox(
-              width: 8,
-            ),
-            Text(
-              "View Membership details",
-              style: TextStyle(fontWeight: FontWeight.w500),
-            )
-          ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Membership()));
+      },
+      child: Container(
+        height: 45,
+        width: MediaQuery.of(context).size.width - 50,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  blurRadius: 5,
+                  spreadRadius: 5)
+            ],
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: const Color.fromRGBO(225, 104, 17, 1))),
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.wallet_membership_outlined),
+              SizedBox(
+                width: 8,
+              ),
+              Text(
+                "View Membership details",
+                style: TextStyle(fontWeight: FontWeight.w500),
+              )
+            ],
+          ),
         ),
       ),
     );

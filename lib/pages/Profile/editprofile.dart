@@ -28,13 +28,13 @@ class Editprofile extends StatelessWidget {
                 ),
               ],
             ),
-            CircleAvatar(
+            const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage("assets/imgs/Profile.png")),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text(
+            const Text(
               "Edit picture or avatar",
               style: TextStyle(color: Color.fromRGBO(67, 195, 249, 1)),
             ),
@@ -56,19 +56,18 @@ class Editprofile extends StatelessWidget {
       child: TextFormField(
         decoration: InputDecoration(
             hintText: hint,
-            focusColor: Color.fromRGBO(249, 225, 207, 1),
-            enabledBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: Color.fromRGBO(249, 225, 207, 1)),
+            hintStyle: TextStyle(color: Colors.grey.shade400),
+            focusColor: const Color.fromRGBO(249, 225, 207, 1),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Color.fromRGBO(249, 225, 207, 1)),
             ),
             labelText: label,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               fontSize: 16,
               color: Colors.black,
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: Color.fromRGBO(239, 180, 135, 1)),
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Color.fromRGBO(239, 180, 135, 1)),
             )),
       ),
     );

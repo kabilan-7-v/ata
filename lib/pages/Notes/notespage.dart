@@ -46,8 +46,10 @@ class NotesPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Eventspage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Eventspage()));
                 },
                 child: const Row(
                   children: [

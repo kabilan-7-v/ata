@@ -33,9 +33,9 @@ class Eventspage extends StatelessWidget {
                 labelColor: Colors.black,
                 tabs: [
                   Tab(
-                    text: '                       On Going Events          ',
+                    text: '                 On Going Events        ',
                   ),
-                  Tab(text: '                      UpComing Events          '),
+                  Tab(text: '               UpComing Events          '),
                 ]),
             Expanded(
                 child: TabBarView(children: [

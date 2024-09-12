@@ -1,3 +1,4 @@
+import 'package:ata/pages/Profile/appsetting.dart';
 import 'package:flutter/material.dart';
 
 class Customdrawer extends StatelessWidget {
@@ -25,22 +26,26 @@ class Customdrawer extends StatelessWidget {
               )
             ],
           ),
-          customtile(Icons.settings, "App Settings"),
-          customtile(Icons.browse_gallery, "Gallery"),
-          customtile(Icons.save_alt, "Save"),
-          customtile(Icons.notifications, "Notifications"),
-          customtile(Icons.info_outline, "About us"),
-          customtile(Icons.question_mark, "Support"),
-          customtile(Icons.airplane_ticket_outlined, "Ticket History"),
+          customtile(Icons.settings, "App Settings", () {
+            Navigator.push(context,
+                (MaterialPageRoute(builder: (context) => Appsettings())));
+          }),
+          customtile(Icons.browse_gallery, "Gallery", () {}),
+          customtile(Icons.save_alt, "Save", () {}),
+          customtile(Icons.notifications, "Notifications", () {}),
+          customtile(Icons.info_outline, "About us", () {}),
+          customtile(Icons.question_mark, "Support", () {}),
+          customtile(Icons.airplane_ticket_outlined, "Ticket History", () {}),
         ],
       ),
     );
   }
 
-  customtile(icon, text) {
+  customtile(icon, text, ontap) {
     return Column(
       children: [
         ListTile(
+          onTap: ontap,
           leading: Icon(icon),
           title: Text(text),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),

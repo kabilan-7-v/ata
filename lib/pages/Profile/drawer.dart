@@ -1,4 +1,9 @@
+import 'package:ata/pages/Profile/Notifications.dart';
+import 'package:ata/pages/Profile/aboutus.dart';
 import 'package:ata/pages/Profile/appsetting.dart';
+import 'package:ata/pages/Profile/helpsupport.dart';
+import 'package:ata/pages/Profile/savepage.dart';
+import 'package:ata/pages/Profile/tickethistory.dart';
 import 'package:flutter/material.dart';
 
 class Customdrawer extends StatelessWidget {
@@ -28,14 +33,31 @@ class Customdrawer extends StatelessWidget {
           ),
           customtile(Icons.settings, "App Settings", () {
             Navigator.push(context,
-                (MaterialPageRoute(builder: (context) => Appsettings())));
+                (MaterialPageRoute(builder: (context) => const Appsettings())));
           }),
           customtile(Icons.browse_gallery, "Gallery", () {}),
-          customtile(Icons.save_alt, "Save", () {}),
-          customtile(Icons.notifications, "Notifications", () {}),
-          customtile(Icons.info_outline, "About us", () {}),
-          customtile(Icons.question_mark, "Support", () {}),
-          customtile(Icons.airplane_ticket_outlined, "Ticket History", () {}),
+          customtile(Icons.save_alt, "Save", () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Savepage()));
+          }),
+          customtile(Icons.notifications, "Notifications", () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Notificationspage()));
+          }),
+          customtile(Icons.info_outline, "About us", () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Aboutuspage()));
+          }),
+          customtile(Icons.question_mark, "Support", () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Helpsupport()));
+          }),
+          customtile(Icons.airplane_ticket_outlined, "Ticket History", () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Tickethistory()));
+          }),
         ],
       ),
     );

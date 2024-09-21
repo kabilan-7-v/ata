@@ -8,27 +8,29 @@ class Appsettings extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               IconButton(
-                  onPressed: () {},
-                  icon: Icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
                     Icons.arrow_back_ios_sharp,
                     size: 18,
                   )),
-              Text(
+              const Text(
                 "App Settings",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           customtile(Icons.shield_outlined, "Password & Security", () {}),
@@ -48,8 +50,8 @@ class Appsettings extends StatelessWidget {
           title: Text(text),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 35),
           child: Divider(),
         )
       ],

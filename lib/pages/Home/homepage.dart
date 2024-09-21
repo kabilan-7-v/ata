@@ -14,19 +14,13 @@ class Homepage extends StatelessWidget {
     "assets/imgs/sponser4.webp"
   ];
 
-  static const List<String> latestPost = [
-    "assets/imgs/lastest1.png",
-    "assets/imgs/latestpost2.png",
-    "assets/imgs/latestpost3.png",
-    "assets/imgs/lastest4.png",
-    "assets/imgs/lastest5.png",
-    "assets/imgs/lastestpost6.png"
-  ];
-
   @override
   Widget build(BuildContext context) {
     int populareventslstlength =
         Provider.of<Populareventslist>(context).populareventslst.length;
+    int latesteventslstlength =
+        Provider.of<Latestpostlst>(context).latestpostlst.length;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
@@ -67,7 +61,7 @@ class Homepage extends StatelessWidget {
                 ),
               ],
             ),
-            _buildLatestPosts(),
+            _buildLatestPosts(context, latesteventslstlength),
           ],
         ),
       ),
@@ -232,15 +226,16 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildLatestPosts() {
+  Widget _buildLatestPosts(BuildContext context, len) {
+    List<Latestpost> res = Provider.of<Latestpostlst>(context).latestpostlst;
     return SizedBox(
       height: 325,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: latestPost.length,
+        itemCount: len,
         itemBuilder: (context, index) {
-          return _buildLatestPostCard(latestPost[index]);
+          return _buildLatestPostCard(res[index].img);
         },
       ),
     );

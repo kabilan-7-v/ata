@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Populareventslist()),
+        ChangeNotifierProvider(create: (_) => Latestpostlst()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

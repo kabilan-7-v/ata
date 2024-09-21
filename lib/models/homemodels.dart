@@ -40,3 +40,29 @@ class Populareventslist extends ChangeNotifier {
         img: "assets/imgs/Rectangle 3905.png"),
   ];
 }
+
+class Latestpost extends ChangeNotifier {
+  final String title;
+  final String subtitle;
+  final String img;
+
+  Latestpost({required this.title, required this.subtitle, required this.img});
+}
+
+class Latestpostlst extends ChangeNotifier {
+  static const List<String> latestPost = [];
+  List<Latestpost> latestpostlst = [
+    Latestpost(
+        img: "assets/imgs/latestpost3.png",
+        title: "title",
+        subtitle: "subtitle"),
+    Latestpost(
+        img: "assets/imgs/lastest4.png", title: "title", subtitle: "subtitle"),
+    Latestpost(
+        img: "assets/imgs/lastest5.png", title: "title", subtitle: "subtitle"),
+    Latestpost(
+        img: "assets/imgs/lastestpost6.png",
+        title: "title",
+        subtitle: "subtitle"),
+  ];
+}

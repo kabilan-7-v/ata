@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => Populareventslist()),
         ChangeNotifierProvider(create: (_) => Latestpostlst()),
+        ChangeNotifierProvider(create: (_) => Seasonlst()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

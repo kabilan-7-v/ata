@@ -1,5 +1,20 @@
 import 'package:flutter/material.dart';
 
+class Season extends ChangeNotifier {
+  final String img;
+  final String name;
+
+  Season({required this.img, required this.name});
+}
+
+class Seasonlst extends ChangeNotifier {
+  List<Season> seasons = [
+    Season(img: 'assets/imgs/Variant3.png', name: 'பாலை'),
+    Season(img: 'assets/imgs/Variant4.png', name: 'மருதம்'),
+    Season(img: 'assets/imgs/Variant5.png', name: 'குறிஞ்சி'),
+  ];
+}
+
 class Popularevents extends ChangeNotifier {
   final String date;
   final String eventname;

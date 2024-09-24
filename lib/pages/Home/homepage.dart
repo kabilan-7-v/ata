@@ -20,6 +20,7 @@ class Homepage extends StatelessWidget {
         Provider.of<Populareventslist>(context).populareventslst.length;
     int latesteventslstlength =
         Provider.of<Latestpostlst>(context).latestpostlst.length;
+    var provider = Provider.of<Seasonlst>(context).seasons;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,16 +41,20 @@ class Homepage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildMainBanner(),
+            CarouselSlider.builder(
+                itemCount: provider.length,
+                itemBuilder: (context, ind, i) {
+                  return _buildMainBanner(
+                      provider[ind].img, provider[ind].name);
+                },
+                options: CarouselOptions(
+                    enlargeCenterPage: true, height: 280, autoPlay: true)),
             _buildSectionTitle('Popular Events'),
             _buildPopularEvents(context, populareventslstlength),
             _buildSectionTitle('Our Proud Sponsors'),
             _buildSponsorsCarousel(),
             const Row(
               children: [
-                SizedBox(
-                  width: 15,
-                ),
                 Text(
                   "Latest Post",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -63,7 +68,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildMainBanner() {
+  Widget _buildMainBanner(img, name) {
     return Column(
       children: [
         Padding(
@@ -72,15 +77,15 @@ class Homepage extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  image: AssetImage('assets/imgs/Variant4.png'),
+                image: DecorationImage(
+                  image: AssetImage(img),
                   fit: BoxFit.cover,
                 ),
               ),
             )),
         Text(
-          "குறிஞ்சி",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          name,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         )
       ],
     );

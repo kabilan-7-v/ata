@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class Tickethistory extends StatelessWidget {
@@ -62,21 +60,21 @@ class Tickethistory extends StatelessWidget {
             ),
           ),
         ),
-        customtext(15, 30, "Event Name", Color.fromRGBO(96, 95, 95, 1), 14,
-            FontWeight.normal),
-        customtext(35, 30, eventname, Color.fromRGBO(225, 104, 17, 1), 16,
+        customtext(15, 30, "Event Name", const Color.fromRGBO(96, 95, 95, 1),
+            14, FontWeight.normal),
+        customtext(35, 30, eventname, const Color.fromRGBO(225, 104, 17, 1), 16,
             FontWeight.w500),
-        customtext(85, 30, "Date", Color.fromRGBO(96, 95, 95, 1), 14,
+        customtext(85, 30, "Date", const Color.fromRGBO(96, 95, 95, 1), 14,
             FontWeight.normal),
-        customtext(
-            110, 30, date, Color.fromRGBO(96, 95, 95, 1), 17, FontWeight.bold),
-        customtext(15, 280, "Total Amount", Color.fromRGBO(96, 95, 95, 1), 14,
-            FontWeight.normal),
-        customtext(38, 280, "\$$amount", Color.fromRGBO(96, 95, 95, 1), 14,
+        customtext(110, 30, date, const Color.fromRGBO(96, 95, 95, 1), 17,
             FontWeight.bold),
-        customtext(85, 280, "Seats", Color.fromRGBO(96, 95, 95, 1), 14,
+        customtext(15, 280, "Total Amount", const Color.fromRGBO(96, 95, 95, 1),
+            14, FontWeight.normal),
+        customtext(38, 280, "\$$amount", const Color.fromRGBO(96, 95, 95, 1),
+            14, FontWeight.bold),
+        customtext(85, 280, "Seats", const Color.fromRGBO(96, 95, 95, 1), 14,
             FontWeight.normal),
-        customtext(110, 280, seats, Color.fromRGBO(96, 95, 95, 1), 16,
+        customtext(110, 280, seats, const Color.fromRGBO(96, 95, 95, 1), 16,
             FontWeight.bold),
         Positioned(
           right: 120,

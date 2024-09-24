@@ -16,28 +16,28 @@ class Popularevents extends ChangeNotifier {
 class Populareventslist extends ChangeNotifier {
   List<Popularevents> populareventslst = [
     Popularevents(
-      date: "date",
-      eventname: "eventname",
-      location: "location",
+      date: "20th July,2024",
+      eventname: "Yoga Day",
+      location: "Adelaide, 33176",
       img: "assets/imgs/Rectangle 3904 (7).png",
     ),
     Popularevents(
-      date: "date",
-      eventname: "eventname",
-      location: "location",
+        date: "20th July,2024",
+        eventname: "Foodie Callo",
+        location: "Adelaide, 33176",
+        img: "assets/imgs/Rectangle 3905.png"),
+    Popularevents(
+      date: "20th July,2024",
+      eventname: "Foodie Callo",
+      location: "Adelaide, 33176",
       img: "assets/imgs/Rectangle 3904 (8).png",
     ),
     Popularevents(
-      date: "date",
+      date: "20th July,2024",
       eventname: "eventname",
-      location: "location",
+      location: "Adelaide, 33176",
       img: "assets/imgs/Rectangle 3904 (9).png",
     ),
-    Popularevents(
-        date: "date",
-        eventname: "eventname",
-        location: "location",
-        img: "assets/imgs/Rectangle 3905.png"),
   ];
 }
 

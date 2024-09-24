@@ -54,11 +54,6 @@ class Homepage extends StatelessWidget {
                   "Latest Post",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                Spacer(),
-                Icon(Icons.more_horiz),
-                SizedBox(
-                  width: 20,
-                ),
               ],
             ),
             _buildLatestPosts(context, latesteventslstlength),
@@ -69,29 +64,25 @@ class Homepage extends StatelessWidget {
   }
 
   Widget _buildMainBanner() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: const DecorationImage(
-            image: AssetImage('assets/imgs/Variant4.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            color: Colors.black54,
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-            child: const Text(
-              'குறிஞ்சி',
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ),
-        ),
-      ),
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: const DecorationImage(
+                  image: AssetImage('assets/imgs/Variant4.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )),
+        Text(
+          "குறிஞ்சி",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        )
+      ],
     );
   }
 
@@ -104,8 +95,6 @@ class Homepage extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const Spacer(),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
         ],
       ),
     );
@@ -121,13 +110,15 @@ class Homepage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: len,
         itemBuilder: (context, index) {
-          return _buildEventCard(res[index].img, context);
+          return _buildEventCard(res[index].img, context, res[index].date,
+              res[index].eventname, res[index].location);
         },
       ),
     );
   }
 
-  Widget _buildEventCard(String imageUrl, BuildContext context) {
+  Widget _buildEventCard(
+      String imageUrl, BuildContext context, date, eventname, location) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -164,18 +155,18 @@ class Homepage extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 22),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("22 July 2024"),
-                    Text("Birds Day",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(date),
+                    Text(eventname,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     Row(
                       children: [
-                        Icon(Icons.location_on_outlined),
-                        Text("Adilaide, 33176"),
+                        const Icon(Icons.location_on_outlined),
+                        Text(location),
                       ],
                     ),
                   ],

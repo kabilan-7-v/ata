@@ -76,9 +76,8 @@ class _EventspageState extends State<Eventspage> {
   }
 
   Widget smallcardnotexpand(BuildContext context, img, select) {
-    select = select;
     return AnimatedSize(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       child: InkWell(
         onTap: () {
           setState(() {

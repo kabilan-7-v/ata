@@ -34,7 +34,7 @@ class Populareventslist extends ChangeNotifier {
       date: "20th July,2024",
       eventname: "Yoga Day",
       location: "Adelaide, 33176",
-      img: "assets/imgs/ATA1 (1).jpg",
+      img: "assets/imgs/Rectangle 3904 (7).png",
     ),
     Popularevents(
         date: "20th July,2024",

@@ -1,4 +1,5 @@
 import 'package:ata/pages/congrats.dart';
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccount extends StatelessWidget {
@@ -7,6 +8,7 @@ class CreateAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,7 +17,7 @@ class CreateAccount extends StatelessWidget {
             const Row(
               children: [
                 SizedBox(
-                  width: 43,
+                  width: 16,
                 ),
                 Text(
                   "Sign Up",
@@ -26,7 +28,7 @@ class CreateAccount extends StatelessWidget {
             const Row(
               children: [
                 SizedBox(
-                  width: 43,
+                  width: 16,
                 ),
                 Text(
                   "sign up with",
@@ -40,10 +42,10 @@ class CreateAccount extends StatelessWidget {
             Row(
               children: [
                 const SizedBox(
-                  width: 55,
+                  width: 16,
                 ),
                 Image.asset("assets/imgs/google.png"),
-                SizedBox(
+                const SizedBox(
                   width: 25,
                 ),
                 Image.asset("assets/imgs/logos_facebook.png"),
@@ -53,7 +55,7 @@ class CreateAccount extends StatelessWidget {
             const Row(
               children: [
                 SizedBox(
-                  width: 15,
+                  width: 16,
                 ),
                 Text("Name",
                     style:
@@ -128,10 +130,11 @@ class CreateAccount extends StatelessWidget {
       // height: 80,
       child: TextFormField(
           decoration: InputDecoration(
-              hintStyle: TextStyle(color: Colors.grey[400]),
+              hintStyle:
+                  const TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(width: 2),
+                borderSide: const BorderSide(width: 2),
               ),
               hintText: hinttext,
               prefixIcon: icon,
@@ -150,8 +153,8 @@ class CreateAccount extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Congratspage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Congratspage()));
         },
         child: Text(
           buttonname,

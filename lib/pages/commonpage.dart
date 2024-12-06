@@ -2,6 +2,7 @@ import 'package:ata/pages/Home/homepage.dart';
 import 'package:ata/pages/Notes/eventspage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
 import 'package:ata/pages/Profile/profilepage.dart';
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Commonpage extends StatefulWidget {
@@ -26,6 +27,8 @@ class _CommonpageState extends State<Commonpage> {
       bottomNavigationBar: Container(
         height: 60,
         decoration: BoxDecoration(
+            color: Colors.white,
+
             // boxShadow: const [
             //   BoxShadow(
             //     color: Colors.white,

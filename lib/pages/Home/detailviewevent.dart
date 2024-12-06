@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Detailviewevent extends StatelessWidget {
@@ -7,6 +8,7 @@ class Detailviewevent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
       bottomNavigationBar: Container(
         height: 80,
         decoration: BoxDecoration(

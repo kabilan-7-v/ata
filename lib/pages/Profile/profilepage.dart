@@ -1,6 +1,7 @@
 import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Profilepage extends StatefulWidget {
@@ -15,24 +16,29 @@ class _ProfilepageState extends State<Profilepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.add_box_outlined,
-                size: 30,
-              )),
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(
-                Icons.menu,
-                size: 30,
+        backgroundColor: ataBackgroundcolor,
+        appBar: AppBar(
+            leading: const SizedBox(),
+            backgroundColor: ataBackgroundcolor,
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.add_box_outlined,
+                    size: 30,
+                  )),
+              Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(
+                    Icons.menu,
+                    size: 30,
+                  ),
+                  onPressed: () => Scaffold.of(context).openEndDrawer(),
+                  tooltip:
+                      MaterialLocalizations.of(context).openAppDrawerTooltip,
+                ),
               ),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            ),
-          ),
-        ]),
+            ]),
         endDrawer: const Customdrawer(),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Center(child: customprofilecard(context)),
@@ -42,15 +48,17 @@ class _ProfilepageState extends State<Profilepage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              customeditorshareprofile(context, Icons.person, "Edit Profile",
-                  () {
+              customeditorshareprofile(
+                  context,
+                  "assets/icons/person_edit_24dp_000000_FILL0_wght400_GRAD0_opsz24.png",
+                  "Edit Profile", () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const Editprofile()));
               }),
               customeditorshareprofile(
-                  context, Icons.share, "Share Profile", () {}),
+                  context, "assets/icons/share.png", "Share Profile", () {}),
             ],
           ),
           const SizedBox(
@@ -108,7 +116,8 @@ class _ProfilepageState extends State<Profilepage> {
     );
   }
 
-  Widget customeditorshareprofile(BuildContext context, icon, name, ontap) {
+  Widget customeditorshareprofile(
+      BuildContext context, String icon, String name, ontap) {
     return InkWell(
       onTap: ontap,
       child: Container(
@@ -122,7 +131,7 @@ class _ProfilepageState extends State<Profilepage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon),
+              SizedBox(height: 25, width: 25, child: Image.asset(icon)),
               const SizedBox(
                 width: 8,
               ),

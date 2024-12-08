@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Tickethistory extends StatelessWidget {
@@ -7,29 +8,19 @@ class Tickethistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        backgroundColor: ataBackgroundcolor,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: const Text(
+          "Ticket History",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 60,
-            ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.keyboard_arrow_left_sharp)),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "Ticket History",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                )
-              ],
-            ),
             customcontanier(
                 context, "Yoga Day", "55", "C5,C6", "6th July, 2024 - 4:00 PM"),
             customcontanier(context, "Flowers Day", "65", "A5,A6,A8",

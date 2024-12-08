@@ -68,6 +68,13 @@ flutter:
   assets:
     - assets/imgs/
     - assets/icons/
+    - assets/icons/drawer/
+
+    - assets/ongoing_event/
+    - assets/upcoming_event/
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

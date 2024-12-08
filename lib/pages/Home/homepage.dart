@@ -166,7 +166,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildMainBanner(img, name) {
+  Widget buildMainBanner(img, name) {
     return Column(
       children: [
         Padding(
@@ -424,15 +424,28 @@ class Homepage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: Image.asset(
-              img,
-              width: double.infinity,
-              height: 150,
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: Image.asset(
+                  img,
+                  width: double.infinity,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Container(
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))))
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

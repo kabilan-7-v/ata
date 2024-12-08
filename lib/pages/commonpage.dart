@@ -1,8 +1,8 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:ata/pages/Home/homepage.dart';
-import 'package:ata/pages/Notes/eventspage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
 import 'package:ata/pages/Profile/profilepage.dart';
-import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Commonpage extends StatefulWidget {
@@ -14,16 +14,13 @@ class Commonpage extends StatefulWidget {
 
 class _CommonpageState extends State<Commonpage> {
   int tab = 0;
-  bool checkevents = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: tab, children: [
-        const Homepage(),
-        checkevents == false ? const NotesPage() : const Eventspage(),
-        const Profilepage()
-      ]),
+      body: IndexedStack(
+          index: tab,
+          children: [const Homepage(), const NotesPage(), const Profilepage()]),
       bottomNavigationBar: Container(
         height: 60,
         decoration: BoxDecoration(

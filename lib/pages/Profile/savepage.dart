@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Savepage extends StatelessWidget {
@@ -6,28 +7,19 @@ class Savepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: ataBackgroundcolor,
+        title: const Text(
+          'Saved',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_outlined,
-                      size: 22,
-                    )),
-                const Text(
-                  'Saved',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
             customcontainerpost("assets/imgs/Ellipse 553.png", "Hendry Know",
                 "2hr", "assets/imgs/dog.png"),
             customcontainerpost("assets/imgs/Ellipse 551.png", "Karishma",
@@ -85,12 +77,15 @@ class Savepage extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(
+            height: 5,
+          ),
           SizedBox(
               height: 250,
-              width: 300,
+              // width: 350,
               child: Image.asset(
                 postimg,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               )),
           const SizedBox(
             height: 10,

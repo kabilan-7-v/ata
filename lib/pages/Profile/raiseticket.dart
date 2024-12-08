@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Raiseticket extends StatelessWidget {
@@ -6,30 +7,19 @@ class Raiseticket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: ataBackgroundcolor,
+        title: const Text(
+          'Raise tickets',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.keyboard_arrow_left,
-                  )),
-              const Text(
-                'Raise tickets',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: Text(

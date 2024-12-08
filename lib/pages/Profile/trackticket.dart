@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Trackticket extends StatelessWidget {
@@ -6,31 +7,19 @@ class Trackticket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: ataBackgroundcolor,
+        title: const Text(
+          'Track tickets',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_outlined,
-                      size: 22,
-                    )),
-                const Text(
-                  'Track tickets',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Container(
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(39, 41, 56, 1),

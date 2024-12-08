@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -23,32 +24,20 @@ class _MembershipState extends State<Membership> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: ataBackgroundcolor,
+        title: const Text(
+          'Membership Exclusive',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_sharp,
-                      size: 18,
-                    )),
-                const Text(
-                  "Membership Exclusive",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
             Stack(
               children: [
                 SizedBox(
@@ -65,7 +54,7 @@ class _MembershipState extends State<Membership> {
                           viewportFraction: 1),
                       items: [
                         customimageshape("assets/imgs/image 222.png",
-                            "Navigating the Future in AI on April 28th @ YSpace\n                                   Markham"),
+                            "Navigating the Future in AI on April 28th @ YSpace\nMarkham"),
                         customimageshape(
                             "assets/imgs/image 223.png", "Golf Clinic in June"),
                         customimageshape("assets/imgs/image 224.png",

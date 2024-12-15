@@ -48,8 +48,8 @@ class Homepage extends StatelessWidget {
                       children: [
                         const SizedBox(width: 16),
                         SizedBox(
-                            width: 20,
-                            height: 20,
+                            width: 25,
+                            height: 25,
                             child: Image.asset("assets/icons/search.png")),
                         const SizedBox(width: 8),
                         const Expanded(
@@ -63,8 +63,8 @@ class Homepage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                            width: 20,
-                            height: 20,
+                            width: 25,
+                            height: 25,
                             child: Image.asset("assets/icons/mic.png")),
                         const SizedBox(width: 16),
                       ],
@@ -158,6 +158,7 @@ class Homepage extends StatelessWidget {
             _buildSectionTitle('Latest Posts'),
 
             _buildLatestPosts(context, latesteventslstlength),
+
             _buildSectionTitle('Our Proud Sponsors'),
             _buildSponsorsCarousel(),
             const SizedBox(
@@ -372,8 +373,8 @@ class Homepage extends StatelessWidget {
         aspectRatio: 16 / 9,
         autoPlayCurve: Curves.linear,
         enableInfiniteScroll: true,
-        autoPlayInterval: const Duration(seconds: 1),
-        autoPlayAnimationDuration: const Duration(milliseconds: 200),
+        autoPlayInterval: const Duration(seconds: 10),
+        autoPlayAnimationDuration: const Duration(milliseconds: 500),
         viewportFraction: 0.7,
       ),
       items: sponser.map((item) {
@@ -384,7 +385,7 @@ class Homepage extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.black.withOpacity(0.4),
+                  color: ataBackgroundcolor,
                   image: DecorationImage(
                     image: AssetImage(item),
                     fit: BoxFit.cover,
@@ -395,7 +396,7 @@ class Homepage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                     decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.black.withOpacity(0.01),
                   borderRadius: BorderRadius.circular(10),
                 )),
               )
@@ -422,84 +423,87 @@ class Homepage extends StatelessWidget {
   }
 
   Widget _buildLatestPostCard(String img) {
-    return Container(
-      width: 290, // Set a fixed width for each card
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                child: Image.asset(
-                  img,
-                  width: double.infinity,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))))
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, bottom: 10),
+      child: Container(
+        width: 290,
+        height: 320, // Set a fixed width for each card
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              // offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                const Text(
-                  "22 July 2024", // Example Date
-                  style: TextStyle(color: Colors.grey),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  "Birds Day", // Example Title
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const SizedBox(height: 4),
-                const Row(
-                  children: [
-                    Icon(Icons.location_on_outlined, size: 16),
-                    SizedBox(width: 4),
-                    Text("Adilaide, 33176"), // Example Location
-                  ],
-                ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Join Now",
-                    style: TextStyle(color: Colors.white),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  child: Image.asset(
+                    img,
+                    width: double.infinity,
+                    height: 150,
+                    fit: BoxFit.cover,
                   ),
                 ),
+                Container(
+                    width: double.infinity,
+                    height: 150,
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.4),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))))
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "22 July 2024", // Example Date
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    "Birds Day", // Example Title
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  const Row(
+                    children: [
+                      Icon(Icons.location_on_outlined, size: 16),
+                      SizedBox(width: 4),
+                      Text("Adilaide, 33176"), // Example Location
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      "Join Now",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

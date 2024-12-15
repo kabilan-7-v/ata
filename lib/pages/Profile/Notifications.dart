@@ -10,14 +10,10 @@ class Notificationspage extends StatelessWidget {
       backgroundColor: ataBackgroundcolor,
       appBar: AppBar(
         leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios_outlined,
-            size: 22,
-          ),
-        ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios)),
         scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: ataBackgroundcolor,

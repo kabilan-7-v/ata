@@ -10,6 +10,11 @@ class Tickethistory extends StatelessWidget {
     return Scaffold(
       backgroundColor: ataBackgroundcolor,
       appBar: AppBar(
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios)),
         backgroundColor: ataBackgroundcolor,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -72,8 +77,8 @@ class Tickethistory extends StatelessWidget {
           child: Container(
             height: 15,
             width: 15,
-            decoration:
-                BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+                color: ataBackgroundcolor, shape: BoxShape.circle),
           ),
         ),
         customline(10),
@@ -112,8 +117,8 @@ class Tickethistory extends StatelessWidget {
           child: Container(
             height: 15,
             width: 15,
-            decoration:
-                BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
+            decoration: BoxDecoration(
+                color: ataBackgroundcolor, shape: BoxShape.circle),
           ),
         )
       ],
@@ -128,7 +133,7 @@ class Tickethistory extends StatelessWidget {
         height: 3,
         width: 2,
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          color: ataBackgroundcolor,
         ),
       ),
     );

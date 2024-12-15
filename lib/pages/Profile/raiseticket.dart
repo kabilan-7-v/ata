@@ -12,6 +12,11 @@ class Raiseticket extends StatelessWidget {
         scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: ataBackgroundcolor,
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios)),
         title: const Text(
           'Raise tickets',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),

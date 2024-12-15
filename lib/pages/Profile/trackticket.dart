@@ -11,6 +11,11 @@ class Trackticket extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios)),
         backgroundColor: ataBackgroundcolor,
         title: const Text(
           'Track tickets',

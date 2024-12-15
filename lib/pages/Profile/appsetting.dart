@@ -12,6 +12,11 @@ class Appsettings extends StatelessWidget {
         scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: ataBackgroundcolor,
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back_ios)),
         title: const Text(
           'App Settings',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
@@ -45,7 +50,7 @@ class Appsettings extends StatelessWidget {
           leading: Icon(icon),
           title: Text(
             text,
-            style:const  TextStyle(fontWeight: FontWeight.w500),
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
         ),

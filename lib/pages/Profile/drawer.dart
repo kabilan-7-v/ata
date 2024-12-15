@@ -13,6 +13,7 @@ class Customdrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      shape: LinearBorder.bottom(),
       backgroundColor: ataBackgroundcolor,
       width: double.infinity,
       child: SingleChildScrollView(

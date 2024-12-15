@@ -160,6 +160,9 @@ class Homepage extends StatelessWidget {
             _buildLatestPosts(context, latesteventslstlength),
             _buildSectionTitle('Our Proud Sponsors'),
             _buildSponsorsCarousel(),
+            const SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
@@ -371,19 +374,32 @@ class Homepage extends StatelessWidget {
         enableInfiniteScroll: true,
         autoPlayInterval: const Duration(seconds: 1),
         autoPlayAnimationDuration: const Duration(milliseconds: 200),
-        viewportFraction: 0.5,
+        viewportFraction: 0.7,
       ),
       items: sponser.map((item) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: AssetImage(item),
-                fit: BoxFit.cover,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black.withOpacity(0.4),
+                  image: DecorationImage(
+                    image: AssetImage(item),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                    decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(10),
+                )),
+              )
+            ],
           ),
         );
       }).toList(),

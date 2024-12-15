@@ -19,9 +19,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => Latestpostlst()),
         ChangeNotifierProvider(create: (_) => Seasonlst()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: const TextScaler.linear(1)),
+            child: child!,
+          );
+        },
         debugShowCheckedModeBanner: false,
-        home: CreateAccount(),
+        home: const CreateAccount(),
       ),
     );
   }

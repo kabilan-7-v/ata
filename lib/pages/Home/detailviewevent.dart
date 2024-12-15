@@ -8,6 +8,19 @@ class Detailviewevent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: ataBackgroundcolor,
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_outlined,
+              size: 18,
+            )),
+      ),
       backgroundColor: ataBackgroundcolor,
       bottomNavigationBar: Container(
         height: 80,
@@ -65,17 +78,6 @@ class Detailviewevent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 50,
-            ),
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios_outlined,
-                  size: 18,
-                )),
             buildMainBanner(img),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),

@@ -88,6 +88,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
+  #   - family: Proxima Nova
+  #     fonts:
+  #       - asset: assets/fonts/Proxima Nova Font.otf
+  #         style: italic
+  # fonts:
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

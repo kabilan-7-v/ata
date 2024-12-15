@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Editprofile extends StatelessWidget {
@@ -6,28 +7,28 @@ class Editprofile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ataBackgroundcolor,
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios_outlined,
+            size: 22,
+          ),
+        ),
+        scrolledUnderElevation: 0,
+        elevation: 0,
+        backgroundColor: ataBackgroundcolor,
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_outlined,
-                      size: 22,
-                    )),
-                const Text(
-                  'Edit Profile',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
             const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage("assets/imgs/Profile.png")),

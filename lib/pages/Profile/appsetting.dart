@@ -45,7 +45,7 @@ class Appsettings extends StatelessWidget {
           leading: Icon(icon),
           title: Text(
             text,
-            style: TextStyle(fontWeight: FontWeight.w500),
+            style:const  TextStyle(fontWeight: FontWeight.w500),
           ),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
         ),

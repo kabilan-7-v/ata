@@ -235,7 +235,7 @@ class _NotesPageState extends State<NotesPage> {
                 ),
                 Container(
                   height: 30,
-                  width: 142,
+                  width: 155,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -277,7 +277,7 @@ class _NotesPageState extends State<NotesPage> {
                 ),
                 Container(
                   height: 32,
-                  width: 89,
+                  width: 95,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -316,7 +316,7 @@ class _NotesPageState extends State<NotesPage> {
           ),
         ),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 30, maxWidth: 110),
+          constraints: const BoxConstraints(maxHeight: 30, maxWidth: 115),
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: orange),
               onPressed: () {},
@@ -352,7 +352,7 @@ class _NotesPageState extends State<NotesPage> {
             ),
             const Spacer(),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 30, maxWidth: 110),
+              constraints: const BoxConstraints(maxHeight: 30, maxWidth: 120),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: orange),
                   onPressed: () {},

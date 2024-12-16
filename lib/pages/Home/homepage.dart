@@ -8,13 +8,6 @@ import 'package:provider/provider.dart';
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
-  static const List<String> sponser = [
-    "assets/imgs/sponser1.webp",
-    "assets/imgs/sponser2.webp",
-    "assets/imgs/sponser3.webp",
-    "assets/imgs/sponser4.webp"
-  ];
-
   @override
   Widget build(BuildContext context) {
     int populareventslstlength =

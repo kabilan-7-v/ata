@@ -1,20 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Season extends ChangeNotifier {
-  final String img;
-  final String name;
-
-  Season({required this.img, required this.name});
-}
-
-class Seasonlst extends ChangeNotifier {
-  List<Season> seasons = [
-    Season(img: 'assets/imgs/Variant3.png', name: 'பாலை'),
-    Season(img: 'assets/imgs/Variant4.png', name: 'மருதம்'),
-    Season(img: 'assets/imgs/Variant5.png', name: 'குறிஞ்சி'),
-  ];
-}
-
 class Popularevents extends ChangeNotifier {
   final String date;
   final String eventname;
@@ -34,24 +19,24 @@ class Populareventslist extends ChangeNotifier {
       date: "20th July,2024",
       eventname: "Yoga Day",
       location: "Adelaide, 33176",
-      img: "assets/imgs/ATA1 (1).jpg",
+      img: "assets/popular_event/Rectangle 3904 (7).png",
     ),
     Popularevents(
         date: "20th July,2024",
         eventname: "Foodie Callo",
         location: "Adelaide, 33176",
-        img: "assets/imgs/Rectangle 3905.png"),
+        img: "assets/popular_event/Rectangle 3905.png"),
     Popularevents(
       date: "20th July,2024",
       eventname: "Foodie Callo",
       location: "Adelaide, 33176",
-      img: "assets/imgs/Rectangle 3904 (8).png",
+      img: "assets/popular_event/Rectangle 3904 (8).png",
     ),
     Popularevents(
       date: "20th July,2024",
       eventname: "eventname",
       location: "Adelaide, 33176",
-      img: "assets/imgs/Rectangle 3904 (9).png",
+      img: "assets/popular_event/Rectangle 3904 (9).png",
     ),
   ];
 }
@@ -68,15 +53,19 @@ class Latestpostlst extends ChangeNotifier {
   static const List<String> latestPost = [];
   List<Latestpost> latestpostlst = [
     Latestpost(
-        img: "assets/imgs/latestpost3.png",
+        img: "assets/latest_post/latestpost3.png",
         title: "title",
         subtitle: "subtitle"),
     Latestpost(
-        img: "assets/imgs/lastest4.png", title: "title", subtitle: "subtitle"),
+        img: "assets/latest_post/lastest4.png",
+        title: "title",
+        subtitle: "subtitle"),
     Latestpost(
-        img: "assets/imgs/lastest5.png", title: "title", subtitle: "subtitle"),
+        img: "assets/latest_post/lastest5.png",
+        title: "title",
+        subtitle: "subtitle"),
     Latestpost(
-        img: "assets/imgs/lastestpost6.png",
+        img: "assets/latest_post/lastestpost6.png",
         title: "title",
         subtitle: "subtitle"),
   ];

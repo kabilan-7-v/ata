@@ -69,9 +69,14 @@ flutter:
     - assets/imgs/
     - assets/icons/
     - assets/icons/drawer/
-
+    - assets/sponser/
+    - assets/latest_post/
+    - assets/popular_event/
     - assets/ongoing_event/
     - assets/upcoming_event/
+    - assets/common_icon/
+    - assets/membership_exclusive/
+
 
 
 
@@ -87,11 +92,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Proxima Nova
-  #     fonts:
-  #       - asset: assets/fonts/Proxima Nova Font.otf
-  #         style: italic
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/static/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat/static/Montserrat-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Montserrat/static/Montserrat-Bold.ttf
+          weight: 700
   # fonts:
   #   - family: Schyler
   #     fonts:

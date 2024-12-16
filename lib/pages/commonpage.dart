@@ -53,16 +53,32 @@ class _CommonpageState extends State<Commonpage> {
                     });
                   },
                   child: tab != 0
-                      ? Image.asset("assets/icons/home.png")
-                      : Image.asset("assets/icons/homelite.png")),
+                      ? SizedBox(
+                          height: 30,
+                          width: 30,
+                          child:
+                              Image.asset("assets/common_icon/Home unfill.png"))
+                      : SizedBox(
+                          height: 40,
+                          width: 40,
+                          child:
+                              Image.asset("assets/common_icon/Home fill.png"))),
               InkWell(
                   onTap: () {
                     tab = 1;
                     setState(() {});
                   },
                   child: tab != 1
-                      ? Image.asset("assets/icons/event_note.png")
-                      : Image.asset("assets/icons/event_notelite.png")),
+                      ? SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Image.asset(
+                              "assets/common_icon/Event Unfill.png"))
+                      : SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Image.asset(
+                              "assets/common_icon/Event Fill.png"))),
               InkWell(
                   onTap: () {
                     setState(() {
@@ -70,8 +86,16 @@ class _CommonpageState extends State<Commonpage> {
                     });
                   },
                   child: tab != 2
-                      ? Image.asset("assets/icons/person.png")
-                      : Image.asset("assets/icons/personlite.png")),
+                      ? SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Image.asset(
+                              "assets/common_icon/Profile Unfill.png"))
+                      : SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Image.asset(
+                              "assets/common_icon/Profile Fill.png"))),
             ],
           ),
         ),

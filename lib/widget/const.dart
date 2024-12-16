@@ -16,3 +16,11 @@ List upComingevent = [
   ["assets/upcoming_event/ATA Upcoming3.jpg", true],
   ["assets/upcoming_event/ATA Upcoming4.png", true]
 ];
+List popularevent = [];
+List latestPost = [];
+const List<String> sponser = [
+  "assets/sponser/sponser1.webp",
+  "assets/sponser/sponser2.webp",
+  "assets/sponser/sponser3.webp",
+  "assets/sponser/sponser4.webp"
+];

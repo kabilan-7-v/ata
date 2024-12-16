@@ -13,10 +13,6 @@ class Membership extends StatefulWidget {
 }
 
 class _MembershipState extends State<Membership> {
-  final items = [
-    Image.asset("assets/imgs/Frame 2610586.png"),
-    Image.asset("assets/imgs/Frame 2610589.png"),
-  ];
   final CarouselSliderController _controller = CarouselSliderController();
 
   int currentIndex = 0;
@@ -53,17 +49,23 @@ class _MembershipState extends State<Membership> {
                           // autoPlay: true,
                           viewportFraction: 1),
                       items: [
-                        customimageshape("assets/imgs/image 222.png",
+                        customimageshape(
+                            "assets/membership_exclusive/image 222.png",
                             "Navigating the Future in AI on April 28th @ YSpace\nMarkham"),
                         customimageshape(
-                            "assets/imgs/image 223.png", "Golf Clinic in June"),
-                        customimageshape("assets/imgs/image 224.png",
+                            "assets/membership_exclusive/image 223.png",
+                            "Golf Clinic in June"),
+                        customimageshape(
+                            "assets/membership_exclusive/image 224.png",
                             "Yoga in the Park in July"),
-                        customimageshape("assets/imgs/image 225.png",
+                        customimageshape(
+                            "assets/membership_exclusive/image 225.png",
                             "Carrer Convention in September"),
-                        customimageshape("assets/imgs/image 226.png",
+                        customimageshape(
+                            "assets/membership_exclusive/image 226.png",
                             "Coffee Chats & Board Game Night"),
-                        customimageshape("assets/imgs/image 227.png",
+                        customimageshape(
+                            "assets/membership_exclusive/image 227.png",
                             " + More Events to Come!"),
                       ]),
                 ),
@@ -186,7 +188,7 @@ class _MembershipState extends State<Membership> {
                   width: 20,
                 ),
                 Text(
-                  "Membership Exclusive",
+                  "Membership Level",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -194,19 +196,19 @@ class _MembershipState extends State<Membership> {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: items.length,
-                  itemBuilder: (context, ind) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: items[ind],
-                    );
-                  }),
-            )
+            // SizedBox(
+            //   height: 200,
+            //   child: ListView.builder(
+            //       shrinkWrap: true,
+            //       scrollDirection: Axis.horizontal,
+            //       itemCount: items.length,
+            //       itemBuilder: (context, ind) {
+            //         return Padding(
+            //           padding: const EdgeInsets.symmetric(horizontal: 10),
+            //           child: items[ind],
+            //         );
+            //       }),
+            // )
           ],
         ),
       ),

@@ -37,7 +37,7 @@ class Savepage extends StatelessWidget {
 
   Widget customcontainerpost(profileimg, name, time, postimg) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
           Row(
@@ -85,13 +85,16 @@ class Savepage extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          SizedBox(
-              height: 250,
-              // width: 350,
-              child: Image.asset(
-                postimg,
-                fit: BoxFit.cover,
-              )),
+          Padding(
+            padding: const EdgeInsets.only(left: 50),
+            child: SizedBox(
+                height: 320,
+                width: double.infinity,
+                child: Image.asset(
+                  postimg,
+                  fit: BoxFit.cover,
+                )),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -107,7 +110,7 @@ class Savepage extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.send),
               ),
-              const Icon(Icons.bookmark)
+              const Icon(Icons.bookmark_outline)
             ],
           ),
           const Divider()

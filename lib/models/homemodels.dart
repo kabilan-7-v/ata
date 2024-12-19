@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-class Popularevents extends ChangeNotifier {
+class Popularevents {
   final String date;
   final String eventname;
   final String location;
@@ -11,62 +9,62 @@ class Popularevents extends ChangeNotifier {
       required this.eventname,
       required this.location,
       required this.img});
+
+  factory Popularevents.fromJson(Map<String, dynamic> json) {
+    return Popularevents(
+      date: json["date"],
+      eventname: json["eventname"],
+      location: json["location"],
+      img: json["img"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "date": date,
+      "eventname": eventname,
+      "location": location,
+      "img": img,
+    };
+  }
 }
 
-class Populareventslist extends ChangeNotifier {
-  List<Popularevents> populareventslst = [
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "Yoga Day",
-      location: "Adelaide, 33176",
-      img: "assets/popular_event/Rectangle 3904 (7).png",
-    ),
-    Popularevents(
-        date: "20th July,2024",
-        eventname: "Foodie Callo",
-        location: "Adelaide, 33176",
-        img: "assets/popular_event/Rectangle 3905.png"),
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "Foodie Callo",
-      location: "Adelaide, 33176",
-      img: "assets/popular_event/Rectangle 3904 (8).png",
-    ),
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "eventname",
-      location: "Adelaide, 33176",
-      img: "assets/popular_event/Rectangle 3904 (9).png",
-    ),
-  ];
-}
-
-class Latestpost extends ChangeNotifier {
+class Latestpost {
   final String title;
   final String subtitle;
   final String img;
 
   Latestpost({required this.title, required this.subtitle, required this.img});
+  factory Latestpost.fromJson(Map<String, dynamic> json) {
+    return Latestpost(
+      title: json["title"],
+      subtitle: json["subtitle"],
+      img: json["img"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "subtitle": subtitle,
+      "img": img,
+    };
+  }
 }
 
-class Latestpostlst extends ChangeNotifier {
-  static const List<String> latestPost = [];
-  List<Latestpost> latestpostlst = [
-    Latestpost(
-        img: "assets/latest_post/latestpost3.png",
-        title: "title",
-        subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/latest_post/lastest4.png",
-        title: "title",
-        subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/latest_post/lastest5.png",
-        title: "title",
-        subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/latest_post/lastestpost6.png",
-        title: "title",
-        subtitle: "subtitle"),
-  ];
+class Sponsers {
+  final String img;
+
+  Sponsers({required this.img});
+  factory Sponsers.fromJson(Map<String, dynamic> json) {
+    return Sponsers(
+      img: json["img"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "img": img,
+    };
+  }
 }

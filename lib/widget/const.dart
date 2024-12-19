@@ -4,23 +4,6 @@ import 'dart:ui';
 
 const Color ataBackgroundcolor = Color.fromRGBO(249, 247, 248, 1);
 const Color orange = Color.fromRGBO(225, 104, 17, 1);
-List ongoingevent = [
-  ["assets/ongoing_event/ATA Event4 (1).png", true],
-  ["assets/ongoing_event/ATA Event1 (3).jpg", true],
-  ["assets/ongoing_event/ATA Event2 (1).jpg", true],
-  ["assets/ongoing_event/ATA Event4.png", true]
-];
-List upComingevent = [
-  ["assets/upcoming_event/ATA Upcoming1.png", true],
-  ["assets/upcoming_event/ATA Upcoming2.png", true],
-  ["assets/upcoming_event/ATA Upcoming3.jpg", true],
-  ["assets/upcoming_event/ATA Upcoming4.png", true]
-];
+
 List popularevent = [];
 List latestPost = [];
-const List<String> sponser = [
-  "assets/sponser/sponser1.webp",
-  "assets/sponser/sponser2.webp",
-  "assets/sponser/sponser3.webp",
-  "assets/sponser/sponser4.webp"
-];

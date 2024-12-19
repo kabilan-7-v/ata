@@ -17,6 +17,11 @@ class _MembershipState extends State<Membership> {
 
   int currentIndex = 0;
 
+  List member = [
+    ["Silver-Single", "10"],
+    ["Silver-Family", "20"],
+    ["Silver-Single", "50"]
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +124,8 @@ class _MembershipState extends State<Membership> {
               ),
             ),
             const SizedBox(height: 20),
-            const Center(
+            const Padding(
+              padding: EdgeInsets.only(left: 16),
               child: Text(
                 "What is the ATA’S Membership     \n Program?",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -185,7 +191,7 @@ class _MembershipState extends State<Membership> {
             const Row(
               children: [
                 SizedBox(
-                  width: 20,
+                  width: 16,
                 ),
                 Text(
                   "Membership Level",
@@ -196,19 +202,19 @@ class _MembershipState extends State<Membership> {
             const SizedBox(
               height: 10,
             ),
-            // SizedBox(
-            //   height: 200,
-            //   child: ListView.builder(
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: items.length,
-            //       itemBuilder: (context, ind) {
-            //         return Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 10),
-            //           child: items[ind],
-            //         );
-            //       }),
-            // )
+            SizedBox(
+              height: 270,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: member.length,
+                  itemBuilder: (context, ind) {
+                    return membershipcard(
+                      member[ind][0],
+                      member[ind][1],
+                    );
+                  }),
+            )
           ],
         ),
       ),
@@ -220,7 +226,7 @@ class _MembershipState extends State<Membership> {
       children: [
         Container(
             height: 180,
-            width: 290,
+            width: 250,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
@@ -230,6 +236,90 @@ class _MembershipState extends State<Membership> {
         ),
         Center(child: Text(txt))
       ],
+    );
+  }
+
+  Widget membershipcard(String text, String cost) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Stack(
+        children: [
+          Container(
+            height: 250,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(16)),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: Image.asset(
+                      "assets/imgs/Membesrship.png",
+                      fit: BoxFit.cover,
+                    )),
+              ),
+            ]),
+          ),
+          const Positioned(
+            top: 115,
+            left: 80,
+            child: Text(
+              "\$",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Positioned(
+            top: 80,
+            left: 100,
+            child: Text(
+              cost,
+              style: const TextStyle(fontSize: 65, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Positioned(
+            top: 85,
+            left: 80,
+            child: Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.9)),
+            ),
+          ),
+          const Positioned(
+            top: 120,
+            left: 20,
+            child: Text(
+              "\$",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Positioned(
+            top: 95,
+            left: 35,
+            child: Text(
+              cost,
+              style: const TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const Positioned(
+            top: 145,
+            left: 20,
+            child: Text(
+              "Annual Membership",
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            ),
+          ),
+          Positioned(
+            top: 180,
+            left: 30,
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

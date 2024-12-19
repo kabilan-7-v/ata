@@ -33,8 +33,7 @@ class Helpsupport extends StatelessWidget {
   Widget customsupportticket(BuildContext context) {
     return Center(
       child: Container(
-        height: 200,
-        width: MediaQuery.of(context).size.width - 30,
+        width: MediaQuery.of(context).size.width - 16,
         decoration: BoxDecoration(
             color: const Color.fromRGBO(39, 41, 56, 1),
             borderRadius: BorderRadius.circular(15)),
@@ -55,7 +54,7 @@ class Helpsupport extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             const Padding(
               padding: EdgeInsets.symmetric(
@@ -67,16 +66,16 @@ class Helpsupport extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 15,
             ),
             const Center(
               child: Text(
-                "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
+                "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
                 style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -88,7 +87,7 @@ class Helpsupport extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Raiseticket()));
+                                builder: (context) => const Raiseticket()));
                       },
                       child: Row(
                         children: [
@@ -122,7 +121,10 @@ class Helpsupport extends StatelessWidget {
                       )),
                 ],
               ),
-            )
+            ),
+            const SizedBox(
+              height: 5,
+            ),
           ],
         ),
       ),

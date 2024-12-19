@@ -1,83 +1,71 @@
-import 'package:flutter/material.dart';
-
-class Season extends ChangeNotifier {
-  final String img;
-  final String name;
-
-  Season({required this.img, required this.name});
-}
-
-class Seasonlst extends ChangeNotifier {
-  List<Season> seasons = [
-    Season(img: 'assets/imgs/Variant3.png', name: 'பாலை'),
-    Season(img: 'assets/imgs/Variant4.png', name: 'மருதம்'),
-    Season(img: 'assets/imgs/Variant5.png', name: 'குறிஞ்சி'),
-  ];
-}
-
-class Popularevents extends ChangeNotifier {
+class OnGoingEventmodels {
   final String date;
+  final String time;
   final String eventname;
   final String location;
-  final String img;
+  final String description;
+  final String image;
+  bool isselected;
 
-  Popularevents(
+  OnGoingEventmodels(
       {required this.date,
+      required this.time,
       required this.eventname,
       required this.location,
-      required this.img});
+      required this.description,
+      required this.image,
+      required this.isselected});
+  factory OnGoingEventmodels.fromJson(Map<String, dynamic> json) {
+    return OnGoingEventmodels(
+        date: json["date"],
+        time: json["time"],
+        eventname: json["eventname"],
+        location: json["location"],
+        description: json["description"],
+        image: json["image"],
+        isselected: json["isselected"]);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'date': date,
+      'time': time,
+      'eventname': eventname,
+      'location': location,
+      'description': description,
+      'image': image,
+    };
+  }
 }
 
-class Populareventslist extends ChangeNotifier {
-  List<Popularevents> populareventslst = [
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "Yoga Day",
-      location: "Adelaide, 33176",
-      img: "assets/imgs/Rectangle 3904 (7).png",
-    ),
-    Popularevents(
-        date: "20th July,2024",
-        eventname: "Foodie Callo",
-        location: "Adelaide, 33176",
-        img: "assets/imgs/Rectangle 3905.png"),
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "Foodie Callo",
-      location: "Adelaide, 33176",
-      img: "assets/imgs/Rectangle 3904 (8).png",
-    ),
-    Popularevents(
-      date: "20th July,2024",
-      eventname: "eventname",
-      location: "Adelaide, 33176",
-      img: "assets/imgs/Rectangle 3904 (9).png",
-    ),
-  ];
-}
+class UpcomingEventmodels {
+  final String date;
+  final String time;
+  final String eventname;
+  final String location;
+  final String description;
+  final String image;
+  bool isselected;
 
-class Latestpost extends ChangeNotifier {
-  final String title;
-  final String subtitle;
-  final String img;
+  UpcomingEventmodels({
+    required this.date,
+    required this.time,
+    required this.eventname,
+    required this.location,
+    required this.description,
+    required this.image,
+    required this.isselected,
+  });
 
-  Latestpost({required this.title, required this.subtitle, required this.img});
-}
-
-class Latestpostlst extends ChangeNotifier {
-  static const List<String> latestPost = [];
-  List<Latestpost> latestpostlst = [
-    Latestpost(
-        img: "assets/imgs/latestpost3.png",
-        title: "title",
-        subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/imgs/lastest4.png", title: "title", subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/imgs/lastest5.png", title: "title", subtitle: "subtitle"),
-    Latestpost(
-        img: "assets/imgs/lastestpost6.png",
-        title: "title",
-        subtitle: "subtitle"),
-  ];
+  factory UpcomingEventmodels.fromJson(Map<String, dynamic> json) {
+    return UpcomingEventmodels(
+      isselected: json["isselected"],
+      date: json["date"],
+      time: json["time"],
+      eventname: json["eventname"],
+      location: json["location"],
+      description: json["description"],
+      image: json["image"],
+    );
+  }
 }

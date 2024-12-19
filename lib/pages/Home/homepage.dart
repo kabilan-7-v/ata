@@ -1,163 +1,256 @@
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/pages/Home/detailviewevent.dart';
+import 'package:ata/service/home_service.dart';
 import 'package:ata/widget/const.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:provider/provider.dart';
+import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
   @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  List<Popularevents> popularEvents = [];
+  List<Latestpost> latestPosts = [];
+  List<Sponsers> sponsers = [];
+  bool isloading = true;
+  @override
+  void initState() {
+    getHomeData();
+    super.initState();
+  }
+
+  getHomeData() async {
+    popularEvents = await HomeService.fetchPopularevents();
+    latestPosts = await HomeService.fetchLatestPost();
+    sponsers = await HomeService.fetchSponsers();
+    await Future.delayed(const Duration(seconds: 5));
+    isloading = false;
+    setState(() {});
+    setState(() {
+      isloading = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    int populareventslstlength =
-        Provider.of<Populareventslist>(context).populareventslst.length;
-    int latesteventslstlength =
-        Provider.of<Latestpostlst>(context).latestpostlst.length;
     // var provider = Provider.of<Seasonlst>(context).seasons;
 
-    return Scaffold(
-      backgroundColor: ataBackgroundcolor,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 165,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                  color: orange,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(65),
-                    bottomRight: Radius.circular(65),
-                  )),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 42,
-                    ),
-                    Row(
+    return AppShimmerLoading(
+      isLoading: isloading,
+      child: Scaffold(
+        backgroundColor: ataBackgroundcolor,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerItem(
+                isFitChild: true,
+                child: Container(
+                  height: 165,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                      color: orange,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(65),
+                        bottomRight: Radius.circular(65),
+                      )),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(width: 16),
-                        SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: Image.asset("assets/icons/search.png")),
-                        const SizedBox(width: 8),
-                        const Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "|  Search...",
-                                hintStyle: TextStyle(
-                                  color: Colors.white54,
-                                ),
-                                border: InputBorder.none),
-                          ),
+                        const SizedBox(
+                          height: 42,
                         ),
-                        SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: Image.asset("assets/icons/mic.png")),
-                        const SizedBox(width: 16),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        "Hello, Deepika",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        "welcome back, hope your feeling good today",
-                        style: TextStyle(
-                          color: Colors.white54,
-                        ),
-                      ),
-                    )
-                  ]),
-            ),
-            // CarouselSlider.builder(
-            //     itemCount: provider.length,
-            //     itemBuilder: (context, ind, i) {
-            //       return _buildMainBanner(
-            //           provider[ind].img, provider[ind].name);
-            //     },
-            //     options: CarouselOptions(
-            //         enlargeCenterPage: true, height: 230, autoPlay: true)),
-            _buildSectionTitle('Popular Events'),
-            _buildPopularEvents(context, populareventslstlength),
-
-            Center(
-              child: Stack(
-                children: [
-                  Container(
-                    height: 120,
-                    width: MediaQuery.of(context).size.width - 32,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(156, 238, 238, 1),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: Text(
-                              "Invite your Friends",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "Get \$10% off for ticket",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 14),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 15),
-                            child: Container(
-                              height: 30,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: orange,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "INVITE",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 12),
-                                ),
+                        Row(
+                          children: [
+                            const SizedBox(width: 16),
+                            SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: Image.asset("assets/icons/search.png")),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                    hintText: "|  Search...",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white54,
+                                    ),
+                                    border: InputBorder.none),
                               ),
                             ),
-                          )
-                        ]),
-                  ),
-                  Positioned(
-                      right: 5, child: Image.asset("assets/icons/gift.gif"))
-                ],
+                            SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: Image.asset("assets/icons/mic.png")),
+                            const SizedBox(width: 16),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            "Hello, Deepika",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            "welcome back, hope your feeling good today",
+                            style: TextStyle(
+                              color: Colors.white54,
+                            ),
+                          ),
+                        )
+                      ]),
+                ),
               ),
-            ),
-            _buildSectionTitle('Latest Posts'),
+              // CarouselSlider.builder(
+              //     itemCount: provider.length,
+              //     itemBuilder: (context, ind, i) {
+              //       return _buildMainBanner(
+              //           provider[ind].img, provider[ind].name);
+              //     },
+              //     options: CarouselOptions(
+              //         enlargeCenterPage: true, height: 230, autoPlay: true)),
+              _buildSectionTitle('Popular Events'),
+              ShimmerItem(
+                height: 200,
+                child: SizedBox(
+                  height: 260,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: popularEvents.length,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return _buildEventCard(
+                          popularEvents[index].img,
+                          context,
+                          popularEvents[index].date,
+                          popularEvents[index].eventname,
+                          popularEvents[index].location);
+                    },
+                  ),
+                ),
+              ),
+              isloading
+                  ? const SizedBox(
+                      height: 40,
+                    )
+                  : const SizedBox(),
+              Center(
+                child: Stack(
+                  children: [
+                    ShimmerItem(
+                      child: Container(
+                        height: 120,
+                        width: MediaQuery.of(context).size.width - 32,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(156, 238, 238, 1),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Text(
+                                  "Invite your Friends",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  "Get \$10% off for ticket",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, top: 15),
+                                child: Container(
+                                  height: 30,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    color: orange,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      "INVITE",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 12),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ]),
+                      ),
+                    ),
+                    Positioned(
+                        right: 5, child: Image.asset("assets/icons/gift.gif"))
+                  ],
+                ),
+              ),
+              _buildSectionTitle('Latest Posts'),
+              isloading
+                  ? const SizedBox(
+                      height: 40,
+                    )
+                  : const SizedBox(),
+              ShimmerItem(
+                  height: 200,
+                  child: _buildLatestPosts(context, latestPosts.length)),
 
-            _buildLatestPosts(context, latesteventslstlength),
-
-            _buildSectionTitle('Our Proud Sponsors'),
-            _buildSponsorsCarousel(),
-            const SizedBox(
-              height: 10,
-            )
-          ],
+              _buildSectionTitle('Our Proud Sponsors'),
+              ShimmerItem(
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 100.0,
+                    autoPlay: true,
+                    aspectRatio: 16 / 9,
+                    autoPlayCurve: Curves.linear,
+                    enableInfiniteScroll: true,
+                    autoPlayInterval: const Duration(seconds: 10),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 500),
+                    viewportFraction: 0.7,
+                  ),
+                  items: sponsers.map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: ataBackgroundcolor,
+                          image: DecorationImage(
+                            image: AssetImage(item.img),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -211,25 +304,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildPopularEvents(BuildContext context, len) {
-    List<Popularevents> res =
-        Provider.of<Populareventslist>(context).populareventslst;
-
-    return SizedBox(
-      height: 260,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: len,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) {
-          return _buildEventCard(res[index].img, context, res[index].date,
-              res[index].eventname, res[index].location);
-        },
-      ),
-    );
-  }
-
-  Widget _buildEventCard(
+  _buildEventCard(
       String imageUrl, BuildContext context, date, eventname, location) {
     return InkWell(
       onTap: () {
@@ -244,23 +319,21 @@ class Homepage extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Stack(
-                children: [
-                  SizedBox(
+              child: Stack(children: [
+                SizedBox(
+                  width: 280,
+                  height: 230,
+                  child: Image.asset(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
                     width: 280,
                     height: 230,
-                    child: Image.asset(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Container(
-                      width: 280,
-                      height: 230,
-                      decoration:
-                          BoxDecoration(color: Colors.black.withOpacity(0.4)))
-                ],
-              ),
+                    decoration:
+                        BoxDecoration(color: Colors.black.withOpacity(0.4)))
+              ]),
             ),
             Positioned(
               left: 13,
@@ -358,59 +431,23 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget _buildSponsorsCarousel() {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 100.0,
-        autoPlay: true,
-        aspectRatio: 16 / 9,
-        autoPlayCurve: Curves.linear,
-        enableInfiniteScroll: true,
-        autoPlayInterval: const Duration(seconds: 10),
-        autoPlayAnimationDuration: const Duration(milliseconds: 500),
-        viewportFraction: 0.7,
-      ),
-      items: sponser.map((item) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ataBackgroundcolor,
-                  image: DecorationImage(
-                    image: AssetImage(item),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                    decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.01),
-                  borderRadius: BorderRadius.circular(10),
-                )),
-              )
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
+  // Widget _buildSponsorsCarousel() {
+  //   return
+  // }
 
   Widget _buildLatestPosts(BuildContext context, len) {
-    List<Latestpost> res = Provider.of<Latestpostlst>(context).latestpostlst;
-    return SizedBox(
-      height: 325,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: len,
-        itemBuilder: (context, index) {
-          return _buildLatestPostCard(res[index].img);
-        },
+    List<Latestpost> res = latestPosts;
+    return ShimmerItem(
+      child: SizedBox(
+        height: 325,
+        child: ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: len,
+          itemBuilder: (context, index) {
+            return _buildLatestPostCard(res[index].img);
+          },
+        ),
       ),
     );
   }
@@ -418,84 +455,56 @@ class Homepage extends StatelessWidget {
   Widget _buildLatestPostCard(String img) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 10),
-      child: Container(
-        width: 290,
-        height: 320, // Set a fixed width for each card
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 3,
-              blurRadius: 5,
-              // offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
+      child: ShimmerItem(
+        child: Container(
+          width: 290,
+          height: 320,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 3,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                  child: Image.asset(
-                    img,
-                    width: double.infinity,
-                    height: 150,
-                    fit: BoxFit.cover,
+                      topRight: Radius.circular(20),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: "http://via.placeholder.com/350x150",
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      width: double.infinity,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                Container(
+                  Container(
                     width: double.infinity,
                     height: 150,
                     decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))))
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "22 July 2024", // Example Date
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    "Birds Day", // Example Title
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 4),
-                  const Row(
-                    children: [
-                      Icon(Icons.location_on_outlined, size: 16),
-                      SizedBox(width: 4),
-                      Text("Adilaide, 33176"), // Example Location
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
-                    ),
-                    onPressed: () {},
-                    child: const Text(
-                      "Join Now",
-                      style: TextStyle(color: Colors.white),
+                      color: Colors.black.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              // Other content remains the same
+            ],
+          ),
         ),
       ),
     );

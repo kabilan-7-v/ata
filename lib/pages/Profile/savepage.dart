@@ -106,9 +106,12 @@ class Savepage extends StatelessWidget {
               ),
               Image.asset("assets/imgs/maps_ugc (1).png"),
               const Spacer(),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.send),
+              SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: Image.asset("assets/icons/Send (1).jpg")),
+              const SizedBox(
+                width: 15,
               ),
               const Icon(Icons.bookmark_outline)
             ],

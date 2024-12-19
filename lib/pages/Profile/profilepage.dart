@@ -3,6 +3,7 @@ import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class Profilepage extends StatefulWidget {
   const Profilepage({super.key});
@@ -13,59 +14,78 @@ class Profilepage extends StatefulWidget {
 }
 
 class _ProfilepageState extends State<Profilepage> {
+  bool isloading = true;
+
+  @override
+  void initState() {
+    getuserdata();
+    super.initState();
+  }
+
+  getuserdata() async {
+    await Future.delayed(const Duration(seconds: 5));
+
+    isloading = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: ataBackgroundcolor,
-        appBar: AppBar(
-            leading: const SizedBox(),
-            backgroundColor: ataBackgroundcolor,
-            actions: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.add_box_outlined,
-                    size: 30,
-                  )),
-              Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(
-                    Icons.menu,
-                    size: 30,
+    return AppShimmerLoading(
+      isLoading: isloading,
+      child: Scaffold(
+          backgroundColor: ataBackgroundcolor,
+          appBar: AppBar(
+              leading: const SizedBox(),
+              backgroundColor: ataBackgroundcolor,
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add_box_outlined,
+                      size: 30,
+                    )),
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(
+                      Icons.menu,
+                      size: 30,
+                    ),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    tooltip:
+                        MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
-                  onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
                 ),
-              ),
-            ]),
-        endDrawer: const Customdrawer(),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Center(child: customprofilecard(context)),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              customeditorshareprofile(
-                  context,
-                  "assets/icons/person_edit_24dp_000000_FILL0_wght400_GRAD0_opsz24.png",
-                  "Edit Profile", () {
-                Navigator.push(
+              ]),
+          endDrawer: const Customdrawer(),
+          body:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Center(child: ShimmerItem(child: customprofilecard(context))),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                customeditorshareprofile(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const Editprofile()));
-              }),
-              customeditorshareprofile(
-                  context, "assets/icons/share.png", "Share Profile", () {}),
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          custommembership(context),
-        ]));
+                    "assets/icons/person_edit_24dp_000000_FILL0_wght400_GRAD0_opsz24.png",
+                    "Edit Profile", () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Editprofile()));
+                }),
+                customeditorshareprofile(
+                    context, "assets/icons/share.png", "Share Profile", () {}),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            custommembership(context),
+          ])),
+    );
   }
 
   Widget customprofilecard(BuildContext context) {

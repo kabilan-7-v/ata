@@ -1,5 +1,8 @@
+import 'package:ata/models/eventmodels.dart';
+import 'package:ata/service/event_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -11,6 +14,22 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> {
   bool checkevents = true;
   bool selected = true;
+  List<OnGoingEventmodels> onGoingEventsLst = [];
+  List<UpcomingEventmodels> upcomingEventsLst = [];
+  bool isloading = true;
+  @override
+  void initState() {
+    getEventsData();
+    super.initState();
+  }
+
+  getEventsData() async {
+    onGoingEventsLst = await EventService.fetchOngoingEvents();
+    upcomingEventsLst = await EventService.fetchUpcomingEvents();
+    await Future.delayed(Duration(seconds: 5));
+    isloading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,33 +98,45 @@ class _NotesPageState extends State<NotesPage> {
   tabbarevents(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        backgroundColor: ataBackgroundcolor,
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            const TabBar(
-                labelPadding: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                indicatorPadding: EdgeInsets.zero,
-                indicatorColor: Color.fromRGBO(225, 104, 17, 1),
-                labelColor: Colors.black,
-                labelStyle:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                tabs: [
-                  Tab(
-                    text: '          On Going Events          ',
-                  ),
-                  Tab(text: '          UpComing Events          '),
-                ]),
-            Expanded(
-                child: TabBarView(children: [
-              onGoingEvents(context),
-              upcomingEvents(context)
-            ]))
-          ],
+      child: AppShimmerLoading(
+        isLoading: isloading,
+        child: Scaffold(
+          backgroundColor: ataBackgroundcolor,
+          body: Column(
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              const TabBar(
+                  labelPadding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  indicatorPadding: EdgeInsets.zero,
+                  indicatorColor: Color.fromRGBO(225, 104, 17, 1),
+                  labelColor: Colors.black,
+                  labelStyle:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  tabs: [
+                    SizedBox(
+                        height: 45,
+                        child: Center(
+                            child:
+                                Text("          On Going Events          "))),
+                    SizedBox(
+                        height: 45,
+                        child: Center(
+                            child: Text("          UpComing Events          ")))
+                    // Tab(
+                    //   text: '          On Going Events          ',
+                    // ),
+                    // Tab(text: '          UpComing Events          '),
+                  ]),
+              Expanded(
+                  child: TabBarView(children: [
+                onGoingEvents(context),
+                upcomingEvents(context)
+              ]))
+            ],
+          ),
         ),
       ),
     );
@@ -114,22 +145,22 @@ class _NotesPageState extends State<NotesPage> {
   Widget onGoingEvents(BuildContext context) {
     return ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: ongoingevent.length,
+        itemCount: onGoingEventsLst.length,
         shrinkWrap: true,
         itemBuilder: (context, ind) {
-          return ongoineventCard(
-              context, ongoingevent[ind][0], ongoingevent[ind][1], ind);
+          return ongoineventCard(context, onGoingEventsLst[ind].image,
+              onGoingEventsLst[ind].isselected, ind);
         });
   }
 
   Widget upcomingEvents(BuildContext context) {
     return ListView.builder(
         padding: EdgeInsets.zero,
-        itemCount: upComingevent.length,
+        itemCount: upcomingEventsLst.length,
         shrinkWrap: true,
         itemBuilder: (context, ind) {
-          return upcomingeventCart(
-              context, upComingevent[ind][0], upComingevent[ind][1], ind);
+          return upcomingeventCart(context, upcomingEventsLst[ind].image,
+              upcomingEventsLst[ind].isselected, ind);
         });
   }
 
@@ -138,7 +169,7 @@ class _NotesPageState extends State<NotesPage> {
 
     return GestureDetector(
       onTap: () {
-        ongoingevent[ind][1] = !ongoingevent[ind][1];
+        onGoingEventsLst[ind].isselected = !onGoingEventsLst[ind].isselected;
 
         selected = !selected;
         setState(() {});
@@ -147,8 +178,8 @@ class _NotesPageState extends State<NotesPage> {
         curve: Curves.decelerate,
         duration: const Duration(milliseconds: 1000),
         child: Container(
-          height: select == true ? 220 : 350,
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          height: select == true ? 225 : 340,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -159,60 +190,71 @@ class _NotesPageState extends State<NotesPage> {
                   blurRadius: 1,
                 )
               ]),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                    child: Image.asset(
-                      width: double.infinity,
-                      height: select == true ? 110 : 170,
-                      img,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                    child: Container(
+          child: ShimmerItem(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      child: Image.asset(
                         width: double.infinity,
-                        height: select == true ? 110 : 170,
-                        decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.4))),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 5,
-                    child: Container(
-                      height: 25,
-                      width: 25,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
+                        height: select == true ? 120 : 170,
+                        img,
+                        fit: BoxFit.cover,
                       ),
-                      child: Center(
-                          child: Icon(selected == false
-                              ? Icons.arrow_drop_up
-                              : Icons.arrow_drop_down)),
                     ),
-                  )
-                ],
-              ),
-              selected == true ? isnotselected() : isselected()
-            ],
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
+                      child: Container(
+                          width: double.infinity,
+                          height: select == true ? 120 : 170,
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.4))),
+                    ),
+                    Positioned(
+                      right: 10,
+                      top: 5,
+                      child: Container(
+                        height: 25,
+                        width: 25,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                            child: Icon(selected == false
+                                ? Icons.arrow_drop_up
+                                : Icons.arrow_drop_down)),
+                      ),
+                    )
+                  ],
+                ),
+                selected == true
+                    ? isnotselected(
+                        onGoingEventsLst[ind].date,
+                        onGoingEventsLst[ind].time,
+                        onGoingEventsLst[ind].eventname,
+                        onGoingEventsLst[ind].location)
+                    : isselected(
+                        onGoingEventsLst[ind].date,
+                        onGoingEventsLst[ind].time,
+                        onGoingEventsLst[ind].description)
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget isselected() {
+  Widget isselected(String date, String time, String descrip) {
     return Column(
       children: [
         Row(
@@ -248,9 +290,9 @@ class _NotesPageState extends State<NotesPage> {
                       ]),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4),
-                        child: Text("22th  June, 2024"),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(date),
                       ),
                       SizedBox(
                           width: 25,
@@ -290,9 +332,9 @@ class _NotesPageState extends State<NotesPage> {
                       ]),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4),
-                        child: Text("4.00 PM"),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(time),
                       ),
                       SizedBox(
                           width: 25,
@@ -308,11 +350,11 @@ class _NotesPageState extends State<NotesPage> {
             ),
           ],
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
           child: Text(
-            "The performance maybe by a single musician sometimes such as an Archestra,chair or band",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            descrip,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
           ),
         ),
         ConstrainedBox(
@@ -330,25 +372,26 @@ class _NotesPageState extends State<NotesPage> {
     );
   }
 
-  Widget isnotselected() {
+  Widget isnotselected(
+      String date, String time, String eventname, String location) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
           height: 10,
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text("22 July 2024"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(date),
         ),
         Row(
           children: [
             const SizedBox(
               width: 20,
             ),
-            const Text(
-              "Birds Day",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              eventname,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             ConstrainedBox(
@@ -376,7 +419,7 @@ class _NotesPageState extends State<NotesPage> {
                 height: 20,
                 width: 20,
                 child: Image.asset("assets/icons/location.png")),
-            const Text("Adilaide, 33176"),
+            Text(location),
           ],
         )
       ],
@@ -388,7 +431,7 @@ class _NotesPageState extends State<NotesPage> {
 
     return GestureDetector(
       onTap: () {
-        upComingevent[ind][1] = !upComingevent[ind][1];
+        upcomingEventsLst[ind].isselected = !upcomingEventsLst[ind].isselected;
 
         selected = !selected;
         setState(() {});
@@ -409,40 +452,51 @@ class _NotesPageState extends State<NotesPage> {
                   blurRadius: 1,
                 )
               ]),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
+          child: ShimmerItem(
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)),
-                    child: Image.asset(
-                      width: double.infinity,
-                      height: select == true ? 110 : 170,
-                      img,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 5,
-                    child: Container(
-                      height: 25,
-                      width: 25,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        child: Image.asset(
+                          width: double.infinity,
+                          height: select == true ? 110 : 170,
+                          img,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      child: const Center(child: Icon(Icons.arrow_drop_down)),
-                    ),
-                  )
-                ],
-              ),
-              selected == true ? isnotselected() : isselected()
-            ],
+                      Positioned(
+                        right: 10,
+                        top: 5,
+                        child: Container(
+                          height: 25,
+                          width: 25,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child:
+                              const Center(child: Icon(Icons.arrow_drop_down)),
+                        ),
+                      )
+                    ],
+                  ),
+                  selected == true
+                      ? isnotselected(
+                          upcomingEventsLst[ind].date,
+                          upcomingEventsLst[ind].time,
+                          upcomingEventsLst[ind].eventname,
+                          upcomingEventsLst[ind].location)
+                      : isselected(
+                          upcomingEventsLst[ind].date,
+                          upcomingEventsLst[ind].time,
+                          upcomingEventsLst[ind].description)
+                ]),
           ),
         ),
       ),

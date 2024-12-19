@@ -1,9 +1,27 @@
+import 'package:ata/service/login.dart';
 import 'package:ata/pages/congrats.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
-class CreateAccount extends StatelessWidget {
+class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
+
+  @override
+  State<CreateAccount> createState() => _CreateAccountState();
+}
+
+class _CreateAccountState extends State<CreateAccount> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +83,10 @@ class CreateAccount extends StatelessWidget {
             const SizedBox(height: 8),
             Center(
                 child: customTextfield(
-                    context, const Icon(Icons.person_2_outlined), "Ex.John")),
+                    context,
+                    const Icon(Icons.person_2_outlined),
+                    "Ex.John",
+                    nameController)),
             const SizedBox(height: 30),
             const Row(
               children: [
@@ -79,8 +100,11 @@ class CreateAccount extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Center(
-                child: customTextfield(context,
-                    const Icon(Icons.email_outlined), "example@example.com")),
+                child: customTextfield(
+                    context,
+                    const Icon(Icons.email_outlined),
+                    "example@example.com",
+                    emailController)),
             const SizedBox(height: 30),
             const Row(
               children: [
@@ -95,7 +119,7 @@ class CreateAccount extends StatelessWidget {
             const SizedBox(height: 8),
             Center(
                 child: customTextfield(context, const Icon(Icons.lock_outline),
-                    "8+ Character, 1 Capital letter")),
+                    "8+ Character, 1 Capital letter", passController)),
             const SizedBox(height: 50),
             Center(
               child: Text(
@@ -124,11 +148,13 @@ class CreateAccount extends StatelessWidget {
     );
   }
 
-  Widget customTextfield(BuildContext context, Icon icon, String hinttext) {
+  Widget customTextfield(BuildContext context, Icon icon, String hinttext,
+      TextEditingController controller) {
     return SizedBox(
       width: MediaQuery.of(context).size.width - 30,
       // height: 80,
       child: TextFormField(
+          controller: controller,
           decoration: InputDecoration(
               hintStyle:
                   const TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
@@ -153,6 +179,9 @@ class CreateAccount extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () {
+          // createAccount(
+          //     nameController.text, emailController.text, passController.text);
+          // login("balaji.21ad@kct.ac.in", "Balaji@12");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const Congratspage()));
         },

@@ -1,27 +1,25 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:ata/Authentication/signin_page.dart';
+import 'package:ata/Authentication/create_account.dart';
+import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
 import 'package:ata/widget/snackbar.dart';
 import 'package:flutter/material.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+class SigninPage extends StatefulWidget {
+  const SigninPage({super.key});
 
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<SigninPage> createState() => _SigninPageState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
-  TextEditingController nameController = TextEditingController();
+class _SigninPageState extends State<SigninPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   bool isloading = false;
   @override
   void dispose() {
-    // TODO: implement dispose
-    nameController.dispose();
     emailController.dispose();
     passController.dispose();
     super.dispose();
@@ -42,7 +40,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   width: 16,
                 ),
                 Text(
-                  "Sign Up",
+                  "Sign In",
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -74,24 +72,14 @@ class _CreateAccountState extends State<CreateAccount> {
               ],
             ),
             const SizedBox(height: 50),
-            const Row(
-              children: [
-                SizedBox(
-                  width: 16,
-                ),
-                Text("Name",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-              ],
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: Image.asset("assets/imgs/ATA LOGO.png")),
             ),
-            const SizedBox(height: 8),
-            Center(
-                child: customTextfield(
-                    context,
-                    const Icon(Icons.person_2_outlined),
-                    "Ex.John",
-                    nameController)),
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             const Row(
               children: [
                 SizedBox(
@@ -99,7 +87,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 Text("Email",
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 8),
@@ -117,36 +105,43 @@ class _CreateAccountState extends State<CreateAccount> {
                 ),
                 Text("Password",
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 8),
             Center(
                 child: customTextfield(context, const Icon(Icons.lock_outline),
                     "8+ Character, 1 Capital letter", passController)),
-            const SizedBox(height: 50),
-            Center(
-              child: Text(
-                "Creating an account means you’re okay with \nour Terms of Service and our Privacy Policy",
-                style: TextStyle(color: Colors.grey[500]),
+            const SizedBox(height: 8),
+            const Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "Forgot password?",
+                  style: TextStyle(
+                      color: Color.fromRGBO(76, 117, 244, 1),
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(height: 50),
-            Center(child: custombutton(context, "Create an Account")),
+            const SizedBox(height: 50),
+            Center(child: custombutton(context, "Login")),
             const SizedBox(height: 50),
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SigninPage()));
+                        builder: (context) => const CreateAccount()));
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?"),
+                  Text("Don't have an account?"),
                   Text(
-                    "Sign in",
+                    "Sign Up",
                     style: TextStyle(
                         color: Color.fromRGBO(76, 117, 244, 1),
                         fontWeight: FontWeight.bold),
@@ -191,18 +186,20 @@ class _CreateAccountState extends State<CreateAccount> {
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () async {
+          // createAccount(
+          //     nameController.text, emailController.text, passController.text);
+          // login("balaji.21ad@kct.ac.in", "Balaji@12");
           setState(() {
             isloading = true;
           });
-          bool isaccountcreated = await createAccount(nameController.text,
-              emailController.text, passController.text, context);
-          // login("balaji.21ad@kct.ac.in", "Balaji@12");
+          bool islogin =
+              await login(emailController.text, passController.text, context);
           setState(() {
             isloading = false;
           });
-          if (isaccountcreated == true) {
+          if (islogin) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SigninPage()));
+                MaterialPageRoute(builder: (context) => const Commonpage()));
           } else {
             SnackbarService()
                 .showSnackBar("Please enter a correct credentials", context);

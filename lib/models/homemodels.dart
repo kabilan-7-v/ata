@@ -3,28 +3,31 @@ class Popularevents {
   final String eventname;
   final String location;
   final String img;
+  final String time;
 
   Popularevents(
       {required this.date,
       required this.eventname,
       required this.location,
-      required this.img});
+      required this.img,
+      required this.time});
 
   factory Popularevents.fromJson(Map<String, dynamic> json) {
     return Popularevents(
-      date: json["date"],
-      eventname: json["eventname"],
-      location: json["location"],
-      img: json["img"],
-    );
+        date: json["date"],
+        eventname: json["name"],
+        location: json["location"],
+        img: json["images"][0],
+        time: json['time']);
   }
 
   Map<String, dynamic> toJson() {
     return {
       "date": date,
-      "eventname": eventname,
+      "name": eventname,
       "location": location,
-      "img": img,
+      "images": img,
+      'time': time
     };
   }
 }

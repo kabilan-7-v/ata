@@ -1,10 +1,15 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, use_build_context_synchronously
 
 import 'dart:convert';
+import 'package:ata/cubit/usercubit.dart';
+import 'package:ata/models/usermodel.dart';
+import 'package:ata/widget/const.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> login(String email, String password) async {
+Future<bool> login(String email, String password, BuildContext context) async {
   // Define the URL
   const String url = 'https://atabackend.onrender.com/auth/login';
 
@@ -20,14 +25,18 @@ Future<void> login(String email, String password) async {
         'password': password,
       }),
     );
-
     // Check the response status
     if (response.statusCode == 200) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
-      if (kDebugMode) {
-        print(data["user"]);
-      }
+
+      context.read<UserCubit>().setUser(UserModel.fromJson(data["user"]));
+      // if (kDebugMode) {
+      //   print(data);
+      //   print(emoji);
+      //   print(data["user"]);
+      // }
+      return true;
     } else {
       // Handle error response
       if (kDebugMode) {
@@ -40,9 +49,11 @@ Future<void> login(String email, String password) async {
       print('Error: $e');
     }
   }
+  return false;
 }
 
-Future<void> createAccount(String name, String email, String password) async {
+Future<bool> createAccount(
+    String name, String email, String password, BuildContext context) async {
   // Define the URL
   const String url = 'https://atabackend.onrender.com/auth/register';
 
@@ -54,19 +65,21 @@ Future<void> createAccount(String name, String email, String password) async {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'name': name,
+        'firstName': name,
+        'lastName': "last name",
+        'phoneNumber': "phone number",
         'email': email,
         'password': password,
       }),
     );
 
     // Check the response status
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
-      if (kDebugMode) {
-        print(data["user"]);
-      }
+      print(data);
+
+      return true;
     } else {
       // Handle error response
       if (kDebugMode) {
@@ -75,10 +88,12 @@ Future<void> createAccount(String name, String email, String password) async {
     }
   } catch (e) {
     // Handle exceptions
+
     if (kDebugMode) {
       print('Error: $e');
     }
   }
+  return false;
 }
 
 

@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/pages/Home/detailviewevent.dart';
 import 'package:ata/service/home_service.dart';
@@ -5,6 +8,7 @@ import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class Homepage extends StatefulWidget {
@@ -30,8 +34,6 @@ class _HomepageState extends State<Homepage> {
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
     await Future.delayed(const Duration(seconds: 5));
-    isloading = false;
-    setState(() {});
     setState(() {
       isloading = false;
     });
@@ -91,10 +93,10 @@ class _HomepageState extends State<Homepage> {
                             const SizedBox(width: 16),
                           ],
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
-                            "Hello, Deepika",
+                            "Hello, ${context.read<UserCubit>().state.firstname}",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -304,14 +306,15 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  _buildEventCard(
-      String imageUrl, BuildContext context, date, eventname, location) {
+  _buildEventCard(String imageUrl, BuildContext context, String date,
+      String eventname, String location) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Detailviewevent(img: imageUrl)));
+                builder: (context) =>
+                    Detailviewevent(img: "https://picsum.photos/200/300")));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),
@@ -323,8 +326,8 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(
                   width: 280,
                   height: 230,
-                  child: Image.asset(
-                    imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: "https://picsum.photos/200/300",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -345,15 +348,15 @@ class _HomepageState extends State<Homepage> {
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10))),
-                  child: const Column(
+                  child: Column(
                     children: [
                       Text(
-                        "Jun",
+                        HomeService.formateddate(date).split(" ")[0],
                         style: TextStyle(
                             fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "02",
+                        HomeService.formateddate(date).split(" ")[1],
                         style: TextStyle(
                             fontSize: 10, fontWeight: FontWeight.bold),
                       )
@@ -364,7 +367,9 @@ class _HomepageState extends State<Homepage> {
                 left: 53,
                 top: 5,
                 child: Text(
-                  eventname,
+                  eventname.length >= 18
+                      ? "${eventname.substring(0, 17)}..."
+                      : eventname,
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -389,8 +394,10 @@ class _HomepageState extends State<Homepage> {
                           height: 20,
                           child: Image.asset("assets/icons/location.png")),
                     ),
-                    const Text(
-                      "Adelaide, 33176...",
+                    Text(
+                      location.length >= 12
+                          ? "${location.substring(0, 12)} + ...."
+                          : location,
                       style: TextStyle(fontSize: 12),
                     )
                   ],
@@ -481,7 +488,7 @@ class _HomepageState extends State<Homepage> {
                       topRight: Radius.circular(20),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: "http://via.placeholder.com/350x150",
+                      imageUrl: "https://picsum.photos/seed/picsum/200/300",
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                       width: double.infinity,

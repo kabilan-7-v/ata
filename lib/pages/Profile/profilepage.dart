@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class Profilepage extends StatefulWidget {
@@ -113,12 +117,12 @@ class _ProfilepageState extends State<Profilepage> {
               const SizedBox(
                 width: 20,
               ),
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Deepika❤",
+                    context.read<UserCubit>().state.firstname,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Text(

@@ -7,3 +7,5 @@ const Color orange = Color.fromRGBO(225, 104, 17, 1);
 
 List popularevent = [];
 List latestPost = [];
+
+String emoji = "🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳";

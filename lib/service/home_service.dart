@@ -1,33 +1,44 @@
+import 'dart:convert';
+
 import 'package:ata/models/homemodels.dart';
+import 'package:ata/widget/const.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class HomeService {
+  static String formateddate(timestamp) {
+    DateTime dateTime = DateTime.parse(timestamp);
+
+    String formattedDate = DateFormat('MMM dd').format(dateTime);
+    return formattedDate;
+    // Output: Dec 31
+  }
+
   static Future<List<Popularevents>> fetchPopularevents() async {
-  
-    List<Popularevents> populareventslst = [
-      Popularevents(
-        date: "20th July,2024",
-        eventname: "Yoga Day",
-        location: "Adelaide, 33176",
-        img: "assets/popular_event/Rectangle 3904 (7).png",
-      ),
-      Popularevents(
-          date: "20th July,2024",
-          eventname: "Foodie Callo",
-          location: "Adelaide, 33176",
-          img: "assets/popular_event/Rectangle 3905.png"),
-      Popularevents(
-        date: "20th July,2024",
-        eventname: "Foodie Callo",
-        location: "Adelaide, 33176",
-        img: "assets/popular_event/Rectangle 3904 (8).png",
-      ),
-      Popularevents(
-        date: "20th July,2024",
-        eventname: "eventname",
-        location: "Adelaide, 33176",
-        img: "assets/popular_event/Rectangle 3904 (9).png",
-      ),
-    ];
+    List<Popularevents> populareventslst = [];
+    const String url = 'https://atabackend.onrender.com/events/get';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response into a list of events
+        final List<dynamic> jsonResponse = jsonDecode(response.body);
+        for (var i in jsonResponse) {
+          if (kDebugMode) {
+            print(i);
+            print(emoji);
+          }
+          populareventslst.add(Popularevents.fromJson(i));
+        }
+      } else {
+        throw Exception('Failed to load events: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+
     return populareventslst;
   }
 

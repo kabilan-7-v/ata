@@ -33,24 +33,34 @@ class Popularevents {
 }
 
 class Latestpost {
-  final String title;
-  final String subtitle;
+  final String name;
+  final String? desc;
   final String img;
+  final String date;
+  final String? location;
 
-  Latestpost({required this.title, required this.subtitle, required this.img});
+  Latestpost(
+      {required this.name,
+      required this.desc,
+      required this.img,
+      required this.date,
+      required this.location});
   factory Latestpost.fromJson(Map<String, dynamic> json) {
     return Latestpost(
-      title: json["title"],
-      subtitle: json["subtitle"],
-      img: json["img"],
-    );
+        name: json["name"],
+        desc: json["desc"] ?? "",
+        img: json["image"],
+        date: json["createdAt"],
+        location: json["location"] ?? "location");
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "title": title,
-      "subtitle": subtitle,
-      "img": img,
+      "name": name,
+      "desc": desc ?? "",
+      "images": img,
+      "createdAt": date,
+      "location": location ?? ""
     };
   }
 }

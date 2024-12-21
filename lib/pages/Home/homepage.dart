@@ -3,6 +3,7 @@
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/pages/Home/detailviewevent.dart';
+import 'package:ata/service/common_service.dart';
 import 'package:ata/service/home_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -33,7 +34,6 @@ class _HomepageState extends State<Homepage> {
     popularEvents = await HomeService.fetchPopularevents();
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
-    await Future.delayed(const Duration(seconds: 5));
     setState(() {
       isloading = false;
     });
@@ -138,7 +138,8 @@ class _HomepageState extends State<Homepage> {
                           context,
                           popularEvents[index].date,
                           popularEvents[index].eventname,
-                          popularEvents[index].location);
+                          popularEvents[index].location,
+                          popularEvents[index].time);
                     },
                   ),
                 ),
@@ -207,15 +208,15 @@ class _HomepageState extends State<Homepage> {
                   ],
                 ),
               ),
-              _buildSectionTitle('Latest Posts'),
+              latestPosts.isNotEmpty
+                  ? _buildSectionTitle('Latest Posts')
+                  : SizedBox(),
               isloading
                   ? const SizedBox(
                       height: 40,
                     )
                   : const SizedBox(),
-              ShimmerItem(
-                  height: 200,
-                  child: _buildLatestPosts(context, latestPosts.length)),
+              ShimmerItem(height: 200, child: _buildLatestPosts(context)),
 
               _buildSectionTitle('Our Proud Sponsors'),
               ShimmerItem(
@@ -234,12 +235,13 @@ class _HomepageState extends State<Homepage> {
                   items: sponsers.map((item) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
+                      child: SizedBox(
+                        height: 100,
+                        width: 230,
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          color: ataBackgroundcolor,
-                          image: DecorationImage(
-                            image: AssetImage(item.img),
+                          child: CachedNetworkImage(
+                            imageUrl: "https://picsum.photos/200/300",
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -307,14 +309,18 @@ class _HomepageState extends State<Homepage> {
   }
 
   _buildEventCard(String imageUrl, BuildContext context, String date,
-      String eventname, String location) {
+      String eventname, String location, String time) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    Detailviewevent(img: "https://picsum.photos/200/300")));
+                builder: (context) => Detailviewevent(
+                      img: "https://picsum.photos/200/300",
+                      eventdate: date,
+                      eventname: eventname,
+                      eventtime: time,
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),
@@ -351,12 +357,12 @@ class _HomepageState extends State<Homepage> {
                   child: Column(
                     children: [
                       Text(
-                        HomeService.formateddate(date).split(" ")[0],
+                        CommonService.formateddate(date).split(" ")[0],
                         style: TextStyle(
                             fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        HomeService.formateddate(date).split(" ")[1],
+                        CommonService.formateddate(date).split(" ")[1],
                         style: TextStyle(
                             fontSize: 10, fontWeight: FontWeight.bold),
                       )
@@ -442,76 +448,111 @@ class _HomepageState extends State<Homepage> {
   //   return
   // }
 
-  Widget _buildLatestPosts(BuildContext context, len) {
-    List<Latestpost> res = latestPosts;
+  Widget _buildLatestPosts(BuildContext context) {
     return ShimmerItem(
       child: SizedBox(
         height: 325,
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: len,
+          itemCount: latestPosts.length,
           itemBuilder: (context, index) {
-            return _buildLatestPostCard(res[index].img);
+            return _buildLatestPostCard(
+              "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+              latestPosts[index].date,
+              latestPosts[index].name,
+              latestPosts[index].location!,
+            );
           },
         ),
       ),
     );
   }
 
-  Widget _buildLatestPostCard(String img) {
+  Widget _buildLatestPostCard(
+      String img, String date, String eventname, String location) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 10),
-      child: ShimmerItem(
-        child: Container(
-          width: 290,
-          height: 320,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 5,
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
+      child: Container(
+        width: 290,
+        height: 320, // Set a fixed width for each card
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              // offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: "https://picsum.photos/seed/picsum/200/300",
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      width: double.infinity,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
+                      topRight: Radius.circular(20)),
+                  child: CachedNetworkImage(
+                    imageUrl: img,
+                    width: double.infinity,
+                    height: 150,
+                    fit: BoxFit.cover,
                   ),
-                  Container(
+                ),
+                Container(
                     width: double.infinity,
                     height: 150,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.4),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
+                        color: Colors.black.withOpacity(0.4),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20))))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    CommonService.formatdateForEvents(date), // Example Date
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    eventname, // Example Title
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.location_on_outlined, size: 16),
+                      SizedBox(width: 4),
+                      Text(location), // Example Location
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
+                      ),
+                      onPressed: () {},
+                      child: const Text(
+                        "Join Now",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                 ],
               ),
-              // Other content remains the same
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

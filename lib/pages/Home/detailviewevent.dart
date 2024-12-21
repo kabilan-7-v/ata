@@ -1,10 +1,20 @@
+import 'package:ata/service/common_service.dart';
+import 'package:ata/service/home_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class Detailviewevent extends StatelessWidget {
-  const Detailviewevent({super.key, required this.img});
+  const Detailviewevent(
+      {super.key,
+      required this.img,
+      required this.eventname,
+      required this.eventdate,
+      required this.eventtime});
   final String img;
+  final String eventname;
+  final String eventdate;
+  final String eventtime;
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +90,11 @@ class Detailviewevent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildMainBanner(img),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Text(
-                "Yoga Day",
-                style: TextStyle(
+                eventname,
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -94,11 +104,10 @@ class Detailviewevent extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Divider(),
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   child: Row(
                     children: [
                       Icon(Icons.location_on_outlined),
@@ -106,15 +115,18 @@ class Detailviewevent extends StatelessWidget {
                     ],
                   ),
                 ),
+                const Spacer(),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   child: Row(
                     children: [
-                      Icon(Icons.timer_outlined),
-                      SizedBox(
+                      const Icon(Icons.timer_outlined),
+                      const SizedBox(
                         width: 5,
                       ),
-                      Text("6th July- 4:00 PM"),
+                      Text(CommonService.formatToCustomDate(eventdate) +
+                          eventtime),
                     ],
                   ),
                 ),
@@ -193,7 +205,7 @@ class Detailviewevent extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 35,
             ),
             const Row(

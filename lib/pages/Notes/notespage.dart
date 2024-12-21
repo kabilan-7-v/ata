@@ -1,6 +1,8 @@
 import 'package:ata/models/eventmodels.dart';
+import 'package:ata/service/common_service.dart';
 import 'package:ata/service/event_service.dart';
 import 'package:ata/widget/const.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
@@ -26,7 +28,6 @@ class _NotesPageState extends State<NotesPage> {
   getEventsData() async {
     onGoingEventsLst = await EventService.fetchOngoingEvents();
     upcomingEventsLst = await EventService.fetchUpcomingEvents();
-    await Future.delayed(Duration(seconds: 5));
     isloading = false;
     setState(() {});
   }
@@ -37,61 +38,65 @@ class _NotesPageState extends State<NotesPage> {
         ? tabbarevents(context)
         : Scaffold(
             backgroundColor: ataBackgroundcolor,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 120,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Image.asset("assets/imgs/boy.png"),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                  child: Text(
-                    "Find?\nEvents in one Place! 💣",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 120,
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-                  child: Text(
-                    "Event management is the creation and\ndevelopment of small and large-scale\npersonal or corporate event such a festival\nconferences extra",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Image.asset("assets/imgs/boy.png"),
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 150,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                    child: Text(
+                      "Find?\nEvents in one Place! 💣",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    child: ElevatedButton(
-                        style:
-                            ElevatedButton.styleFrom(backgroundColor: orange),
-                        onPressed: () {
-                          setState(() {
-                            checkevents = false;
-                          });
-                        },
-                        child: const Row(
-                          children: [
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_right_alt,
-                              color: Colors.white,
-                              size: 40,
-                            )
-                          ],
-                        )),
                   ),
-                )
-              ],
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                    child: Text(
+                      "Event management is the creation and\ndevelopment of small and large-scale\npersonal or corporate event such a festival\nconferences extra",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 150,
+                      ),
+                      child: ElevatedButton(
+                          style:
+                              ElevatedButton.styleFrom(backgroundColor: orange),
+                          onPressed: () {
+                            setState(() {
+                              checkevents = false;
+                            });
+                          },
+                          child: const Row(
+                            children: [
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_right_alt,
+                                color: Colors.white,
+                                size: 40,
+                              )
+                            ],
+                          )),
+                    ),
+                  )
+                ],
+              ),
             ));
   }
 
@@ -143,25 +148,40 @@ class _NotesPageState extends State<NotesPage> {
   }
 
   Widget onGoingEvents(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: onGoingEventsLst.length,
-        shrinkWrap: true,
-        itemBuilder: (context, ind) {
-          return ongoineventCard(context, onGoingEventsLst[ind].image,
-              onGoingEventsLst[ind].isselected, ind);
-        });
+    return onGoingEventsLst.isEmpty
+        ? const Center(
+            child: Text(
+            "No UpComing Events",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ))
+        : ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: onGoingEventsLst.length,
+            shrinkWrap: true,
+            itemBuilder: (context, ind) {
+              return ongoineventCard(
+                  context,
+                  "https://picsum.photos/id/237/300/100",
+                  onGoingEventsLst[ind].isselected!,
+                  ind);
+            });
   }
 
   Widget upcomingEvents(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: upcomingEventsLst.length,
-        shrinkWrap: true,
-        itemBuilder: (context, ind) {
-          return upcomingeventCart(context, upcomingEventsLst[ind].image,
-              upcomingEventsLst[ind].isselected, ind);
-        });
+    return upcomingEventsLst.isEmpty
+        ? const Center(
+            child: Text(
+            "No UpComing Events",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ))
+        : ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: upcomingEventsLst.length,
+            shrinkWrap: true,
+            itemBuilder: (context, ind) {
+              return upcomingeventCart(context, "https://picsum.photos/300/100",
+                  upcomingEventsLst[ind].isselected!, ind);
+            });
   }
 
   ongoineventCard(BuildContext context, String img, bool select, ind) {
@@ -169,7 +189,7 @@ class _NotesPageState extends State<NotesPage> {
 
     return GestureDetector(
       onTap: () {
-        onGoingEventsLst[ind].isselected = !onGoingEventsLst[ind].isselected;
+        onGoingEventsLst[ind].isselected = !onGoingEventsLst[ind].isselected!;
 
         selected = !selected;
         setState(() {});
@@ -178,7 +198,7 @@ class _NotesPageState extends State<NotesPage> {
         curve: Curves.decelerate,
         duration: const Duration(milliseconds: 1000),
         child: Container(
-          height: select == true ? 225 : 340,
+          height: select == true ? 225 : 330,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -201,10 +221,10 @@ class _NotesPageState extends State<NotesPage> {
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10)),
-                      child: Image.asset(
+                      child: CachedNetworkImage(
                         width: double.infinity,
                         height: select == true ? 120 : 170,
-                        img,
+                        imageUrl: img,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -239,13 +259,10 @@ class _NotesPageState extends State<NotesPage> {
                 selected == true
                     ? isnotselected(
                         onGoingEventsLst[ind].date,
-                        onGoingEventsLst[ind].time,
                         onGoingEventsLst[ind].eventname,
-                        onGoingEventsLst[ind].location)
-                    : isselected(
-                        onGoingEventsLst[ind].date,
-                        onGoingEventsLst[ind].time,
-                        onGoingEventsLst[ind].description)
+                        onGoingEventsLst[ind].location!)
+                    : isselected(onGoingEventsLst[ind].date,
+                        onGoingEventsLst[ind].description!)
               ],
             ),
           ),
@@ -254,7 +271,7 @@ class _NotesPageState extends State<NotesPage> {
     );
   }
 
-  Widget isselected(String date, String time, String descrip) {
+  Widget isselected(String date, String descrip) {
     return Column(
       children: [
         Row(
@@ -277,7 +294,7 @@ class _NotesPageState extends State<NotesPage> {
                 ),
                 Container(
                   height: 30,
-                  width: 155,
+                  width: 175,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -292,7 +309,7 @@ class _NotesPageState extends State<NotesPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(date),
+                        child: Text(CommonService.formatdateForEvents(date)),
                       ),
                       SizedBox(
                           width: 25,
@@ -303,7 +320,6 @@ class _NotesPageState extends State<NotesPage> {
                 )
               ],
             ),
-            const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -319,7 +335,7 @@ class _NotesPageState extends State<NotesPage> {
                 ),
                 Container(
                   height: 32,
-                  width: 95,
+                  width: 110,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -334,7 +350,7 @@ class _NotesPageState extends State<NotesPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(time),
+                        child: Text(CommonService.taketime(date)),
                       ),
                       SizedBox(
                           width: 25,
@@ -354,7 +370,10 @@ class _NotesPageState extends State<NotesPage> {
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
           child: Text(
             descrip,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                overflow: TextOverflow.ellipsis),
           ),
         ),
         ConstrainedBox(
@@ -372,8 +391,7 @@ class _NotesPageState extends State<NotesPage> {
     );
   }
 
-  Widget isnotselected(
-      String date, String time, String eventname, String location) {
+  Widget isnotselected(String date, String eventname, String location) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -382,7 +400,7 @@ class _NotesPageState extends State<NotesPage> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Text(date),
+          child: Text(CommonService.formatdateForEvents(date)),
         ),
         Row(
           children: [
@@ -431,7 +449,7 @@ class _NotesPageState extends State<NotesPage> {
 
     return GestureDetector(
       onTap: () {
-        upcomingEventsLst[ind].isselected = !upcomingEventsLst[ind].isselected;
+        upcomingEventsLst[ind].isselected = !upcomingEventsLst[ind].isselected!;
 
         selected = !selected;
         setState(() {});
@@ -463,10 +481,10 @@ class _NotesPageState extends State<NotesPage> {
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10)),
-                        child: Image.asset(
+                        child: CachedNetworkImage(
                           width: double.infinity,
                           height: select == true ? 110 : 170,
-                          img,
+                          imageUrl: img,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -489,13 +507,10 @@ class _NotesPageState extends State<NotesPage> {
                   selected == true
                       ? isnotselected(
                           upcomingEventsLst[ind].date,
-                          upcomingEventsLst[ind].time,
                           upcomingEventsLst[ind].eventname,
-                          upcomingEventsLst[ind].location)
-                      : isselected(
-                          upcomingEventsLst[ind].date,
-                          upcomingEventsLst[ind].time,
-                          upcomingEventsLst[ind].description)
+                          upcomingEventsLst[ind].location!)
+                      : isselected(upcomingEventsLst[ind].date,
+                          upcomingEventsLst[ind].description!)
                 ]),
           ),
         ),

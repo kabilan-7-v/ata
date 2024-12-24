@@ -56,7 +56,7 @@ class _MembershipState extends State<Membership> {
                       items: [
                         customimageshape(
                             "assets/membership_exclusive/image 222.png",
-                            "Navigating the Future in AI on April 28th @ YSpace\nMarkham"),
+                            "Navigating the Future in AI on April 28th \n@YSpaceMarkham"),
                         customimageshape(
                             "assets/membership_exclusive/image 223.png",
                             "Golf Clinic in June"),

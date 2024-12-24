@@ -17,11 +17,13 @@ class _CreateAccountState extends State<CreateAccount> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  final ScrollController _scrollcontroller = ScrollController();
+
   final GlobalKey<FormState> _key = GlobalKey();
   bool isloading = false;
+  bool isterm = false;
   @override
   void dispose() {
-    // TODO: implement dispose
     nameController.dispose();
     emailController.dispose();
     passController.dispose();
@@ -30,140 +32,145 @@ class _CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ataBackgroundcolor,
-      body: SingleChildScrollView(
-        child: Form(
-          key: _key,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 68),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    "sign up with",
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Image.asset("assets/imgs/google.png"),
-                  const SizedBox(
-                    width: 25,
-                  ),
-                  Image.asset("assets/imgs/logos_facebook.png"),
-                ],
-              ),
-              const SizedBox(height: 50),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Text("Name",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Center(
-                  child: customTextfield(
-                      context,
-                      const Icon(Icons.person_2_outlined),
-                      "Ex.John",
-                      nameController,
-                      "Please Enter Name")),
-              const SizedBox(height: 30),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text("Email",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Center(
-                  child: customTextfield(
-                      context,
-                      const Icon(Icons.email_outlined),
-                      "example@example.com",
-                      emailController,
-                      "Please Enter Email adress")),
-              const SizedBox(height: 30),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text("Password",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Center(
-                  child: customTextfield(
-                      context,
-                      const Icon(Icons.lock_outline),
-                      "8+ Character, 1 Capital letter",
-                      passController,
-                      "Please Enter a Password")),
-              const SizedBox(height: 50),
-              Center(
-                child: Text(
-                  "Creating an account means you’re okay with \nour Terms of Service and our Privacy Policy",
-                  style: TextStyle(color: Colors.grey[500]),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: ataBackgroundcolor,
+        appBar: AppBar(
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          backgroundColor: ataBackgroundcolor,
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text(
+              "Sign Up",
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            ),
+          ),
+          leadingWidth: 200,
+        ),
+        body: SingleChildScrollView(
+          controller: _scrollcontroller,
+          child: Form(
+            key: _key,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: Image.asset("assets/imgs/ATA LOGO.png")),
                 ),
-              ),
-              const SizedBox(height: 50),
-              Center(child: custombutton(context, "Create an Account")),
-              const SizedBox(height: 50),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SigninPage()));
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                const SizedBox(height: 20),
+                const Row(
                   children: [
-                    Text("Already have an account?"),
-                    Text(
-                      "Sign in",
-                      style: TextStyle(
-                          color: Color.fromRGBO(76, 117, 244, 1),
-                          fontWeight: FontWeight.bold),
+                    SizedBox(
+                      width: 16,
                     ),
+                    Text("Name",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
                   ],
                 ),
-              )
-            ],
+                const SizedBox(height: 8),
+                Center(
+                    child: customTextfield(
+                        context,
+                        const Icon(Icons.person_2_outlined),
+                        "Ex.John",
+                        nameController,
+                        "Please Enter Name",
+                        false)),
+                const SizedBox(height: 32),
+                const Row(
+                  children: [
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text("Email",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Center(
+                    child: customTextfield(
+                        context,
+                        const Icon(Icons.email_outlined),
+                        "example@example.com",
+                        emailController,
+                        "Please Enter Email adress",
+                        true)),
+                const SizedBox(height: 32),
+                const Row(
+                  children: [
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text("Password",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Center(
+                    child: customTextfield(
+                        context,
+                        const Icon(Icons.lock_outline),
+                        "8+ Character, 1 Capital letter",
+                        passController,
+                        "Please Enter a Password",
+                        false)),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Checkbox(
+                        checkColor: Colors.black,
+                        activeColor: orange,
+                        value: isterm,
+                        onChanged: (val) {
+                          setState(() {
+                            isterm = !isterm;
+                          });
+                        }),
+                    const Text(
+                      "Terms of Service and our Privacy Policy",
+                      style: TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 50),
+                Center(child: custombutton(context, "Create an Account")),
+                const SizedBox(height: 25),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SigninPage()));
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have an account?"),
+                      Text(
+                        "Sign in",
+                        style: TextStyle(
+                            color: Color.fromRGBO(76, 117, 244, 1),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -171,11 +178,18 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 
   Widget customTextfield(BuildContext context, Icon icon, String hinttext,
-      TextEditingController controller, String errormessage) {
+      TextEditingController controller, String errormessage, bool isemail) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width - 30,
+      width: MediaQuery.of(context).size.width - 32,
       // height: 80,
       child: TextFormField(
+          onTap: () async {
+            if (isemail) {
+              _scrollcontroller.animateTo(400,
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.linear);
+            }
+          },
           controller: controller,
           validator: (value) {
             if (value!.isEmpty) return errormessage;
@@ -183,11 +197,15 @@ class _CreateAccountState extends State<CreateAccount> {
             return null;
           },
           decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(width: 2, color: orange),
+              ),
               hintStyle:
                   const TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(width: 2),
+                borderSide: const BorderSide(width: 1.2),
               ),
               hintText: hinttext,
               prefixIcon: icon,
@@ -201,7 +219,7 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget custombutton(BuildContext context, String buttonname) {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
-          height: 50, width: MediaQuery.of(context).size.width - 30),
+          height: 50, width: MediaQuery.of(context).size.width - 32),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
@@ -229,7 +247,10 @@ class _CreateAccountState extends State<CreateAccount> {
             ? const CircularProgressIndicator()
             : Text(
                 buttonname,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
       ),
     );

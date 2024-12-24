@@ -19,7 +19,7 @@ class OnGoingEventmodels {
         eventname: json["name"],
         location: json["location"] ?? "location",
         description: json["desc"] ?? "description",
-        image: json["image"],
+        image: json["images"][0],
         isselected: json["isselected"] ?? true);
   }
 

@@ -44,19 +44,19 @@ class Customdrawer extends StatelessWidget {
                   (MaterialPageRoute(
                       builder: (context) => const Appsettings())));
             }),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(),
-            ),
-            customtile("assets/icons/drawer/gallery.png", "Gallery", () {}),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(),
-            ),
-            customtile("assets/icons/drawer/save.png", "Save", () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Savepage()));
-            }),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   child: Divider(),
+            // ),
+            // customtile("assets/icons/drawer/gallery.png", "Gallery", () {}),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   child: Divider(),
+            // ),
+            // customtile("assets/icons/drawer/save.png", "Save", () {
+            //   Navigator.push(context,
+            //       MaterialPageRoute(builder: (context) => const Savepage()));
+            // }),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Divider(),

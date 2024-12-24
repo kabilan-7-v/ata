@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/service/common_service.dart';
-import 'package:ata/widget/const.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 class HomeService {
   static Future<List<Popularevents>> fetchPopularevents() async {

@@ -5,6 +5,7 @@ import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
 import 'package:ata/widget/const.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
@@ -43,12 +44,6 @@ class _ProfilepageState extends State<Profilepage> {
               leading: const SizedBox(),
               backgroundColor: ataBackgroundcolor,
               actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.add_box_outlined,
-                      size: 30,
-                    )),
                 Builder(
                   builder: (context) => IconButton(
                     icon: const Icon(
@@ -110,9 +105,13 @@ class _ProfilepageState extends State<Profilepage> {
               SizedBox(
                   width: 90,
                   height: 90,
-                  child: Image.asset(
-                    "assets/imgs/Profile.png",
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://fastly.picsum.photos/id/65/4912/3264.jpg?hmac=uq0IxYtPIqRKinGruj45KcPPzxDjQvErcxyS1tn7bG0",
+                      fit: BoxFit.cover,
+                    ),
                   )),
               const SizedBox(
                 width: 20,

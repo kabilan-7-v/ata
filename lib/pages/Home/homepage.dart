@@ -208,6 +208,9 @@ class _HomepageState extends State<Homepage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               latestPosts.isNotEmpty
                   ? _buildSectionTitle('Latest Posts')
                   : SizedBox(),
@@ -216,6 +219,7 @@ class _HomepageState extends State<Homepage> {
                       height: 40,
                     )
                   : const SizedBox(),
+
               ShimmerItem(height: 200, child: _buildLatestPosts(context)),
 
               _buildSectionTitle('Our Proud Sponsors'),
@@ -451,7 +455,7 @@ class _HomepageState extends State<Homepage> {
   Widget _buildLatestPosts(BuildContext context) {
     return ShimmerItem(
       child: SizedBox(
-        height: 325,
+        height: 280,
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -475,7 +479,7 @@ class _HomepageState extends State<Homepage> {
       padding: const EdgeInsets.only(left: 16, bottom: 10),
       child: Container(
         width: 290,
-        height: 320, // Set a fixed width for each card
+        height: 280, // Set a fixed width for each card
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -500,13 +504,13 @@ class _HomepageState extends State<Homepage> {
                   child: CachedNetworkImage(
                     imageUrl: img,
                     width: double.infinity,
-                    height: 150,
+                    height: 130,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Container(
                     width: double.infinity,
-                    height: 150,
+                    height: 130,
                     decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.4),
                         borderRadius: const BorderRadius.only(
@@ -528,15 +532,7 @@ class _HomepageState extends State<Homepage> {
                     eventname, // Example Title
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on_outlined, size: 16),
-                      SizedBox(width: 4),
-                      Text(location), // Example Location
-                    ],
-                  ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -545,7 +541,8 @@ class _HomepageState extends State<Homepage> {
                       onPressed: () {},
                       child: const Text(
                         "Join Now",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

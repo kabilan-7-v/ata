@@ -124,12 +124,17 @@ class _NotesPageState extends State<NotesPage> {
                     SizedBox(
                         height: 45,
                         child: Center(
-                            child:
-                                Text("          On Going Events          "))),
+                            child: Text("     OnGoing Events          ",
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                )))),
                     SizedBox(
                         height: 45,
                         child: Center(
-                            child: Text("          UpComing Events          ")))
+                            child: Text(
+                          "     UpComing Events          ",
+                          style: TextStyle(fontFamily: "Montserrat"),
+                        )))
                     // Tab(
                     //   text: '          On Going Events          ',
                     // ),

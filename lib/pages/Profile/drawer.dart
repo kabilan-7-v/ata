@@ -2,7 +2,6 @@ import 'package:ata/pages/Profile/Notifications.dart';
 import 'package:ata/pages/Profile/aboutus.dart';
 import 'package:ata/pages/Profile/appsetting.dart';
 import 'package:ata/pages/Profile/helpsupport.dart';
-import 'package:ata/pages/Profile/savepage.dart';
 import 'package:ata/pages/Profile/tickethistory.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
 class Tickethistory extends StatelessWidget {
@@ -12,12 +11,12 @@ class Tickethistory extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        backgroundColor: Colors.grey[200],
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios)),
-        backgroundColor: ataBackgroundcolor,
         elevation: 0,
         scrolledUnderElevation: 0,
         title: const Text(

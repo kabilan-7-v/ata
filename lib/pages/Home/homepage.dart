@@ -449,7 +449,7 @@ class _HomepageState extends State<Homepage> {
                       child: Text(
                         (issearch | issearchwidgetShow)
                             ? "Recently searches"
-                            : "Hello, ${context.read<UserCubit>().state.firstname}",
+                            : "Hello, ${context.read<UserCubit>().state.userName}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,

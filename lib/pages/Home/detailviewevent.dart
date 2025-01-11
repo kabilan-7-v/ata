@@ -8,6 +8,7 @@ class Detailviewevent extends StatelessWidget {
       {super.key,
       required this.img,
       required this.eventname,
+      
       required this.eventdate,
       required this.eventtime});
   final String img;

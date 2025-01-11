@@ -10,14 +10,18 @@ class SnackbarService {
         behavior: SnackBarBehavior.floating,
         content: Row(
           children: [
-            const Icon(Icons.info_outline, size: 20),
+            const Icon(
+              Icons.info_outline,
+              size: 26,
+              color: Colors.white,
+            ),
             const SizedBox(width: 5),
             Expanded(
               child: Text(
                 content,
                 style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                     fontSize: 17),
               ),
             ),

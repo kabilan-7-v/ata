@@ -75,8 +75,6 @@ class _ProfilepageState extends State<Profilepage> {
                       MaterialPageRoute(
                           builder: (context) => const Editprofile()));
                 }),
-                customeditorshareprofile(
-                    context, "assets/icons/share.png", "Share Profile", () {}),
               ],
             ),
             const SizedBox(
@@ -121,7 +119,7 @@ class _ProfilepageState extends State<Profilepage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    context.read<UserCubit>().state.firstname,
+                    context.read<UserCubit>().state.userName,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Text(
@@ -144,8 +142,8 @@ class _ProfilepageState extends State<Profilepage> {
     return InkWell(
       onTap: ontap,
       child: Container(
-        height: 39,
-        width: MediaQuery.of(context).size.width / 2.4,
+        height: 45,
+        width: MediaQuery.of(context).size.width - 32,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(4),
@@ -160,7 +158,8 @@ class _ProfilepageState extends State<Profilepage> {
               ),
               Text(
                 name,
-                style: const TextStyle(fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               )
             ],
           ),
@@ -177,28 +176,28 @@ class _ProfilepageState extends State<Profilepage> {
       },
       child: Container(
         height: 45,
-        width: MediaQuery.of(context).size.width - 50,
+        width: MediaQuery.of(context).size.width - 32,
         decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 5,
-                  spreadRadius: 5)
-            ],
+            color: orange,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(color: const Color.fromRGBO(225, 104, 17, 1))),
         child: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.wallet_membership_outlined),
+              Icon(
+                Icons.wallet_membership_outlined,
+                color: Colors.white,
+              ),
               SizedBox(
                 width: 8,
               ),
               Text(
-                "View Membership details",
-                style: TextStyle(fontWeight: FontWeight.w500),
+                "View Membership",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 16),
               )
             ],
           ),

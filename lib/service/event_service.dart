@@ -4,8 +4,7 @@ import 'dart:convert';
 
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/service/common_service.dart';
-import 'package:ata/widget/const.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:http/http.dart' as http;
 
 class EventService {
@@ -22,12 +21,12 @@ class EventService {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
 
         for (var i in jsonResponse) {
-          if (kDebugMode) {
-            print(emoji);
+          // if (kDebugMode) {
+          //   print(emoji);
 
-            print(i);
-            print(emoji);
-          }
+          //   print(i);
+          //   print(emoji);
+          // }
           if (!CommonService.isTodayOrFuture(i["createdAt"])) {
             ongoingevent.add(OnGoingEventmodels.fromJson(i));
           }
@@ -55,12 +54,12 @@ class EventService {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
 
         for (var i in jsonResponse) {
-          if (kDebugMode) {
-            print(emoji);
+          // if (kDebugMode) {
+          //   print(emoji);
 
-            print(i);
-            print(emoji);
-          }
+          //   print(i);
+          //   print(emoji);
+          // }
           if (CommonService.isTodayOrFuture(i["createdAt"])) {
             upComingEvents.add(UpcomingEventmodels.fromJson(i));
           }

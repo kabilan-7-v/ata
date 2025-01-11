@@ -1,28 +1,43 @@
 class UserModel {
-  final String firstname;
-  final String lastname;
+  final String userName;
   final String email;
   final String phno;
+  final String? bio;
+  final String? image;
+  final String? dateofbirth;
+  final String? gender;
+  final String? userid;
 
   UserModel(
-      {required this.firstname,
-      required this.lastname,
+      {required this.userName,
       required this.email,
-      required this.phno});
+      required this.phno,
+      required this.bio,
+      required this.image,
+      required this.dateofbirth,
+      required this.gender,
+      required this.userid});
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-        firstname: json['firstName'],
-        lastname: json['lastName'] ?? "Null",
-        email: json['email'],
-        phno: json['phoneNumber'] ?? "Null");
+        userName: json['userName'] ?? "NULL",
+        email: json['email'] ?? "null",
+        phno: json['phoneNumber'] ?? "Null",
+        bio: json['bio'] ?? "Null",
+        image: json['image'] ?? "Null",
+        dateofbirth: json['dateOfBirth'] ?? "Null",
+        gender: json['gender'] ?? "Null",
+        userid: json['_id'] ?? "Null");
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "firstName": firstname,
-      "lastName": lastname,
+      "userName": userName,
       "email": email,
       "phoneNumber": phno,
+      "bio": bio ?? "null",
+      "image": image ?? "null",
+      "dateOfBirth": dateofbirth ?? "null",
+      "gender": gender ?? "null"
     };
   }
 }

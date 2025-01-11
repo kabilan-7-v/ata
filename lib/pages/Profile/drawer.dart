@@ -87,12 +87,12 @@ class Customdrawer extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Divider(),
             ),
-            customtile("assets/icons/drawer/ticket.png", "Ticket History", () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Tickethistory()));
-            }),
+            // customtile("assets/icons/drawer/ticket.png", "Ticket History", () {
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => const Tickethistory()));
+            // }),
           ],
         ),
       ),

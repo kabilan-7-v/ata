@@ -43,6 +43,7 @@ dependencies:
   infinite_carousel: ^1.1.1
   intl: ^0.18.0
   skeleton_shimmer_loading: ^0.0.1
+  shared_preferences: ^2.3.5
 
 dev_dependencies:
   flutter_test:

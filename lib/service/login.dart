@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/usermodel.dart';
+import 'package:ata/widget/const.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,12 @@ Future<bool> login(String email, String password, BuildContext context) async {
     if (response.statusCode == 200) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
+      if (kDebugMode) {
+        print(emoji);
+        print(data);
+        print(data["user"]);
+        print(emoji);
+      }
 
       context.read<UserCubit>().setUser(UserModel.fromJson(data["user"]));
       // if (kDebugMode) {
@@ -66,6 +73,7 @@ Future<bool> createAccount(
       body: jsonEncode({
         'firstName': name,
         'lastName': "last name",
+        'userName': name,
         'phoneNumber': "phone number",
         'email': email,
         'password': password,
@@ -98,7 +106,21 @@ Future<bool> createAccount(
 
 
 
+ bool isValidEmail(String email) {
+  // Regular expression for validating an email
+  final RegExp emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+  return emailRegex.hasMatch(email);
+}
 
+bool isValidPassword(String password) {
+  // Regular expression for validating a strong password
+  final RegExp passwordRegex = RegExp(
+    r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$',
+  );
+  return passwordRegex.hasMatch(password);
+}
 
 
 

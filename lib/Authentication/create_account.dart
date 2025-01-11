@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ata/Authentication/signin_page.dart';
+import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
 import 'package:ata/widget/snackbar.dart';
@@ -121,7 +122,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.lock_outline),
-                        "8+ Character, 1 Capital letter",
+                        "8+ Char,1 Special Char,1 Capi letter,1 digit",
                         passController,
                         "Please Enter a Password",
                         false)),
@@ -151,10 +152,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 const SizedBox(height: 25),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SigninPage()));
+                            builder: (context) => const SigninPage()),
+                        (e) => false);
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -201,8 +203,8 @@ class _CreateAccountState extends State<CreateAccount> {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 2, color: orange),
               ),
-              hintStyle:
-                  const TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
+              hintStyle: const TextStyle(
+                  color: Color.fromRGBO(187, 187, 188, 1), fontSize: 14),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 1.2),
@@ -229,19 +231,38 @@ class _CreateAccountState extends State<CreateAccount> {
           setState(() {
             isloading = true;
           });
+          if (!isValidEmail(emailController.text)) {
+            SnackbarService().showSnackBar(
+                "Give a valid email\n eg: Quindl@example.com", context);
+            setState(() {
+              isloading = false;
+            });
+            return;
+          }
+          if (!isValidPassword(passController.text)) {
+            SnackbarService().showSnackBar(
+                "Give a valid Password\n eg: P@ssw0rd123!", context);
+            setState(() {
+              isloading = false;
+            });
+            return;
+          }
           bool isaccountcreated = await createAccount(nameController.text,
               emailController.text, passController.text, context);
           // login("balaji.21ad@kct.ac.in", "Balaji@12");
-          setState(() {
-            isloading = false;
-          });
-          if (isaccountcreated == true) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SigninPage()));
-          } else {
+
+          if (isaccountcreated == false) {
             SnackbarService()
                 .showSnackBar("Enter Email Already taken", context);
+            setState(() {
+              isloading = false;
+            });
+            return;
           }
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const SigninPage()),
+              (e) => false);
         },
         child: isloading
             ? const CircularProgressIndicator()

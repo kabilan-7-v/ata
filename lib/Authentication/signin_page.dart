@@ -126,10 +126,11 @@ class _SigninPageState extends State<SigninPage> {
                 const SizedBox(height: 25),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateAccount()));
+                            builder: (context) => const CreateAccount()),
+                        (e) => false);
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -214,8 +215,10 @@ class _SigninPageState extends State<SigninPage> {
             isloading = false;
           });
           if (islogin) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const Commonpage()));
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const Commonpage()),
+                (e) => false);
           } else {
             SnackbarService()
                 .showSnackBar("Please enter a correct credentials", context);

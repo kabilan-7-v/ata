@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ata/Authentication/signin_page.dart';
-import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
 import 'package:ata/widget/snackbar.dart';

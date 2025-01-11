@@ -3,6 +3,7 @@
 import 'package:ata/pages/Home/homepage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
 import 'package:ata/pages/Profile/profilepage.dart';
+import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,16 @@ class Commonpage extends StatefulWidget {
 
 class _CommonpageState extends State<Commonpage> {
   int tab = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    setUserDetails(context);
+    super.initState();
+  }
+
+  userinit() {
+    setUserDetails(context);
+  }
 
   @override
   Widget build(BuildContext context) {

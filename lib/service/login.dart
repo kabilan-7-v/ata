@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> login(String email, String password, BuildContext context) async {
   // Define the URL
@@ -37,6 +38,18 @@ Future<bool> login(String email, String password, BuildContext context) async {
       }
 
       context.read<UserCubit>().setUser(UserModel.fromJson(data["user"]));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isLoggedIn", true);
+      await prefs.setStringList("user_details", [
+        data['user']['userName'] ?? "NULL",
+        data['user']['email'] ?? "Null",
+        data['user']['phoneNumber'] ?? "Null",
+        data['user']['bio'] ?? "Null",
+        data['user']['image'] ?? "Null",
+        data['user']['dateOfBirth'] ?? "Null",
+        data['user']['gender'] ?? "Null",
+        data['user']['_id'] ?? "Null"
+      ]);
       // if (kDebugMode) {
       //   print(data);
       //   print(emoji);
@@ -84,7 +97,9 @@ Future<bool> createAccount(
     if (response.statusCode == 201) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
-      print(data);
+      if (kDebugMode) {
+        print(data);
+      }
 
       return true;
     } else {
@@ -103,10 +118,7 @@ Future<bool> createAccount(
   return false;
 }
 
-
-
-
- bool isValidEmail(String email) {
+bool isValidEmail(String email) {
   // Regular expression for validating an email
   final RegExp emailRegex = RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
@@ -122,10 +134,23 @@ bool isValidPassword(String password) {
   return passwordRegex.hasMatch(password);
 }
 
+setUserDetails(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
-
-
+  List<String>? userLst = prefs.getStringList("user_details");
+  if (userLst != null) {
+    Map<String, dynamic> user = {
+      "userName": userLst[0],
+      "email": userLst[1],
+      "phoneNumber": userLst[2],
+      "bio": userLst[3],
+      "image": userLst[4],
+      "dateOfBirth": userLst[5],
+      "gender": userLst[6]
+    };
+    context.read<UserCubit>().setUser(UserModel.fromJson(user));
+  }
+}
 
 
 

@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Appsettings extends StatefulWidget {
   const Appsettings({super.key});
@@ -73,6 +74,10 @@ class _AppsettingsState extends State<Appsettings> {
                           Spacer(),
                           InkWell(
                             onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+
+                              await prefs.setBool("isLoggedIn", false);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

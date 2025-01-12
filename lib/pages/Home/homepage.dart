@@ -30,9 +30,12 @@ class _HomepageState extends State<Homepage> {
   bool isloading = true;
   bool issearch = false;
   bool issearchwidgetShow = false;
+  List<String> recentsearch = [];
+
   @override
   void initState() {
     getHomeData();
+    setState(() {});
     super.initState();
   }
 
@@ -40,6 +43,7 @@ class _HomepageState extends State<Homepage> {
     popularEvents = await HomeService.fetchPopularevents();
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
+    recentsearch = await HomeService.getreacentsearch();
     setState(() {
       isloading = false;
     });
@@ -82,6 +86,7 @@ class _HomepageState extends State<Homepage> {
         FocusScope.of(context).unfocus();
         issearch = false;
         issearchwidgetShow = false;
+        searchController.clear();
         setState(() {});
       },
       child: Scaffold(
@@ -423,6 +428,11 @@ class _HomepageState extends State<Homepage> {
                               issearch = true;
                               setState(() {});
                             },
+                            onSubmitted: (value) async {
+                              await HomeService.storerecentsearch(value);
+                              recentsearch =
+                                  await HomeService.getreacentsearch();
+                            },
                             controller: searchController,
                             cursorColor: Colors.white,
                             onChanged: searchEvents,
@@ -437,11 +447,6 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: Image.asset("assets/icons/mic.png")),
-                        const SizedBox(width: 16),
                       ],
                     ),
                     Padding(
@@ -461,79 +466,68 @@ class _HomepageState extends State<Homepage> {
                     ),
                     (issearch | issearchwidgetShow)
                         ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               SizedBox(
                                 width: 10,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Container(
-                                  height: 25,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        color: Colors.white54,
-                                      )),
-                                  child: Row(
-                                    children: const [
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      Icon(
-                                        Icons.update,
-                                        color: Colors.white54,
-                                        size: 20,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Quindl",
-                                        style: TextStyle(
-                                          color: Colors.white60,
+                              SizedBox(
+                                height: 25,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: 2,
+                                    reverse: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, ind) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: Container(
+                                          height: 25,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                color: Colors.white54,
+                                              )),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 2,
+                                              ),
+                                              Icon(
+                                                Icons.update,
+                                                color: Colors.white54,
+                                                size: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                recentsearch[recentsearch
+                                                                    .length -
+                                                                (ind + 1)]
+                                                            .length >
+                                                        6
+                                                    ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
+                                                    : recentsearch[
+                                                        recentsearch.length -
+                                                            (ind + 1)],
+                                                style: TextStyle(
+                                                  color: Colors.white60,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                      );
+                                    }),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Container(
-                                  height: 25,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                        color: Colors.white54,
-                                      )),
-                                  child: Row(
-                                    children: const [
-                                      SizedBox(
-                                        width: 2,
-                                      ),
-                                      Icon(
-                                        Icons.update,
-                                        color: Colors.white54,
-                                        size: 20,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Events",
-                                        style: TextStyle(
-                                          color: Colors.white60,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              Spacer(),
                               InkWell(
                                 onTap: () {
+                                  searchController.clear();
+
                                   setState(() {
                                     issearchwidgetShow = false;
                                     issearch = false;
@@ -574,7 +568,7 @@ class _HomepageState extends State<Homepage> {
                                 ),
                               ),
                               SizedBox(
-                                width: 20,
+                                width: 30,
                               ),
                             ],
                           )
@@ -657,8 +651,8 @@ class _HomepageState extends State<Homepage> {
                         ? 280
                         : MediaQuery.of(context).size.width - 32,
                     height: 230,
-                    decoration:
-                        BoxDecoration(color: Colors.black.withOpacity(0.4)))
+                    decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.4)))
               ]),
             ),
             Positioned(
@@ -799,7 +793,7 @@ class _HomepageState extends State<Homepage> {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withValues(alpha: 0.3),
               spreadRadius: 3,
               blurRadius: 5,
               // offset: const Offset(0, 3), // changes position of shadow

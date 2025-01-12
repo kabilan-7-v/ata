@@ -4,8 +4,10 @@ import 'package:ata/models/homemodels.dart';
 import 'package:ata/service/common_service.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeService {
+class HomeService  {
+
   static Future<List<Popularevents>> fetchPopularevents() async {
     List<Popularevents> populareventslst = [];
     const String url = 'https://atabackend.onrender.com/events/get';
@@ -73,4 +75,24 @@ class HomeService {
     ];
     return sponser;
   }
+
+  static storerecentsearch(String prompt) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? lst = prefs.getStringList("recentsearch");
+    if (lst == null) {
+      prefs.setStringList("recentsearch", []);
+    }
+    if (prompt.isNotEmpty) {
+      lst!.add(prompt.trim());
+      prefs.setStringList("recentsearch", lst);
+    }
+  }
+ static Future<List<String>> getreacentsearch() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getStringList("recentsearch") ?? [];
+  }
+
+  
 }
+ 

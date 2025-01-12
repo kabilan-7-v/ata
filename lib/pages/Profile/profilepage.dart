@@ -1,14 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
-
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/widget/const.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';

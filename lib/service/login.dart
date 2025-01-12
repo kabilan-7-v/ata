@@ -33,13 +33,13 @@ Future<bool> login(String email, String password, BuildContext context) async {
       if (kDebugMode) {
         print(emoji);
         print(data);
-        print(data["user"]);
+        print(data['user']["_id"]);
         print(emoji);
       }
 
-      context.read<UserCubit>().setUser(UserModel.fromJson(data["user"]));
+      context.read<UserCubit>().setUser(UserModel.fromJson(data['user']));
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool("isLoggedIn", true);
+      await prefs.setBool("isLoggedIn", true);
       await prefs.setStringList("user_details", [
         data['user']['userName'] ?? "NULL",
         data['user']['email'] ?? "Null",
@@ -146,8 +146,10 @@ setUserDetails(BuildContext context) async {
       "bio": userLst[3],
       "image": userLst[4],
       "dateOfBirth": userLst[5],
-      "gender": userLst[6]
+      "gender": userLst[6],
+      "_id": userLst[7]
     };
+
     context.read<UserCubit>().setUser(UserModel.fromJson(user));
   }
 }

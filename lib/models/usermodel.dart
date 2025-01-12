@@ -26,7 +26,7 @@ class UserModel {
         image: json['image'] ?? "Null",
         dateofbirth: json['dateOfBirth'] ?? "Null",
         gender: json['gender'] ?? "Null",
-        userid: json['_id'] ?? "Null");
+        userid: json['_id'] ?? "kabi");
   }
 
   Map<String, dynamic> toJson() {
@@ -37,7 +37,8 @@ class UserModel {
       "bio": bio ?? "null",
       "image": image ?? "null",
       "dateOfBirth": dateofbirth ?? "null",
-      "gender": gender ?? "null"
+      "gender": gender ?? "null",
+      "userid": userid ?? "null"
     };
   }
 }

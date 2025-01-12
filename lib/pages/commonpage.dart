@@ -23,9 +23,9 @@ class _CommonpageState extends State<Commonpage> {
     super.initState();
   }
 
-  userinit() {
-    setUserDetails(context);
-  }
+  // userinit() {
+  //   setUserDetails(context);
+  // }
 
   @override
   Widget build(BuildContext context) {

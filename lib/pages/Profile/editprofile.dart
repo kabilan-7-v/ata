@@ -1,7 +1,11 @@
+import 'dart:io';
 
+import 'package:ata/cubit/usercubit.dart';
+import 'package:ata/service/common_service.dart';
 import 'package:ata/service/edit_user_profile.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});
@@ -19,6 +23,18 @@ class _EditprofileState extends State<Editprofile> {
   final TextEditingController bio = TextEditingController();
   final TextEditingController gender = TextEditingController();
   final TextEditingController dateofbirth = TextEditingController();
+  String? profileimgurl;
+  @override
+  void initState() {
+    // TODO: implement initState
+    initprofilepic();
+    super.initState();
+  }
+
+  initprofilepic() async {
+    profileimgurl = await CommonService.imageretreive();
+    setState(() {});
+  }
 
   @override
   void dispose() {
@@ -52,15 +68,34 @@ class _EditprofileState extends State<Editprofile> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage("assets/imgs/Profile.png")),
-            const SizedBox(
-              height: 15,
-            ),
-            const Text(
-              "Edit picture or avatar",
-              style: TextStyle(color: Color.fromRGBO(67, 195, 249, 1)),
+            InkWell(
+              onTap: () async {
+                await CommonService.pickImage();
+                profileimgurl = await CommonService.imageretreive();
+                setState(() {});
+              },
+              child: Column(
+                children: [
+                  profileimgurl == null
+                      ? const CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.grey,
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage: FileImage(
+                            File(profileimgurl!),
+                          ),
+                        ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    "Edit picture or avatar",
+                    style: TextStyle(color: Color.fromRGBO(67, 195, 249, 1)),
+                  ),
+                ],
+              ),
             ),
             customtextfield("User Name", "Enter User Name", username),
             customtextfield("Email", "Enter Email", email),
@@ -85,8 +120,16 @@ class _EditprofileState extends State<Editprofile> {
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () async {
-          await editUserProfile(name.text, username.text, email.text, bio.text,
-              gender.text, dateofbirth.text, context, "userid", "phno");
+          await editUserProfile(
+              name.text,
+              username.text,
+              email.text,
+              bio.text,
+              gender.text,
+              dateofbirth.text,
+              context,
+              context.read<UserCubit>().state.userid ?? "s",
+              "phno");
         },
         child: isloading
             ? const CircularProgressIndicator()

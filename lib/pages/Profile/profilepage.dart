@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/pages/Profile/editprofile.dart';
 import 'package:ata/pages/Profile/membership.dart';
+import 'package:ata/service/common_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +23,12 @@ class Profilepage extends StatefulWidget {
 
 class _ProfilepageState extends State<Profilepage> {
   bool isloading = true;
+  String? profileimgurl;
 
   @override
   void initState() {
     getuserdata();
+    initprofilepic();
     super.initState();
   }
 
@@ -31,6 +36,11 @@ class _ProfilepageState extends State<Profilepage> {
     await Future.delayed(const Duration(seconds: 5));
 
     isloading = false;
+    setState(() {});
+  }
+
+  initprofilepic() async {
+    profileimgurl = await CommonService.imageretreive();
     setState(() {});
   }
 
@@ -100,17 +110,20 @@ class _ProfilepageState extends State<Profilepage> {
               const SizedBox(
                 width: 20,
               ),
-              SizedBox(
-                  width: 90,
-                  height: 90,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://fastly.picsum.photos/id/65/4912/3264.jpg?hmac=uq0IxYtPIqRKinGruj45KcPPzxDjQvErcxyS1tn7bG0",
-                      fit: BoxFit.cover,
-                    ),
-                  )),
+              profileimgurl == null
+                  ? SizedBox()
+                  : SizedBox(
+                      width: 90,
+                      height: 90,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.file(
+                          File(
+                            profileimgurl!,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      )),
               const SizedBox(
                 width: 20,
               ),

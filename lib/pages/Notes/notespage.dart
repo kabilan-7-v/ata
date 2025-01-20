@@ -124,7 +124,7 @@ class _NotesPageState extends State<NotesPage> {
                     SizedBox(
                         height: 45,
                         child: Center(
-                            child: Text("     OnGoing Events          ",
+                            child: Text("     Ongoingevents          ",
                                 style: TextStyle(
                                   fontFamily: "Montserrat",
                                 )))),
@@ -132,7 +132,7 @@ class _NotesPageState extends State<NotesPage> {
                         height: 45,
                         child: Center(
                             child: Text(
-                          "     UpComing Events          ",
+                          "     Upgoingevents          ",
                           style: TextStyle(fontFamily: "Montserrat"),
                         )))
                     // Tab(
@@ -325,6 +325,7 @@ class _NotesPageState extends State<NotesPage> {
                 )
               ],
             ),
+            const Spacer(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

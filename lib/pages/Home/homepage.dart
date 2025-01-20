@@ -43,7 +43,7 @@ class _HomepageState extends State<Homepage> {
     popularEvents = await HomeService.fetchPopularevents();
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
-    recentsearch = await HomeService.getreacentsearch();
+    recentsearch = await HomeService.getreacentsearch(context);
     setState(() {
       isloading = false;
     });
@@ -160,39 +160,43 @@ class _HomepageState extends State<Homepage> {
                           filteredEvents.isEmpty
                               ? SizedBox()
                               : _buildSectionTitle('Popular Events'),
-                          ListView.builder(
-                            itemCount: filteredEvents.length,
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return _buildEventCard(
-                                  filteredEvents[index].img,
-                                  context,
-                                  filteredEvents[index].date,
-                                  filteredEvents[index].eventname,
-                                  filteredEvents[index].location,
-                                  filteredEvents[index].time,
-                                  false);
-                            },
-                          ),
+                          filteredEvents.isEmpty
+                              ? SizedBox()
+                              : ListView.builder(
+                                  itemCount: filteredEvents.length,
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return _buildEventCard(
+                                        filteredEvents[index].img,
+                                        context,
+                                        filteredEvents[index].date,
+                                        filteredEvents[index].eventname,
+                                        filteredEvents[index].location,
+                                        filteredEvents[index].time,
+                                        false);
+                                  },
+                                ),
                           filteredPost.isNotEmpty
                               ? _buildSectionTitle('Latest Posts')
                               : SizedBox(),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            itemCount: filteredPost.length,
-                            itemBuilder: (context, index) {
-                              return _buildLatestPostCard(
-                                  "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
-                                  filteredPost[index].date,
-                                  filteredPost[index].name,
-                                  filteredPost[index].location!,
-                                  false);
-                            },
-                          ),
+                          filteredPost.isNotEmpty
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.zero,
+                                  itemCount: filteredPost.length,
+                                  itemBuilder: (context, index) {
+                                    return _buildLatestPostCard(
+                                        "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                        filteredPost[index].date,
+                                        filteredPost[index].name,
+                                        filteredPost[index].location!,
+                                        false);
+                                  },
+                                )
+                              : SizedBox()
                         ]),
                   ],
                 ),
@@ -222,33 +226,46 @@ class _HomepageState extends State<Homepage> {
                               children: [
                                 Column(
                                   children: [
-                                    _buildSectionTitle('Popular Events'),
-                                    ShimmerItem(
-                                      height: 200,
-                                      child: SizedBox(
-                                        height: 260,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: popularEvents.length,
-                                          padding: EdgeInsets.zero,
-                                          itemBuilder: (context, index) {
-                                            return _buildEventCard(
-                                                popularEvents[index].img,
-                                                context,
-                                                popularEvents[index].date,
-                                                popularEvents[index].eventname,
-                                                popularEvents[index].location,
-                                                popularEvents[index].time,
-                                                true);
-                                          },
-                                        ),
-                                      ),
-                                    ),
+                                    filteredEvents.isEmpty
+                                        ? SizedBox()
+                                        : _buildSectionTitle('Popular Events'),
+                                    filteredEvents.isEmpty
+                                        ? SizedBox()
+                                        : ShimmerItem(
+                                            height: 200,
+                                            child: SizedBox(
+                                              height: 260,
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount:
+                                                    popularEvents.length - 1,
+                                                padding: EdgeInsets.zero,
+                                                itemBuilder: (context, index) {
+                                                  return _buildEventCard(
+                                                      popularEvents[index].img,
+                                                      context,
+                                                      popularEvents[index].date,
+                                                      popularEvents[index]
+                                                          .eventname,
+                                                      popularEvents[index]
+                                                          .location,
+                                                      popularEvents[index].time,
+                                                      true);
+                                                },
+                                              ),
+                                            ),
+                                          ),
                                     isloading
                                         ? const SizedBox(
                                             height: 40,
                                           )
                                         : const SizedBox(),
+                                    filteredEvents.isEmpty
+                                        ? SizedBox(
+                                            height: 16,
+                                          )
+                                        : SizedBox(),
                                     Center(
                                       child: Stack(
                                         children: [
@@ -282,23 +299,10 @@ class _HomepageState extends State<Homepage> {
                                                             fontSize: 16),
                                                       ),
                                                     ),
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10),
-                                                      child: Text(
-                                                        "Get \$10% off for ticket",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 14),
-                                                      ),
-                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              left: 10,
-                                                              top: 15),
+                                                              left: 10, top: 8),
                                                       child: Container(
                                                         height: 30,
                                                         width: 70,
@@ -341,9 +345,22 @@ class _HomepageState extends State<Homepage> {
                                             height: 40,
                                           )
                                         : const SizedBox(),
-                                    ShimmerItem(
-                                        height: 200,
-                                        child: _buildLatestPosts(context)),
+                                    latestPosts.length == 1
+                                        ? Row(children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 16),
+                                              child: _buildLatestPostCard(
+                                                  "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                                  latestPosts[0].date,
+                                                  latestPosts[0].name,
+                                                  latestPosts[0].location!,
+                                                  true),
+                                            )
+                                          ])
+                                        : latestPosts.isNotEmpty
+                                            ? _buildLatestPosts(context)
+                                            : SizedBox(),
                                     _buildSectionTitle('Our Proud Sponsors'),
                                     ShimmerItem(
                                       child: CarouselSlider(
@@ -429,9 +446,10 @@ class _HomepageState extends State<Homepage> {
                               setState(() {});
                             },
                             onSubmitted: (value) async {
-                              await HomeService.storerecentsearch(value);
+                              await HomeService.storerecentsearch(
+                                  value, context);
                               recentsearch =
-                                  await HomeService.getreacentsearch();
+                                  await HomeService.getreacentsearch(context);
                             },
                             controller: searchController,
                             cursorColor: Colors.white,
@@ -470,59 +488,123 @@ class _HomepageState extends State<Homepage> {
                               SizedBox(
                                 width: 10,
                               ),
-                              SizedBox(
-                                height: 25,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: 2,
-                                    reverse: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, ind) {
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: Container(
-                                          height: 25,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                color: Colors.white54,
-                                              )),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 2,
-                                              ),
-                                              Icon(
-                                                Icons.update,
-                                                color: Colors.white54,
-                                                size: 20,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                recentsearch[recentsearch
-                                                                    .length -
-                                                                (ind + 1)]
-                                                            .length >
-                                                        6
-                                                    ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
-                                                    : recentsearch[
-                                                        recentsearch.length -
-                                                            (ind + 1)],
-                                                style: TextStyle(
-                                                  color: Colors.white60,
+                              recentsearch.length >= 2
+                                  ? SizedBox(
+                                      height: 25,
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: 2,
+                                          reverse: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, ind) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15),
+                                              child: Container(
+                                                height: 25,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    border: Border.all(
+                                                      color: Colors.white54,
+                                                    )),
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Icon(
+                                                      Icons.update,
+                                                      color: Colors.white54,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      recentsearch[recentsearch
+                                                                          .length -
+                                                                      (ind + 1)]
+                                                                  .length >
+                                                              6
+                                                          ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
+                                                          : recentsearch[
+                                                              recentsearch
+                                                                      .length -
+                                                                  (ind + 1)],
+                                                      style: TextStyle(
+                                                        color: Colors.white60,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              ),
+                                              ),
+                                            );
+                                          }),
+                                    )
+                                  : recentsearch.length == 1
+                                      ? SizedBox(
+                                          height: 25,
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: 1,
+                                              reverse: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, ind) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
+                                                  child: Container(
+                                                    height: 25,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        border: Border.all(
+                                                          color: Colors.white54,
+                                                        )),
+                                                    child: Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 2,
+                                                        ),
+                                                        Icon(
+                                                          Icons.update,
+                                                          color: Colors.white54,
+                                                          size: 20,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          recentsearch[recentsearch
+                                                                              .length -
+                                                                          (ind +
+                                                                              1)]
+                                                                      .length >
+                                                                  6
+                                                              ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
+                                                              : recentsearch[
+                                                                  recentsearch
+                                                                          .length -
+                                                                      (ind +
+                                                                          1)],
+                                                          style: TextStyle(
+                                                            color:
+                                                                Colors.white60,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                        )
+                                      : SizedBox(),
                               Spacer(),
                               InkWell(
                                 onTap: () {
@@ -766,6 +848,7 @@ class _HomepageState extends State<Homepage> {
         height: 280,
         child: ListView.builder(
           shrinkWrap: true,
+          padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
           itemCount: latestPosts.length,
           itemBuilder: (context, index) {
@@ -784,7 +867,7 @@ class _HomepageState extends State<Homepage> {
   Widget _buildLatestPostCard(String img, String date, String eventname,
       String location, bool issearchpos) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, bottom: 10, right: 16),
+      padding: const EdgeInsets.only(left: 0, bottom: 10, right: 16),
       child: Container(
         width: 290,
         height: 280, // Set a fixed width for each card
@@ -817,7 +900,6 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 Container(
-                    width: double.infinity,
                     height: 130,
                     decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.4),

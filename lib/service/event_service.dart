@@ -4,13 +4,14 @@ import 'dart:convert';
 
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/service/common_service.dart';
+import 'package:ata/widget/const.dart';
 
 import 'package:http/http.dart' as http;
 
 class EventService {
   static Future<List<OnGoingEventmodels>> fetchOngoingEvents() async {
     List<OnGoingEventmodels> ongoingevent = [];
-    const String url = 'https://atabackend.onrender.com/events/get';
+     String url = '$renderurl/events/get';
     try {
       final response = await http.get(Uri.parse(url));
       // print(emoji);
@@ -43,7 +44,7 @@ class EventService {
 
   static Future<List<UpcomingEventmodels>> fetchUpcomingEvents() async {
     List<UpcomingEventmodels> upComingEvents = [];
-    const String url = 'https://atabackend.onrender.com/events/get';
+     String url = '$renderurl/events/get';
     try {
       final response = await http.get(Uri.parse(url));
       // print(emoji);

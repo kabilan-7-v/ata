@@ -1,9 +1,18 @@
+import 'package:ata/cubit/usercubit.dart';
+import 'package:ata/service/raise_ticket_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Raiseticket extends StatelessWidget {
+class Raiseticket extends StatefulWidget {
   const Raiseticket({super.key});
 
+  @override
+  State<Raiseticket> createState() => _RaiseticketState();
+}
+
+class _RaiseticketState extends State<Raiseticket> {
+  TextEditingController issuecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,16 +41,17 @@ class Raiseticket extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: SizedBox(
               height: 150,
               child: TextField(
                   scrollPadding: EdgeInsets.zero,
                   maxLines: null,
                   expands: true,
+                  controller: issuecontroller,
                   keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Write a description",
                       contentPadding: EdgeInsets.zero,
                       hintStyle:
@@ -58,28 +68,34 @@ class Raiseticket extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(
                               color: Color.fromARGB(255, 199, 196, 196))),
-                      prefixIcon: Icon(Icons.message_outlined))),
+                      prefixIcon: const Icon(Icons.message_outlined))),
             ),
           ),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(160, 160, 162, 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                  child: Text(
-                "Raise ticket",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+          InkWell(
+            onTap: () {
+              var user = context.read<UserCubit>().state;
+              raisetikect();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(160, 160, 162, 1),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              )),
+                child: const Center(
+                    child: Text(
+                  "Raise ticket",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+              ),
             ),
           ),
           const SizedBox(

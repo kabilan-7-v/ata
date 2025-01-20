@@ -1,7 +1,7 @@
-
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommonService {
   static bool isTodayOrFuture(String timestamp) {
@@ -75,22 +75,24 @@ class CommonService {
   }
 
   static pickImage() async {
-    final picker =  ImagePicker();
-  
+    final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-   
 
     if (pickedFile != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('profileimgeurl', pickedFile.path);
-      
     }
-    
   }
-  static imageretreive()async{
+
+  static imageretreive() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('profileimgeurl');
   }
- 
+
+  static Future<void> launchurl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
 }

@@ -108,20 +108,20 @@ class _ProfilepageState extends State<Profilepage> {
               const SizedBox(
                 width: 20,
               ),
-              profileimgurl == null
-                  ? SizedBox()
-                  : SizedBox(
-                      width: 90,
-                      height: 90,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.file(
-                          File(
-                            profileimgurl!,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      )),
+              // profileimgurl == null
+              //     ? SizedBox()
+              //     : SizedBox(
+              //         width: 90,
+              //         height: 90,
+              //         child: ClipRRect(
+              //           borderRadius: BorderRadius.circular(50),
+              //           child: Image.file(
+              //             File(
+              //               profileimgurl!,
+              //             ),
+              //             fit: BoxFit.cover,
+              //           ),
+              //         )),
               const SizedBox(
                 width: 20,
               ),
@@ -131,7 +131,7 @@ class _ProfilepageState extends State<Profilepage> {
                 children: [
                   Text(
                     context.read<UserCubit>().state.userName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize:24, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "“Old is Gold”",

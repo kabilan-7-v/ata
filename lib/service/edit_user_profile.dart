@@ -16,7 +16,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<bool> editUserProfile(
     String name,
     String username,
-    String email,
     String bio,
     String gender,
     String dateofbirth,
@@ -25,7 +24,7 @@ Future<bool> editUserProfile(
     String phno) async {
   // Define the URL
 
-  String url = 'https://atabackend.onrender.com/auth/edit/$userid';
+  String url = '$renderurl/auth/edit/$userid';
   print(userid);
 
   try {
@@ -37,7 +36,7 @@ Future<bool> editUserProfile(
       },
       body: jsonEncode({
         "userName": username,
-        "email": email,
+        "email": context.read<UserCubit>().state.email,
         "bio": bio,
         "gender": gender,
         "phoneNumber": phno,
@@ -58,7 +57,7 @@ Future<bool> editUserProfile(
 
       context.read<UserCubit>().setUser(UserModel(
           userName: username,
-          email: email,
+          email: context.read<UserCubit>().state.email,
           phno: phno,
           bio: bio,
           image: profileimgeurl,

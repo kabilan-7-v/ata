@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "93755209436",
+    "project_id": "ata-pushnotifications",
+    "storage_bucket": "ata-pushnotifications.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93755209436:android:6e42d10bc9fd1bf960e619",
+        "android_client_info": {
+          "package_name": "ata.pushnotification.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0TlJOn6_XZtTGgKMHibkuF4BE2B4mZDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93755209436:android:74ccceb7ab1fdd4960e619",
+        "android_client_info": {
+          "package_name": "com.example.ata"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0TlJOn6_XZtTGgKMHibkuF4BE2B4mZDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

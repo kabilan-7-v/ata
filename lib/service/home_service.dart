@@ -1,16 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
+import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/service/common_service.dart';
+import 'package:ata/widget/const.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeService  {
-
+class HomeService {
   static Future<List<Popularevents>> fetchPopularevents() async {
     List<Popularevents> populareventslst = [];
-    const String url = 'https://atabackend.onrender.com/events/get';
+    String url = '$renderurl/events/get';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -37,7 +42,7 @@ class HomeService  {
 
   static Future<List<Latestpost>> fetchLatestPost() async {
     List<Latestpost> latestpostlst = [];
-    const String url = 'https://atabackend.onrender.com/blog/get';
+    String url = '$renderurl/blog/get';
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -76,23 +81,23 @@ class HomeService  {
     return sponser;
   }
 
-  static storerecentsearch(String prompt) async {
+  static storerecentsearch(String prompt, BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? lst = prefs.getStringList("recentsearch");
+    String? userid = context.read<UserCubit>().state.userid;
+    List<String>? lst = prefs.getStringList(userid!);
     if (lst == null) {
-      prefs.setStringList("recentsearch", []);
+      prefs.setStringList(userid, []);
     }
     if (prompt.isNotEmpty) {
       lst!.add(prompt.trim());
-      prefs.setStringList("recentsearch", lst);
+      prefs.setStringList(userid, lst);
     }
   }
- static Future<List<String>> getreacentsearch() async {
+
+  static Future<List<String>> getreacentsearch(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userid = context.read<UserCubit>().state.userid;
 
-    return prefs.getStringList("recentsearch") ?? [];
+    return prefs.getStringList(userid!) ?? [];
   }
-
-  
 }
- 

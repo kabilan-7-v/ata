@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> login(String email, String password, BuildContext context) async {
   // Define the URL
-  const String url = 'https://atabackend.onrender.com/auth/login';
+   String url = '$renderurl/auth/login';
 
   try {
     // Make the POST request
@@ -74,7 +74,7 @@ Future<bool> login(String email, String password, BuildContext context) async {
 Future<bool> createAccount(
     String name, String email, String password, BuildContext context) async {
   // Define the URL
-  const String url = 'https://atabackend.onrender.com/auth/register';
+   String url = '$renderurl/auth/register';
 
   try {
     // Make the POST request
@@ -162,7 +162,7 @@ setUserDetails(BuildContext context) async {
 // import 'package:http/http.dart' as http;
 
 // Future<void> login(BuildContext context) async {
-//   const String url = "https://atabackend.onrender.com/auth/login";
+//   const String url = "$renderurl/auth/login";
 
 //   try {
 //     final response = await http.post(

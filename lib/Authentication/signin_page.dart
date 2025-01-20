@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ata/Authentication/create_account.dart';
+import 'package:ata/Authentication/forget_password_page.dart';
 import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
@@ -45,7 +46,7 @@ class _SigninPageState extends State<SigninPage> {
           leading: const Padding(
             padding: EdgeInsets.only(left: 16),
             child: Text(
-              "Sign Up",
+              "Sign In",
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
           ),
@@ -109,15 +110,24 @@ class _SigninPageState extends State<SigninPage> {
                         "Please Enter Password",
                         true)),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.only(right: 16.0),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Forgot password?",
-                      style: TextStyle(
-                          color: Color.fromRGBO(76, 117, 244, 1),
-                          fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ForgetPasswordPage()));
+                    },
+                    child: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Forgot password?",
+                        style: TextStyle(
+                            color: Color.fromRGBO(76, 117, 244, 1),
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),

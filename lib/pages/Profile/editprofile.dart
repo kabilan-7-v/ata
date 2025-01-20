@@ -68,37 +68,36 @@ class _EditprofileState extends State<Editprofile> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            InkWell(
-              onTap: () async {
-                await CommonService.pickImage();
-                profileimgurl = await CommonService.imageretreive();
-                setState(() {});
-              },
-              child: Column(
-                children: [
-                  profileimgurl == null
-                      ? const CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.grey,
-                        )
-                      : CircleAvatar(
-                          radius: 50,
-                          backgroundImage: FileImage(
-                            File(profileimgurl!),
-                          ),
-                        ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Text(
-                    "Edit picture or avatar",
-                    style: TextStyle(color: Color.fromRGBO(67, 195, 249, 1)),
-                  ),
-                ],
-              ),
-            ),
+            // InkWell(
+            //   onTap: () async {
+            //     await CommonService.pickImage();
+            //     profileimgurl = await CommonService.imageretreive();
+            //     setState(() {});
+            //   },
+            //   child: Column(
+            //     children: [
+            //       profileimgurl == null
+            //           ? const CircleAvatar(
+            //               radius: 50,
+            //               backgroundColor: Colors.grey,
+            //             )
+            //           : CircleAvatar(
+            //               radius: 50,
+            //               backgroundImage: FileImage(
+            //                 File(profileimgurl!),
+            //               ),
+            //             ),
+            //       const SizedBox(
+            //         height: 15,
+            //       ),
+            //       const Text(
+            //         "Edit picture or avatar",
+            //         style: TextStyle(color: Color.fromRGBO(67, 195, 249, 1)),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             customtextfield("User Name", "Enter User Name", username),
-            customtextfield("Email", "Enter Email", email),
             customtextfield("Bio", "Enter ..", bio),
             customtextfield("Gender", "Male", gender),
             customtextfield("Date of Birth", "DD/MM/YYYY", dateofbirth),
@@ -123,7 +122,6 @@ class _EditprofileState extends State<Editprofile> {
           await editUserProfile(
               name.text,
               username.text,
-              email.text,
               bio.text,
               gender.text,
               dateofbirth.text,

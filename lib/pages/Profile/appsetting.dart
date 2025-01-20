@@ -13,6 +13,20 @@ class Appsettings extends StatefulWidget {
 }
 
 class _AppsettingsState extends State<Appsettings> {
+  bool? isSwitched;
+  @override
+  void initState() {
+    // TODO: implement initState
+    settoggle();
+    super.initState();
+  }
+
+  settoggle() async {
+    final prefs = await SharedPreferences.getInstance();
+    isSwitched = prefs.getBool("switch");
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +47,13 @@ class _AppsettingsState extends State<Appsettings> {
       ),
       body: Column(
         children: [
-          customtile(Icons.shield_outlined, "Password & Security", () {}),
+          customnotifi(
+              Icons.notifications_active_outlined, "Push Notification", () {}),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Divider(),
           ),
-          customtile(Icons.person_2_outlined, "Preferances", () {}),
+          customtile(Icons.shield_outlined, "Password & Security", () {}),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Divider(),
@@ -129,6 +144,33 @@ class _AppsettingsState extends State<Appsettings> {
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           trailing: const Icon(Icons.keyboard_arrow_right_outlined),
+        ),
+      ],
+    );
+  }
+
+  customnotifi(icon, text, ontap) {
+    return Column(
+      children: [
+        ListTile(
+          minTileHeight: 5,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 22),
+          onTap: () async {
+            isSwitched = !isSwitched!;
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setBool("switch", isSwitched!);
+
+            setState(() {});
+          },
+          leading: Icon(icon),
+          title: Text(
+            text,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          trailing: Icon(
+              isSwitched == false ? Icons.toggle_off : Icons.toggle_on,
+              size: 55,
+              color: isSwitched == false ? Colors.grey : orange),
         ),
       ],
     );

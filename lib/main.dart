@@ -19,21 +19,27 @@ Future<void> _backgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await LocalNotificationService().init();
-  gettoken();
-  FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+  final prefs = await SharedPreferences.getInstance();
+  if (prefs.getBool("switch") == null) {
+    prefs.setBool("switch", true);
+  }
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    // Handle the received message here
-    String body = message.notification?.body ?? "Ata";
-    LocalNotificationService().showNotification(
-      body: body,
-      title: "ATA",
-      id: 0,
-    );
-    print("Received message: ${message.notification?.body}");
-  });
+  if (prefs.getBool("switch") == true) {
+    await LocalNotificationService().init();
+    gettoken();
+    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
 
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Handle the received message here
+      String body = message.notification?.body ?? "Ata";
+      LocalNotificationService().showNotification(
+        body: body,
+        title: "ATA",
+        id: 0,
+      );
+      print("Received message: ${message.notification?.body}");
+    });
+  }
   //FCM Token: fEHosdlbSJuwnCwgnQgEhX:APA91bHLHjSNiM8uApWxIFBrEF395TSWrYMUNQc-OpExDPqjwpNqn5bsQA9ge4kL4HZxnY0K-JTCoFgWX6aaocn0hQn4t07ZGXeqz1VY4DrcA2Zqk4PG84s
   runApp(const MyApp());
 }

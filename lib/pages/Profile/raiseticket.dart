@@ -1,8 +1,6 @@
-import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/service/raise_ticket_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Raiseticket extends StatefulWidget {
   const Raiseticket({super.key});
@@ -74,7 +72,6 @@ class _RaiseticketState extends State<Raiseticket> {
           const Spacer(),
           InkWell(
             onTap: () {
-              var user = context.read<UserCubit>().state;
               raisetikect();
             },
             child: Padding(

@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> forgetpassword(String email) async {

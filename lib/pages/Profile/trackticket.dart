@@ -20,7 +20,7 @@ class _TrackticketState extends State<Trackticket> {
   }
 
   settracklst() async {
-    tracklst = await raisetikect();
+    tracklst = await raisetikect(context);
     setState(() {});
   }
 

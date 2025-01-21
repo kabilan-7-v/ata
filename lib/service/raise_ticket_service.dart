@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:ata/widget/const.dart';
+import 'package:ata/widget/snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<dynamic>> raisetikect() async {
+Future<List<dynamic>> raisetikect(BuildContext context) async {
   String url = '$renderurl/supportdesk/get/';
 
   try {
@@ -14,7 +16,7 @@ Future<List<dynamic>> raisetikect() async {
     if (response.statusCode == 200) {
       // Parse the JSON response into a list of events
       final List<dynamic> jsonResponse = jsonDecode(response.body);
-      print(response.statusCode);
+
       return jsonResponse;
     } else {
       throw Exception('Failed to load events: ${response.statusCode}');

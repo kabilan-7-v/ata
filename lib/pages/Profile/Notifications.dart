@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,17 +16,22 @@ class _NotificationspageState extends State<Notificationspage> {
   @override
   void initState() {
     // TODO: implement initState
+    setnotifylst();
     super.initState();
   }
 
   setnotifylst() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Notifylst = prefs.getStringList("notification")!;
+    print(Notifylst.reversed);
+    print(emoji);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    int len = Notifylst.length;
+
     return Scaffold(
       backgroundColor: ataBackgroundcolor,
       appBar: AppBar(
@@ -44,15 +51,6 @@ class _NotificationspageState extends State<Notificationspage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.search),
-                    hintText: "Search"),
-              ),
-            ),
             Notifylst.isEmpty
                 ? const Padding(
                     padding: EdgeInsets.only(top: 100),
@@ -76,10 +74,12 @@ class _NotificationspageState extends State<Notificationspage> {
                   )
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: Notifylst.length,
+                    itemCount: len,
+                    reverse: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, ind) {
                       return notificationcard(
-                          true, "2 Hours", "Ata", Notifylst[ind], 1, context);
+                          true, "Ata", Notifylst[ind], 1, context);
                     }),
           ],
         ),
@@ -87,8 +87,8 @@ class _NotificationspageState extends State<Notificationspage> {
     );
   }
 
-  Widget notificationcard(blur, String date_time, String tittle, String message,
-      int status, BuildContext context) {
+  Widget notificationcard(
+      blur, String tittle, String message, int status, BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -107,15 +107,23 @@ class _NotificationspageState extends State<Notificationspage> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Text(
                       tittle,
-                      style:
-                          const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
-                child: Text(message),
+                child: Text(
+                  message.split("#*#")[0],
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(message.split("#*#")[1].split(".")[0]),
               ),
             ],
           ),

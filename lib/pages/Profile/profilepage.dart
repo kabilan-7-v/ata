@@ -78,9 +78,12 @@ class _ProfilepageState extends State<Profilepage> {
                     "assets/icons/person_edit_24dp_000000_FILL0_wght400_GRAD0_opsz24.png",
                     "Edit Profile", () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Editprofile()));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Editprofile()))
+                      .then((onValue) {
+                    setState(() {});
+                  });
                 }),
               ],
             ),
@@ -130,7 +133,7 @@ class _ProfilepageState extends State<Profilepage> {
                 children: [
                   Text(
                     context.read<UserCubit>().state.userName,
-                    style: TextStyle(fontSize:24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "“Old is Gold”",

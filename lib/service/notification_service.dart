@@ -1,4 +1,8 @@
+import 'package:ata/widget/const.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalNotificationService {
   static final LocalNotificationService _instance =
@@ -46,6 +50,66 @@ class LocalNotificationService {
 
   Future<void> cancelAllNotifications() async {
     await _flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  static setup() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool("switch") == null) {
+      prefs.setBool("switch", true);
+    }
+    gettoken();
+    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+
+    if (kDebugMode) {
+      print(prefs.getBool("switch"));
+    }
+    if (kDebugMode) {
+      print(emoji);
+    }
+    if (prefs.getBool("switch") == true) {
+      await LocalNotificationService().init();
+
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        // Handle the received message here
+        String body = message.notification?.body ?? "Ata";
+        LocalNotificationService().showNotification(
+          body: body,
+          title: "ATA",
+          id: 0,
+        );
+        if (prefs.getStringList("notification") == null) {
+          prefs.setStringList("notification", ["$body#*#${DateTime.now()}"]);
+        } else {
+          prefs.setStringList(
+              "notification",
+              prefs.getStringList("notification")! +
+                  ["$body#*#${DateTime.now()}"]);
+        }
+        if (kDebugMode) {
+          print(emoji);
+          print("Received message: ${message.notification?.body}");
+        }
+      });
+    }
+  }
+
+  static gettoken() async {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    FirebaseMessaging.instance.subscribeToTopic('all');
+    firebaseMessaging.getToken().then((token) {
+      if (kDebugMode) {
+        print("FCM Token: $token");
+        print(emoji);
+      }
+    });
+  }
+
+  static Future<void> _backgroundHandler(RemoteMessage message) async {
+    // Handle background message
+
+    if (kDebugMode) {
+      print('Handling a background message: ${message.messageId}');
+    }
   }
 }
 

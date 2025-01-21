@@ -85,8 +85,8 @@ class _CreateAccountState extends State<CreateAccount> {
                         nameController,
                         "Please Enter Name",
                         false)),
-                Padding(
-                  padding: const EdgeInsets.only(left: 17, top: 3),
+                const Padding(
+                  padding: EdgeInsets.only(left: 17, top: 3),
                   child: Text("Ex.John"),
                 ),
                 const SizedBox(height: 32),
@@ -109,8 +109,8 @@ class _CreateAccountState extends State<CreateAccount> {
                         emailController,
                         "Please Enter Email adress",
                         true)),
-                Padding(
-                  padding: const EdgeInsets.only(left: 17, top: 3),
+                const Padding(
+                  padding: EdgeInsets.only(left: 17, top: 3),
                   child: Text("Ex: example@example.com"),
                 ),
                 const SizedBox(height: 32),
@@ -133,15 +133,15 @@ class _CreateAccountState extends State<CreateAccount> {
                         passController,
                         "Please Enter a Password",
                         false)),
-                Padding(
-                  padding: const EdgeInsets.only(left: 17, top: 3),
+                const Padding(
+                  padding: EdgeInsets.only(left: 17, top: 3),
                   child:
                       Text("Ex: 8+ Char,1 Special Char,1 Capi letter,1 digit"),
                 ),
                 const SizedBox(height: 8),
-                Row(
+                const Row(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: 5,
                     ),
                   ],

@@ -2,7 +2,9 @@
 
 import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/pages/Profile/password_security_page.dart';
+import 'package:ata/service/notification_service.dart';
 import 'package:ata/widget/const.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -165,6 +167,11 @@ class _AppsettingsState extends State<Appsettings> {
             isSwitched = !isSwitched!;
             final prefs = await SharedPreferences.getInstance();
             prefs.setBool("switch", isSwitched!);
+            if (!isSwitched!) {
+              FirebaseMessaging.instance.deleteToken();
+            } else {
+              LocalNotificationService.setup();
+            }
 
             setState(() {});
           },

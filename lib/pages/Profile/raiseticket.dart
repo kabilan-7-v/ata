@@ -1,5 +1,6 @@
 import 'package:ata/service/raise_ticket_service.dart';
 import 'package:ata/widget/const.dart';
+import 'package:ata/widget/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class Raiseticket extends StatefulWidget {
@@ -66,13 +67,15 @@ class _RaiseticketState extends State<Raiseticket> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           borderSide: BorderSide(
                               color: Color.fromARGB(255, 199, 196, 196))),
-                      prefixIcon: const Icon(Icons.message_outlined))),
+                      prefixIcon:  Icon(Icons.message_outlined))),
             ),
           ),
           const Spacer(),
           InkWell(
             onTap: () {
-              raisetikect();
+              raisetikect(context);
+              SnackbarService()
+                  .showSnackBar("Successfully ticket raised", context);
             },
             child: Padding(
               padding: const EdgeInsets.all(25.0),

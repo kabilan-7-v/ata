@@ -1,4 +1,3 @@
-
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/edit_user_profile.dart';
@@ -127,6 +126,8 @@ class _EditprofileState extends State<Editprofile> {
               context,
               context.read<UserCubit>().state.userid ?? "s",
               "phno");
+          setState(() {});
+          Navigator.pop(context);
         },
         child: isloading
             ? const CircularProgressIndicator()

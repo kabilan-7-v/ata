@@ -8,60 +8,21 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-Future<void> _backgroundHandler(RemoteMessage message) async {
-  // Handle background message
-
-  print('Handling a background message: ${message.messageId}');
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final prefs = await SharedPreferences.getInstance();
-  if (prefs.getBool("switch") == null) {
-    prefs.setBool("switch", true);
-  }
-  await LocalNotificationService().init();
-  gettoken();
-  FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
-
-  print(prefs.getBool("switch"));
-  print(emoji);
-  if (prefs.getBool("switch") == true) {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // Handle the received message here
-      String body = message.notification?.body ?? "Ata";
-      LocalNotificationService().showNotification(
-        body: body,
-        title: "ATA",
-        id: 0,
-      );
-      if (prefs.getStringList("notification") == null) {
-        prefs.setStringList("notification", [body + DateTime.now().toString()]);
-      } else {
-        prefs.setStringList(
-            "notification",
-            prefs.getStringList("notification")! +
-                [body + DateTime.now().toString()]);
-      }
-      print("Received message: ${message.notification?.body}");
-    });
-  }
-  //FCM Token: fEHosdlbSJuwnCwgnQgEhX:APA91bHLHjSNiM8uApWxIFBrEF395TSWrYMUNQc-OpExDPqjwpNqn5bsQA9ge4kL4HZxnY0K-JTCoFgWX6aaocn0hQn4t07ZGXeqz1VY4DrcA2Zqk4PG84s
-  runApp(const MyApp());
-}
-
-void gettoken() {
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  FirebaseMessaging.instance.subscribeToTopic('all');
-  firebaseMessaging.getToken().then((token) {
-    if (kDebugMode) {
-      print("FCM Token: $token");
-      print(emoji);
+  LocalNotificationService.setup();
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
     }
   });
+
+  //FCM Token: fEHosdlbSJuwnCwgnQgEhX:APA91bHLHjSNiM8uApWxIFBrEF395TSWrYMUNQc-OpExDPqjwpNqn5bsQA9ge4kL4HZxnY0K-JTCoFgWX6aaocn0hQn4t07ZGXeqz1VY4DrcA2Zqk4PG84s
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

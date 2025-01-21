@@ -124,7 +124,7 @@ class _NotesPageState extends State<NotesPage> {
                     SizedBox(
                         height: 45,
                         child: Center(
-                            child: Text("     Ongoingevents          ",
+                            child: Text("     Ongoing Events          ",
                                 style: TextStyle(
                                   fontFamily: "Montserrat",
                                 )))),
@@ -132,7 +132,7 @@ class _NotesPageState extends State<NotesPage> {
                         height: 45,
                         child: Center(
                             child: Text(
-                          "     Upgoingevents          ",
+                          "     Upcoming Events          ",
                           style: TextStyle(fontFamily: "Montserrat"),
                         )))
                     // Tab(
@@ -372,15 +372,24 @@ class _NotesPageState extends State<NotesPage> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-          child: Text(
-            descrip,
-            style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                overflow: TextOverflow.ellipsis),
+        const SizedBox(
+          height: 10,
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+            child: Text(
+              descrip,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis),
+            ),
           ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 30, maxWidth: 115),

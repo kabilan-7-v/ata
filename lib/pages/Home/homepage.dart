@@ -303,23 +303,30 @@ class _HomepageState extends State<Homepage> {
                                                       padding:
                                                           const EdgeInsets.only(
                                                               left: 10, top: 8),
-                                                      child: Container(
-                                                        height: 30,
-                                                        width: 70,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: orange,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            "INVITE",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 12),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          CommonService.launchurl(
+                                                              "https://adelaidetamil.com.au/");
+                                                        },
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: orange,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                          child: const Center(
+                                                            child: Text(
+                                                              "INVITE",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 12),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -472,7 +479,7 @@ class _HomepageState extends State<Homepage> {
                       child: Text(
                         (issearch | issearchwidgetShow)
                             ? "Recently searches"
-                            : "Hello, ${context.read<UserCubit>().state.userName}",
+                            : "Hello, ${context.watch<UserCubit>().state.userName}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -700,6 +707,7 @@ class _HomepageState extends State<Homepage> {
       String eventname, String location, String time, bool issearchPos) {
     return InkWell(
       onTap: () {
+        
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -870,7 +878,7 @@ class _HomepageState extends State<Homepage> {
       padding: const EdgeInsets.only(left: 16, bottom: 10, right: 16),
       child: Container(
         width: 290,
-        height: 280, // Set a fixed width for each card
+        height: 265, // Set a fixed width for each card
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -930,7 +938,7 @@ class _HomepageState extends State<Homepage> {
                       ),
                       onPressed: () {},
                       child: const Text(
-                        "Join Now",
+                        "View Post",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),

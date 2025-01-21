@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/usermodel.dart';
 import 'package:ata/widget/const.dart';
@@ -25,7 +24,6 @@ Future<bool> editUserProfile(
   // Define the URL
 
   String url = '$renderurl/auth/edit/$userid';
-  print(userid);
 
   try {
     // Make the POST request
@@ -66,11 +64,11 @@ Future<bool> editUserProfile(
           userid: userid));
 
       SnackbarService().showSnackBar("Profile changed suceesfully", context);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SigninPage()),
-        (Route<dynamic> route) => false,
-      );
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const SigninPage()),
+      //   (Route<dynamic> route) => false,
+      // );
     } else {
       // Handle error response
       if (kDebugMode) {

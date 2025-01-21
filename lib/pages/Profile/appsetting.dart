@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:ata/Authentication/signin_page.dart';
+import 'package:ata/pages/Profile/password_security_page.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,7 +54,12 @@ class _AppsettingsState extends State<Appsettings> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Divider(),
           ),
-          customtile(Icons.shield_outlined, "Password & Security", () {}),
+          customtile(Icons.shield_outlined, "Password & Security", () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PasswordSecurityPage()));
+          }),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Divider(),

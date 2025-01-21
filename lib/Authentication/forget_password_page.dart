@@ -35,14 +35,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           elevation: 0,
           scrolledUnderElevation: 0,
           backgroundColor: ataBackgroundcolor,
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 16),
-            child: Text(
-              "Sign Up",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-            ),
+          title: const Text(
+            "Forget Password",
+            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           ),
-          leadingWidth: 200,
+          leadingWidth: 0,
+          leading: const SizedBox(),
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -96,13 +94,14 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 ),
                 const SizedBox(height: 32),
                 Center(child: custombutton(context, "ForgetPassword")),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const SigninPage()),
-                (e) => false);
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SigninPage()),
+                        (e) => false);
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

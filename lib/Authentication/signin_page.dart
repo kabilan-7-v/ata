@@ -85,10 +85,14 @@ class _SigninPageState extends State<SigninPage> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.email_outlined),
-                        "example@example.com",
+                        "Email",
                         emailController,
                         "Please Enter Email Address",
                         false)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17, top: 3),
+                  child: Text("Ex: example@example.com"),
+                ),
                 const SizedBox(height: 30),
                 const Row(
                   children: [
@@ -105,10 +109,15 @@ class _SigninPageState extends State<SigninPage> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.lock_outline),
-                        "8+ Character, 1 Capital letter",
+                        "Password",
                         passController,
                         "Please Enter Password",
                         true)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17, top: 3),
+                  child:
+                      Text("Ex: 8+ Char,1 Special Char,1 Capi letter,1 digit"),
+                ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),

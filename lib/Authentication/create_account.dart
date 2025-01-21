@@ -81,10 +81,14 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.person_2_outlined),
-                        "Ex.John",
+                        "Name",
                         nameController,
                         "Please Enter Name",
                         false)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17, top: 3),
+                  child: Text("Ex.John"),
+                ),
                 const SizedBox(height: 32),
                 const Row(
                   children: [
@@ -101,10 +105,14 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.email_outlined),
-                        "example@example.com",
+                        "Email",
                         emailController,
                         "Please Enter Email adress",
                         true)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17, top: 3),
+                  child: Text("Ex: example@example.com"),
+                ),
                 const SizedBox(height: 32),
                 const Row(
                   children: [
@@ -121,29 +129,21 @@ class _CreateAccountState extends State<CreateAccount> {
                     child: customTextfield(
                         context,
                         const Icon(Icons.lock_outline),
-                        "8+ Char,1 Special Char,1 Capi letter,1 digit",
+                        "Password",
                         passController,
                         "Please Enter a Password",
                         false)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17, top: 3),
+                  child:
+                      Text("Ex: 8+ Char,1 Special Char,1 Capi letter,1 digit"),
+                ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     const SizedBox(
                       width: 5,
                     ),
-                    Checkbox(
-                        checkColor: Colors.black,
-                        activeColor: orange,
-                        value: isterm,
-                        onChanged: (val) {
-                          setState(() {
-                            isterm = !isterm;
-                          });
-                        }),
-                    const Text(
-                      "Terms of Service and our Privacy Policy",
-                      style: TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
-                    )
                   ],
                 ),
                 const SizedBox(height: 50),

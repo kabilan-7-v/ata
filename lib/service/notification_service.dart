@@ -1,8 +1,10 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
-  static final LocalNotificationService _instance = LocalNotificationService._internal();
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static final LocalNotificationService _instance =
+      LocalNotificationService._internal();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   factory LocalNotificationService() {
     return _instance;
@@ -34,7 +36,8 @@ class LocalNotificationService {
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
 
-    await _flutterLocalNotificationsPlugin.show(id, title, body, notificationDetails);
+    await _flutterLocalNotificationsPlugin.show(
+        id, title, body, notificationDetails);
   }
 
   Future<void> cancelNotification(int id) async {
@@ -45,8 +48,6 @@ class LocalNotificationService {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
-
-
 
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 

@@ -349,7 +349,7 @@ class _HomepageState extends State<Homepage> {
                                         ? Row(children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 16),
+                                                  left: 0),
                                               child: _buildLatestPostCard(
                                                   "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
                                                   latestPosts[0].date,
@@ -867,7 +867,7 @@ class _HomepageState extends State<Homepage> {
   Widget _buildLatestPostCard(String img, String date, String eventname,
       String location, bool issearchpos) {
     return Padding(
-      padding: const EdgeInsets.only(left: 0, bottom: 10, right: 16),
+      padding: const EdgeInsets.only(left: 16, bottom: 10, right: 16),
       child: Container(
         width: 290,
         height: 280, // Set a fixed width for each card

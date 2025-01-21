@@ -23,12 +23,13 @@ void main() async {
   if (prefs.getBool("switch") == null) {
     prefs.setBool("switch", true);
   }
+  await LocalNotificationService().init();
+  gettoken();
+  FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
 
+  print(prefs.getBool("switch"));
+  print(emoji);
   if (prefs.getBool("switch") == true) {
-    await LocalNotificationService().init();
-    gettoken();
-    FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // Handle the received message here
       String body = message.notification?.body ?? "Ata";
@@ -37,6 +38,14 @@ void main() async {
         title: "ATA",
         id: 0,
       );
+      if (prefs.getStringList("notification") == null) {
+        prefs.setStringList("notification", [body + DateTime.now().toString()]);
+      } else {
+        prefs.setStringList(
+            "notification",
+            prefs.getStringList("notification")! +
+                [body + DateTime.now().toString()]);
+      }
       print("Received message: ${message.notification?.body}");
     });
   }

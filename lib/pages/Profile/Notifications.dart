@@ -1,8 +1,27 @@
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Notificationspage extends StatelessWidget {
+class Notificationspage extends StatefulWidget {
   const Notificationspage({super.key});
+
+  @override
+  State<Notificationspage> createState() => _NotificationspageState();
+}
+
+class _NotificationspageState extends State<Notificationspage> {
+  List<String> Notifylst = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  setnotifylst() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Notifylst = prefs.getStringList("notification")!;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,34 +53,34 @@ class Notificationspage extends StatelessWidget {
                     hintText: "Search"),
               ),
             ),
-            notificationcard(
-                true,
-                "2 Hours",
-                "Kabilan v",
-                "If you need to reschedule, please contact us at [Phone Number] or visit [App/Website Link].We apologize for any inconvenience this may cause.",
-                1,
-                context),
-            notificationcard(
-                true,
-                "2 Hours",
-                "Perashu",
-                "If you need to reschedule, please contact us at [Phone Number] or visit [App/Website Link].We apologize for any inconvenience this may cause.",
-                1,
-                context),
-            notificationcard(
-                false,
-                "2 Hours",
-                "Bharat raj",
-                "If you need to reschedule, please contact us at [Phone Number] or visit [App/Website Link].We apologize for any inconvenience this may cause.",
-                1,
-                context),
-            notificationcard(
-                false,
-                "2 Hours",
-                "Akash Kumar",
-                "If you need to reschedule, please contact us at [Phone Number] or visit [App/Website Link].We apologize for any inconvenience this may cause.",
-                1,
-                context)
+            Notifylst.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 100),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.notifications_off_outlined,
+                            size: 45,
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            'No Notifications',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: Notifylst.length,
+                    itemBuilder: (context, ind) {
+                      return notificationcard(
+                          true, "2 Hours", "Ata", Notifylst[ind], 1, context);
+                    }),
           ],
         ),
       ),
@@ -89,7 +108,7 @@ class Notificationspage extends StatelessWidget {
                     child: Text(
                       tittle,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

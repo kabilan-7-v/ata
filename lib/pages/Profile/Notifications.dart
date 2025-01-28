@@ -23,15 +23,13 @@ class _NotificationspageState extends State<Notificationspage> {
   setnotifylst() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Notifylst = prefs.getStringList("notification")!;
-    print(Notifylst.reversed);
-    print(emoji);
+    Notifylst = Notifylst.reversed.toList();
+
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    int len = Notifylst.length;
-
     return Scaffold(
       backgroundColor: ataBackgroundcolor,
       appBar: AppBar(
@@ -74,8 +72,7 @@ class _NotificationspageState extends State<Notificationspage> {
                   )
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: len,
-                    reverse: true,
+                    itemCount: Notifylst.length,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, ind) {
                       return notificationcard(

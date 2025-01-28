@@ -8,13 +8,18 @@ class Detailviewevent extends StatelessWidget {
       {super.key,
       required this.img,
       required this.eventname,
-      
       required this.eventdate,
-      required this.eventtime});
+      required this.eventtime,
+      required this.des,
+      required this.location,
+      required this.manageThrough});
   final String img;
   final String eventname;
   final String eventdate;
   final String eventtime;
+  final String des;
+  final String location;
+  final String manageThrough;
 
   @override
   Widget build(BuildContext context) {
@@ -33,58 +38,58 @@ class Detailviewevent extends StatelessWidget {
             )),
       ),
       backgroundColor: ataBackgroundcolor,
-      bottomNavigationBar: Container(
-        height: 80,
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color.fromRGBO(249, 225, 207, 1),
-              width: 5,
-            ),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        child: Row(
-          children: [
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 15,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("Total Price"),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        "\$30.00",
-                        style: TextStyle(
-                            color: Color.fromRGBO(225, 104, 17, 1),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text("/person")
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
-              ),
-              onPressed: () {},
-              child:
-                  const Text("Book Now", style: TextStyle(color: Colors.white)),
-            ),
-            const SizedBox(
-              width: 20,
-            )
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 80,
+      //   decoration: BoxDecoration(
+      //       border: Border.all(
+      //         color: const Color.fromRGBO(249, 225, 207, 1),
+      //         width: 5,
+      //       ),
+      //       borderRadius: const BorderRadius.only(
+      //           topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      //   child: Row(
+      //     children: [
+      //       const Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           SizedBox(
+      //             height: 15,
+      //           ),
+      //           Padding(
+      //             padding: EdgeInsets.symmetric(horizontal: 10),
+      //             child: Text("Total Price"),
+      //           ),
+      //           Padding(
+      //             padding: EdgeInsets.symmetric(horizontal: 10),
+      //             child: Row(
+      //               children: [
+      //                 Text(
+      //                   "\$30.00",
+      //                   style: TextStyle(
+      //                       color: Color.fromRGBO(225, 104, 17, 1),
+      //                       fontWeight: FontWeight.bold),
+      //                 ),
+      //                 Text("/person")
+      //               ],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       const Spacer(),
+      //       ElevatedButton(
+      //         style: ElevatedButton.styleFrom(
+      //           backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
+      //         ),
+      //         onPressed: () {},
+      //         child:
+      //             const Text("Book Now", style: TextStyle(color: Colors.white)),
+      //       ),
+      //       const SizedBox(
+      //         width: 20,
+      //       )
+      //     ],
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,19 +111,22 @@ class Detailviewevent extends StatelessWidget {
             ),
             Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   child: Row(
                     children: [
-                      Icon(Icons.location_on_outlined),
-                      Text("Adilaide, 33176"),
+                      const Icon(Icons.location_on_outlined),
+                      Text(location.length <= 15
+                          ? location
+                          : location.substring(0, 15) + "..."),
                     ],
                   ),
                 ),
                 const Spacer(),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   child: Row(
                     children: [
                       const Icon(Icons.timer_outlined),
@@ -126,6 +134,7 @@ class Detailviewevent extends StatelessWidget {
                         width: 5,
                       ),
                       Text(CommonService.formatToCustomDate(eventdate) +
+                          "," +
                           eventtime),
                     ],
                   ),
@@ -145,10 +154,9 @@ class Detailviewevent extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                  "The performance maybe by a single\n musician sometimes such as an\n Archestra, chair or band"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text(des),
             ),
             const SizedBox(
               height: 10,
@@ -178,57 +186,18 @@ class Detailviewevent extends StatelessWidget {
                   ),
                 ),
               ),
-              title: const Text(
-                "Sonic Vibe Event",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                manageThrough,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: const Text("Organizer Team"),
             ),
             const SizedBox(
               height: 25,
             ),
-            const Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15,
-                  ),
-                  child: Text(
-                    "Invite People",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Spacer(),
-                Icon(Icons.share_outlined),
-                SizedBox(
-                  width: 10,
-                )
-              ],
-            ),
             const SizedBox(
               height: 35,
             ),
-            const Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15,
-                  ),
-                  child: Text(
-                    "Address",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  "View on Map",
-                  style: TextStyle(color: Color.fromRGBO(100, 181, 255, 1)),
-                ),
-                SizedBox(
-                  width: 10,
-                )
-              ],
-            )
           ],
         ),
       ),

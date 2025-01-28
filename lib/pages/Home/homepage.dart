@@ -2,6 +2,7 @@
 
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
+import 'package:ata/pages/Blog/blog_page.dart';
 import 'package:ata/pages/Home/detailviewevent.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/home_service.dart';
@@ -40,10 +41,12 @@ class _HomepageState extends State<Homepage> {
   }
 
   getHomeData() async {
-    popularEvents = await HomeService.fetchPopularevents();
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
+    popularEvents = await HomeService.fetchPopularevents();
+
     recentsearch = await HomeService.getreacentsearch(context);
+    Future.delayed(Durations.long4);
     setState(() {
       isloading = false;
     });
@@ -157,27 +160,31 @@ class _HomepageState extends State<Homepage> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          filteredEvents.isEmpty
-                              ? SizedBox()
-                              : _buildSectionTitle('Popular Events'),
-                          filteredEvents.isEmpty
-                              ? SizedBox()
-                              : ListView.builder(
+                          filteredEvents.isNotEmpty
+                              ? _buildSectionTitle('Popular Events')
+                              : SizedBox(),
+                          filteredEvents.isNotEmpty
+                              ? ListView.builder(
                                   itemCount: filteredEvents.length,
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return _buildEventCard(
-                                        filteredEvents[index].img,
-                                        context,
-                                        filteredEvents[index].date,
-                                        filteredEvents[index].eventname,
-                                        filteredEvents[index].location,
-                                        filteredEvents[index].time,
-                                        false);
+                                      filteredEvents[index].img,
+                                      context,
+                                      filteredEvents[index].date,
+                                      filteredEvents[index].eventname,
+                                      filteredEvents[index].location,
+                                      filteredEvents[index].time,
+                                      false,
+                                      filteredEvents[index].description,
+                                      popularEvents[index].manageThrough,
+                                      index,
+                                    );
                                   },
-                                ),
+                                )
+                              : SizedBox(),
                           filteredPost.isNotEmpty
                               ? _buildSectionTitle('Latest Posts')
                               : SizedBox(),
@@ -196,7 +203,10 @@ class _HomepageState extends State<Homepage> {
                                         false);
                                   },
                                 )
-                              : SizedBox()
+                              : SizedBox(),
+                          SizedBox(
+                            height: 60,
+                          )
                         ]),
                   ],
                 ),
@@ -226,39 +236,60 @@ class _HomepageState extends State<Homepage> {
                               children: [
                                 Column(
                                   children: [
-                                    filteredEvents.isEmpty
-                                        ? SizedBox()
-                                        : _buildSectionTitle('Popular Events'),
-                                    filteredEvents.isEmpty
-                                        ? SizedBox()
-                                        : ShimmerItem(
-                                            height: 200,
-                                            child: SizedBox(
-                                              height: 260,
-                                              child: ListView.builder(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount:
-                                                    popularEvents.length - 1,
-                                                padding: EdgeInsets.zero,
-                                                itemBuilder: (context, index) {
-                                                  return _buildEventCard(
-                                                      popularEvents[index].img,
-                                                      context,
-                                                      popularEvents[index].date,
-                                                      popularEvents[index]
-                                                          .eventname,
-                                                      popularEvents[index]
-                                                          .location,
-                                                      popularEvents[index].time,
-                                                      true);
-                                                },
+                                    isloading
+                                        ? _buildSectionTitle('Popular Events')
+                                        : popularEvents.isEmpty
+                                            ? SizedBox()
+                                            : _buildSectionTitle(
+                                                'Popular Events'),
+                                    isloading
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 16),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  32,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                    popularEvents.isEmpty
+                                        ? SizedBox()
+                                        : SizedBox(
+                                            height: 245,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: popularEvents.length,
+                                              padding: EdgeInsets.zero,
+                                              itemBuilder: (context, index) {
+                                                return _buildEventCard(
+                                                  popularEvents[index].img,
+                                                  context,
+                                                  popularEvents[index].date,
+                                                  popularEvents[index]
+                                                      .eventname,
+                                                  popularEvents[index].location,
+                                                  popularEvents[index].time,
+                                                  true,
+                                                  popularEvents[index]
+                                                      .description,
+                                                  popularEvents[index]
+                                                      .manageThrough,
+                                                  index,
+                                                );
+                                              },
                                             ),
                                           ),
                                     isloading
                                         ? const SizedBox(
-                                            height: 40,
+                                            height: 16,
                                           )
                                         : const SizedBox(),
                                     filteredEvents.isEmpty
@@ -266,10 +297,14 @@ class _HomepageState extends State<Homepage> {
                                             height: 16,
                                           )
                                         : SizedBox(),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
                                     Center(
                                       child: Stack(
                                         children: [
                                           ShimmerItem(
+                                            isFitChild: true,
                                             child: Container(
                                               height: 120,
                                               width: MediaQuery.of(context)
@@ -344,8 +379,28 @@ class _HomepageState extends State<Homepage> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    latestPosts.isNotEmpty
+                                    isloading
                                         ? _buildSectionTitle('Latest Posts')
+                                        : latestPosts.isNotEmpty
+                                            ? _buildSectionTitle('Latest Posts')
+                                            : SizedBox(),
+                                    isloading
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 16),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  32,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          )
                                         : SizedBox(),
                                     isloading
                                         ? const SizedBox(
@@ -353,23 +408,45 @@ class _HomepageState extends State<Homepage> {
                                           )
                                         : const SizedBox(),
                                     latestPosts.length == 1
-                                        ? Row(children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 0),
-                                              child: _buildLatestPostCard(
-                                                  "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
-                                                  latestPosts[0].date,
-                                                  latestPosts[0].name,
-                                                  latestPosts[0].location!,
-                                                  true),
-                                            )
-                                          ])
+                                        ? ShimmerItem(
+                                            isFitChild: true,
+                                            child: Row(children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 0),
+                                                child: _buildLatestPostCard(
+                                                    "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                                    latestPosts[0].date,
+                                                    latestPosts[0].name,
+                                                    latestPosts[0].location!,
+                                                    true),
+                                              )
+                                            ]),
+                                          )
                                         : latestPosts.isNotEmpty
                                             ? _buildLatestPosts(context)
                                             : SizedBox(),
                                     _buildSectionTitle('Our Proud Sponsors'),
+                                    isloading
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 16),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  32,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(),
                                     ShimmerItem(
+                                      isFitChild: true,
                                       child: CarouselSlider(
                                         options: CarouselOptions(
                                           height: 100.0,
@@ -498,54 +575,66 @@ class _HomepageState extends State<Homepage> {
                               recentsearch.length >= 2
                                   ? SizedBox(
                                       height: 25,
+                                      width: MediaQuery.of(context).size.width -
+                                          44,
                                       child: ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: 2,
+                                          itemCount: recentsearch.length,
                                           reverse: true,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, ind) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 15),
-                                              child: Container(
-                                                height: 25,
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    border: Border.all(
-                                                      color: Colors.white54,
-                                                    )),
-                                                child: Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    Icon(
-                                                      Icons.update,
-                                                      color: Colors.white54,
-                                                      size: 20,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      recentsearch[recentsearch
-                                                                          .length -
-                                                                      (ind + 1)]
-                                                                  .length >
-                                                              6
-                                                          ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
-                                                          : recentsearch[
-                                                              recentsearch
-                                                                      .length -
-                                                                  (ind + 1)],
-                                                      style: TextStyle(
-                                                        color: Colors.white60,
+                                            return GestureDetector(
+                                              onTap: () {
+                                                searchEvents(recentsearch[ind]);
+                                                searchController.text =
+                                                    recentsearch[
+                                                        recentsearch.length -
+                                                            (ind + 1)];
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15),
+                                                child: Container(
+                                                  height: 25,
+                                                  width: 100,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      border: Border.all(
+                                                        color: Colors.white54,
+                                                      )),
+                                                  child: Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 2,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Icon(
+                                                        Icons.update,
+                                                        color: Colors.white54,
+                                                        size: 20,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        recentsearch[recentsearch
+                                                                            .length -
+                                                                        (ind +
+                                                                            1)]
+                                                                    .length >
+                                                                6
+                                                            ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
+                                                            : recentsearch[
+                                                                recentsearch
+                                                                        .length -
+                                                                    (ind + 1)],
+                                                        style: TextStyle(
+                                                          color: Colors.white60,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -612,50 +701,51 @@ class _HomepageState extends State<Homepage> {
                                               }),
                                         )
                                       : SizedBox(),
-                              Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  searchController.clear();
 
-                                  setState(() {
-                                    issearchwidgetShow = false;
-                                    issearch = false;
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Container(
-                                    height: 25,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white54,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                          color: Colors.white54,
-                                        )),
-                                    child: Row(
-                                      children: const [
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Center(
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 15,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Close search",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 10,
-                                              color: Colors.red),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Spacer(),
+                              // InkWell(
+                              //   onTap: () {
+                              //     searchController.clear();
+
+                              //     setState(() {
+                              //       issearchwidgetShow = false;
+                              //       issearch = false;
+                              //     });
+                              //   },
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.only(left: 15),
+                              //     child: Container(
+                              //       height: 25,
+                              //       width: 100,
+                              //       decoration: BoxDecoration(
+                              //           color: Colors.white54,
+                              //           borderRadius: BorderRadius.circular(5),
+                              //           border: Border.all(
+                              //             color: Colors.white54,
+                              //           )),
+                              //       child: Row(
+                              //         children: const [
+                              //           SizedBox(
+                              //             width: 5,
+                              //           ),
+                              //           Center(
+                              //             child: Icon(
+                              //               Icons.close,
+                              //               size: 15,
+                              //             ),
+                              //           ),
+                              //           Text(
+                              //             "Close search",
+                              //             style: TextStyle(
+                              //                 fontWeight: FontWeight.bold,
+                              //                 fontSize: 10,
+                              //                 color: Colors.red),
+                              //           )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 30,
                               ),
@@ -681,33 +771,32 @@ class _HomepageState extends State<Homepage> {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const Spacer(),
-          const Text("See All"),
-          const SizedBox(
-            width: 3,
-          ),
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: Image.asset(
-                "assets/icons/arrow_right_alt_24dp_000000_FILL1_wght400_GRAD0_opsz24.png"),
-          ),
-        ],
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
 
-  _buildEventCard(String imageUrl, BuildContext context, String date,
-      String eventname, String location, String time, bool issearchPos) {
+  _buildEventCard(
+      String imageUrl,
+      BuildContext context,
+      String date,
+      String eventname,
+      String location,
+      String time,
+      bool issearchPos,
+      String desc,
+      String managethrough,
+      int ind) {
     return InkWell(
-      onTap: () {
-        
+      onTap: () async {
+        await HomeService.storerecentsearch(eventname, context);
+        recentsearch = await HomeService.getreacentsearch(context);
+        setState(() {});
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -716,10 +805,15 @@ class _HomepageState extends State<Homepage> {
                       eventdate: date,
                       eventname: eventname,
                       eventtime: time,
+                      location: location,
+                      des: desc,
+                      manageThrough: managethrough,
                     )));
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, bottom: 8),
+        padding: ind + 1 == popularEvents.length
+            ? const EdgeInsets.only(left: 16, bottom: 0, top: 5, right: 16)
+            : const EdgeInsets.only(left: 16, bottom: 0, top: 5),
         child: Stack(
           children: [
             ClipRRect(
@@ -851,22 +945,26 @@ class _HomepageState extends State<Homepage> {
   // }
 
   Widget _buildLatestPosts(BuildContext context) {
-    return ShimmerItem(
-      child: SizedBox(
-        height: 280,
-        child: ListView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          scrollDirection: Axis.horizontal,
-          itemCount: latestPosts.length,
-          itemBuilder: (context, index) {
-            return _buildLatestPostCard(
-                "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
-                latestPosts[index].date,
-                latestPosts[index].name,
-                latestPosts[index].location!,
-                true);
-          },
+    return AppShimmerLoading(
+      isLoading: isloading,
+      child: ShimmerItem(
+        isFitChild: true,
+        child: SizedBox(
+          height: 280,
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            scrollDirection: Axis.horizontal,
+            itemCount: latestPosts.length,
+            itemBuilder: (context, index) {
+              return _buildLatestPostCard(
+                  "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                  latestPosts[index].date,
+                  latestPosts[index].name,
+                  latestPosts[index].location!,
+                  true);
+            },
+          ),
         ),
       ),
     );
@@ -936,7 +1034,12 @@ class _HomepageState extends State<Homepage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(225, 104, 17, 1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BlogPage()));
+                      },
                       child: const Text(
                         "View Post",
                         style: TextStyle(

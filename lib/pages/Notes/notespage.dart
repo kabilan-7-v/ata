@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/event_service.dart';
@@ -26,8 +28,10 @@ class _NotesPageState extends State<NotesPage> {
   }
 
   getEventsData() async {
+    print(emoji);
     onGoingEventsLst = await EventService.fetchOngoingEvents();
     upcomingEventsLst = await EventService.fetchUpcomingEvents();
+
     isloading = false;
     setState(() {});
   }
@@ -36,68 +40,81 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return checkevents == false
         ? tabbarevents(context)
-        : Scaffold(
-            backgroundColor: ataBackgroundcolor,
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 120,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                    child: Image.asset("assets/imgs/boy.png"),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                    child: Text(
-                      "Find?\nEvents in one Place! 💣",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-                    child: Text(
-                      "Event management is the creation and\ndevelopment of small and large-scale\npersonal or corporate event such a festival\nconferences extra",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 150,
+        : GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Scaffold(
+                backgroundColor: ataBackgroundcolor,
+                body: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 120,
                       ),
-                      child: ElevatedButton(
-                          style:
-                              ElevatedButton.styleFrom(backgroundColor: orange),
-                          onPressed: () {
-                            setState(() {
-                              checkevents = false;
-                            });
-                          },
-                          child: const Row(
-                            children: [
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_right_alt,
-                                color: Colors.white,
-                                size: 40,
-                              )
-                            ],
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            ));
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 5),
+                        child: Image.asset("assets/imgs/boy.png"),
+                      ),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                        child: Text(
+                          "Find?\nEvents in one Place! 💣",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                        child: Text(
+                          "Event management is the creation and\ndevelopment of small and large-scale\npersonal or corporate event such a festival\nconferences extra",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 180,
+                          ),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: orange),
+                              onPressed: () {
+                                setState(() {
+                                  checkevents = false;
+                                });
+                              },
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "View Events",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.arrow_right_alt,
+                                    color: Colors.white,
+                                    size: 40,
+                                  )
+                                ],
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+          );
   }
 
   tabbarevents(BuildContext context) {
@@ -105,47 +122,52 @@ class _NotesPageState extends State<NotesPage> {
       length: 2,
       child: AppShimmerLoading(
         isLoading: isloading,
-        child: Scaffold(
-          backgroundColor: ataBackgroundcolor,
-          body: Column(
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              const TabBar(
-                  labelPadding: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  indicatorPadding: EdgeInsets.zero,
-                  indicatorColor: Color.fromRGBO(225, 104, 17, 1),
-                  labelColor: Colors.black,
-                  labelStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  tabs: [
-                    SizedBox(
-                        height: 45,
-                        child: Center(
-                            child: Text("     Ongoing Events          ",
-                                style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                )))),
-                    SizedBox(
-                        height: 45,
-                        child: Center(
-                            child: Text(
-                          "     Upcoming Events          ",
-                          style: TextStyle(fontFamily: "Montserrat"),
-                        )))
-                    // Tab(
-                    //   text: '          On Going Events          ',
-                    // ),
-                    // Tab(text: '          UpComing Events          '),
-                  ]),
-              Expanded(
-                  child: TabBarView(children: [
-                onGoingEvents(context),
-                upcomingEvents(context)
-              ]))
-            ],
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: ataBackgroundcolor,
+            body: Column(
+              children: [
+                const SizedBox(
+                  height: 40,
+                ),
+                const TabBar(
+                    labelPadding: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    indicatorPadding: EdgeInsets.zero,
+                    indicatorColor: Color.fromRGBO(225, 104, 17, 1),
+                    labelColor: Colors.black,
+                    labelStyle:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    tabs: [
+                      SizedBox(
+                          height: 45,
+                          child: Center(
+                              child: Text("     Ongoing Events          ",
+                                  style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                  )))),
+                      SizedBox(
+                          height: 45,
+                          child: Center(
+                              child: Text(
+                            "     Upcoming Events          ",
+                            style: TextStyle(fontFamily: "Montserrat"),
+                          )))
+                      // Tab(
+                      //   text: '          On Going Events          ',
+                      // ),
+                      // Tab(text: '          UpComing Events          '),
+                    ]),
+                Expanded(
+                    child: TabBarView(children: [
+                  onGoingEvents(context),
+                  upcomingEvents(context)
+                ]))
+              ],
+            ),
           ),
         ),
       ),
@@ -156,7 +178,7 @@ class _NotesPageState extends State<NotesPage> {
     return onGoingEventsLst.isEmpty
         ? const Center(
             child: Text(
-            "No UpComing Events",
+            "No Ongoing Events",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ))
         : ListView.builder(
@@ -176,7 +198,7 @@ class _NotesPageState extends State<NotesPage> {
     return upcomingEventsLst.isEmpty
         ? const Center(
             child: Text(
-            "No UpComing Events",
+            "No Upcoming Events",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ))
         : ListView.builder(

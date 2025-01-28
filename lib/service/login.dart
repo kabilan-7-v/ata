@@ -50,11 +50,11 @@ Future<bool> login(String email, String password, BuildContext context) async {
         data['user']['gender'] ?? "Null",
         data['user']['_id'] ?? "Null"
       ]);
-      // if (kDebugMode) {
-      //   print(data);
-      //   print(emoji);
-      //   print(data["user"]);
-      // }
+      if (kDebugMode) {
+        print(data);
+        print(emoji);
+        print(data["user"]);
+      }
       return true;
     } else {
       // Handle error response

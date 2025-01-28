@@ -1,4 +1,7 @@
 import 'package:ata/service/forgetpassword_server.dart';
+import 'package:ata/service/login.dart';
+import 'package:ata/widget/const.dart';
+import 'package:ata/widget/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class PasswordSecurityPage extends StatefulWidget {
@@ -13,6 +16,7 @@ class _PasswordSecurityPageState extends State<PasswordSecurityPage> {
   TextEditingController newpassword = TextEditingController();
   TextEditingController confirmpassword = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey();
+  bool isclick = false;
 
   @override
   void dispose() {
@@ -33,32 +37,6 @@ class _PasswordSecurityPageState extends State<PasswordSecurityPage> {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      bottomNavigationBar: InkWell(
-        onTap: () {
-          if (!key.currentState!.validate()) return;
-          passwordandsecurity(currenpassword.text, context, newpassword.text);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Container(
-            height: 60,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(160, 160, 162, 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Center(
-                child: Text(
-              "Update Password",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
-          ),
-        ),
-      ),
       body: Form(
         key: key,
         child: Column(
@@ -69,6 +47,50 @@ class _PasswordSecurityPageState extends State<PasswordSecurityPage> {
                 "Please enter newpassword"),
             customtextfield("Confirm Password", "hint", confirmpassword,
                 "Please enter Confirmpassword"),
+            Spacer(),
+            InkWell(
+              onTap: !isclick
+                  ? null
+                  : () {
+                      if (!key.currentState!.validate()) return;
+                      if (!isValidPassword(newpassword.text)) {
+                        SnackbarService().showSnackBar(
+                            "Give a valid Password\n eg: P@ssw0rd123!",
+                            context);
+
+                        return;
+                      }
+                      if (currenpassword.text != newpassword.text) {
+                        SnackbarService().showSnackBar(
+                            "Newpassword and currentpassword Not Match",
+                            context);
+                      }
+                      passwordandsecurity(
+                          currenpassword.text, context, newpassword.text);
+                    },
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: isclick
+                        ? orange
+                        : const Color.fromRGBO(160, 160, 162, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                      child: Text(
+                    "Update Password",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -79,6 +101,10 @@ class _PasswordSecurityPageState extends State<PasswordSecurityPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextFormField(
+        onTap: () {
+          isclick = true;
+          setState(() {});
+        },
         controller: controller,
         validator: (value) {
           if (value!.isEmpty) return errormessage;

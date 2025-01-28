@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ata/service/common_service.dart';
 import 'package:ata/service/raise_ticket_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
@@ -10,17 +13,23 @@ class Trackticket extends StatefulWidget {
 }
 
 class _TrackticketState extends State<Trackticket> {
-  List tracklst = [];
+  List<dynamic> tracklst = [];
+  bool isloading = false;
   @override
   void initState() {
-    // TODO: implement initState
     settracklst();
 
     super.initState();
   }
 
   settracklst() async {
-    tracklst = await raisetikect(context);
+    // tracklst = await raisetikect(context);
+    isloading = true;
+    setState(() {});
+    tracklst = await getmembership(context);
+    log(tracklst.toString());
+    tracklst.reversed.toList();
+    isloading = false;
     setState(() {});
   }
 
@@ -42,29 +51,100 @@ class _TrackticketState extends State<Trackticket> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(39, 41, 56, 1),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: ListView.builder(
-                    itemCount: tracklst.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, ind) {
-                      print(tracklst[ind]);
-                      return customtrack(
-                          tracklst[ind]["status"] == "cancelled");
-                    }))
-          ],
-        ),
-      ),
+      body: isloading
+          ? const Center(child: CircularProgressIndicator())
+          : tracklst.isEmpty
+              ? const Center(
+                  child: Text(
+                  "No Tickets Found !",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
+                ))
+              : Container(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(39, 41, 56, 1),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(
+                            "LIVE",
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        ListView.builder(
+                            itemCount: tracklst.length,
+                            shrinkWrap: true,
+                            reverse: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, ind) {
+                              if (tracklst[ind]["status"] == "New") {
+                                return customtrack(
+                                    tracklst[ind]["status"] == "cancelled"
+                                        ? 1
+                                        : tracklst[ind]["status"] == "New"
+                                            ? 0
+                                            : 2,
+                                    tracklst[ind]["createdAt"]
+                                        .toString()
+                                        .split("T")[0],
+                                    tracklst[ind]["createdAt"].toString(),
+                                    tracklst[ind]["issueTitle"] ??
+                                        "Membership Purchase");
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("CLOSED",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        ListView.builder(
+                            itemCount: tracklst.length,
+                            shrinkWrap: true,
+                            reverse: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, ind) {
+                              if (tracklst[ind]["status"] != "New") {
+                                return customtrack(
+                                    tracklst[ind]["status"] == "cancelled"
+                                        ? 1
+                                        : tracklst[ind]["status"] == "New"
+                                            ? 0
+                                            : 2,
+                                    tracklst[ind]["createdAt"]
+                                        .toString()
+                                        .split("T")[0]
+                                        .split(".")[0],
+                                    tracklst[ind]["createdAt"].toString(),
+                                    tracklst[ind]!["issueTitle"] ??
+                                        "Membership Purchase");
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
+                      ],
+                    ),
+                  )),
     );
   }
 
-  customtrack(bool iscompleted) {
+  customtrack(int iscompleted, date, String time, String issusetitle) {
+    print(time);
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
@@ -85,15 +165,17 @@ class _TrackticketState extends State<Trackticket> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  "Membership Purchase",
+                Text(
+                  issusetitle.length <= 20
+                      ? issusetitle
+                      : issusetitle.substring(0, 20) + "...",
                   style: TextStyle(
                       fontSize: 17, color: Color.fromRGBO(246, 243, 243, 1)),
                 ),
                 const Spacer(),
                 Icon(
                   Icons.check_circle_outline,
-                  color: iscompleted
+                  color: iscompleted == 1
                       ? Colors.red
                       : const Color.fromRGBO(67, 162, 65, 1),
                   size: 18,
@@ -102,10 +184,14 @@ class _TrackticketState extends State<Trackticket> {
                   width: 8,
                 ),
                 Text(
-                  iscompleted ? "Cancelled" : "Completed",
+                  iscompleted == 1
+                      ? "Cancelled"
+                      : iscompleted == 0
+                          ? "Live"
+                          : "Completed",
                   style: TextStyle(
                       fontSize: 15,
-                      color: iscompleted
+                      color: iscompleted == 1
                           ? Colors.red
                           : const Color.fromRGBO(67, 162, 65, 1)),
                 ),
@@ -117,17 +203,53 @@ class _TrackticketState extends State<Trackticket> {
             const SizedBox(
               height: 15,
             ),
-            customtracksuccess("Request Registered", Colors.grey[500]),
+            Row(children: [
+              const SizedBox(
+                width: 10,
+              ),
+              const Icon(
+                Icons.check_circle,
+                color: Color.fromRGBO(67, 162, 65, 1),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                "Request Registered",
+                style: TextStyle(color: Colors.green),
+              ),
+              const Spacer(),
+              Text(
+                date + ",",
+                style: const TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                CommonService.track_ticket_date_format(time),
+                style: const TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                width: 10,
+              )
+            ]),
             customline(),
-            customtracksuccess(iscompleted ? "Cancelled" : "Issues Resolved",
-                const Color.fromRGBO(246, 243, 243, 1)),
+            customtracksuccess(
+                iscompleted == 1
+                    ? "Cancelled"
+                    : iscompleted == 2
+                        ? "Issues Resolved"
+                        : "Live",
+                const Color.fromRGBO(246, 243, 243, 1),
+                date),
           ],
         ),
       ),
     );
   }
 
-  customtracksuccess(text, color) {
+  customtracksuccess(text, color, date) {
     return Row(children: [
       const SizedBox(
         width: 10,
@@ -142,7 +264,7 @@ class _TrackticketState extends State<Trackticket> {
       Text(
         text,
         style: TextStyle(color: color),
-      )
+      ),
     ]);
   }
 

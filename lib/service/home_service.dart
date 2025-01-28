@@ -8,6 +8,7 @@ import 'package:ata/service/common_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,21 +24,19 @@ class HomeService {
       if (response.statusCode == 200) {
         // Parse the JSON response into a list of events
         final List<dynamic> jsonResponse = jsonDecode(response.body);
+        // log(jsonResponse.toString());
+
         for (var i in jsonResponse) {
-          // if (kDebugMode) {
-          //   print(i);
-          //   print(emoji);
-          // }
+          log(i.toString());
           populareventslst.add(Popularevents.fromJson(i));
         }
+        return populareventslst;
       } else {
         throw Exception('Failed to load events: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
-
-    return populareventslst;
   }
 
   static Future<List<Latestpost>> fetchLatestPost() async {
@@ -50,6 +49,7 @@ class HomeService {
         // Parse the JSON response into a list of events
 
         final List<dynamic> jsonResponse = jsonDecode(response.body);
+        // log("fetch_latestpost${jsonResponse} :${jsonResponse.length}");
 
         for (var i in jsonResponse) {
           if (!CommonService.isTodayOrFuture(i["createdAt"])) {

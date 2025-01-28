@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:ata/pages/Blog/blog_list_page.dart';
+import 'package:ata/pages/Blog/blog_page.dart';
 import 'package:ata/pages/Home/homepage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
 import 'package:ata/pages/Profile/profilepage.dart';
@@ -18,7 +20,6 @@ class _CommonpageState extends State<Commonpage> {
   int tab = 0;
   @override
   void initState() {
-    // TODO: implement initState
     setUserDetails(context);
     super.initState();
   }
@@ -36,7 +37,8 @@ class _CommonpageState extends State<Commonpage> {
           IndexedStack(index: tab, children: [
             const Homepage(),
             const NotesPage(),
-            const Profilepage()
+            const BlogListPage(),
+            const Profilepage(),
           ]),
           Positioned(
             bottom: 0,
@@ -44,7 +46,7 @@ class _CommonpageState extends State<Commonpage> {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               child: Container(
-                height: 60,
+                height: 70,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: ataBackgroundcolor,
@@ -73,32 +75,73 @@ class _CommonpageState extends State<Commonpage> {
                           });
                         },
                         child: tab != 0
-                            ? SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: Image.asset(
-                                    "assets/common_icon/Home unfill.png"))
-                            : SizedBox(
-                                height: 40,
-                                width: 40,
-                                child: Image.asset(
-                                    "assets/common_icon/Home fill.png"))),
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.asset(
+                                          "assets/common_icon/Home unfill.png")),
+                                  const Text(
+                                    "Home",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Image.asset(
+                                          "assets/common_icon/Home fill.png")),
+                                  const Text(
+                                    "Home",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: orange),
+                                  )
+                                ],
+                              )),
                     InkWell(
                         onTap: () {
                           tab = 1;
                           setState(() {});
                         },
                         child: tab != 1
-                            ? SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: Image.asset(
-                                    "assets/common_icon/Event Unfill.png"))
-                            : SizedBox(
-                                height: 40,
-                                width: 40,
-                                child: Image.asset(
-                                    "assets/common_icon/Event Fill.png"))),
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.asset(
+                                          "assets/common_icon/Event Unfill.png")),
+                                  const Text(
+                                    "Event",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Image.asset(
+                                          "assets/common_icon/Event Fill.png")),
+                                  const Text(
+                                    "Event",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: orange),
+                                  )
+                                ],
+                              )),
                     InkWell(
                         onTap: () {
                           setState(() {
@@ -106,16 +149,75 @@ class _CommonpageState extends State<Commonpage> {
                           });
                         },
                         child: tab != 2
-                            ? SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: Image.asset(
-                                    "assets/common_icon/Profile Unfill.png"))
-                            : SizedBox(
-                                height: 40,
-                                width: 40,
-                                child: Image.asset(
-                                    "assets/common_icon/Profile Fill.png"))),
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.asset(
+                                          "assets/icons/Blog Black.png")),
+                                  const Text(
+                                    "Blog",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Image.asset(
+                                          "assets/icons/Blog Orange with BG.png")),
+                                  const Text(
+                                    "Blog",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: orange),
+                                  )
+                                ],
+                              )),
+                    InkWell(
+                        onTap: () {
+                          setState(() {
+                            tab = 3;
+                          });
+                        },
+                        child: tab != 3
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.asset(
+                                          "assets/common_icon/Profile Unfill.png")),
+                                  const Text(
+                                    "Profile",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                      height: 40,
+                                      width: 40,
+                                      child: Image.asset(
+                                          "assets/common_icon/Profile Fill.png")),
+                                  const Text(
+                                    "Profile",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: orange),
+                                  )
+                                ],
+                              )),
                   ],
                 ),
               ),

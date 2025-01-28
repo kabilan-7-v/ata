@@ -1,6 +1,7 @@
 // import 'dart:convert';
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/service/common_service.dart';
@@ -11,15 +12,15 @@ import 'package:http/http.dart' as http;
 class EventService {
   static Future<List<OnGoingEventmodels>> fetchOngoingEvents() async {
     List<OnGoingEventmodels> ongoingevent = [];
-     String url = '$renderurl/events/get';
+    String url = '$renderurl/events/get';
     try {
       final response = await http.get(Uri.parse(url));
-      // print(emoji);
 
       if (response.statusCode == 200) {
         // Parse the JSON response into a list of events
 
         final List<dynamic> jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
 
         for (var i in jsonResponse) {
           // if (kDebugMode) {
@@ -28,7 +29,8 @@ class EventService {
           //   print(i);
           //   print(emoji);
           // }
-          if (!CommonService.isTodayOrFuture(i["createdAt"])) {
+          print(emoji);
+          if (!CommonService.isTodayOrFuture(i["date"])) {
             ongoingevent.add(OnGoingEventmodels.fromJson(i));
           }
         }
@@ -44,7 +46,7 @@ class EventService {
 
   static Future<List<UpcomingEventmodels>> fetchUpcomingEvents() async {
     List<UpcomingEventmodels> upComingEvents = [];
-     String url = '$renderurl/events/get';
+    String url = '$renderurl/events/get';
     try {
       final response = await http.get(Uri.parse(url));
       // print(emoji);
@@ -61,7 +63,7 @@ class EventService {
           //   print(i);
           //   print(emoji);
           // }
-          if (CommonService.isTodayOrFuture(i["createdAt"])) {
+          if (CommonService.isTodayOrFuture(i["date"])) {
             upComingEvents.add(UpcomingEventmodels.fromJson(i));
           }
         }

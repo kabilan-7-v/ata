@@ -1,3 +1,4 @@
+import 'package:ata/widget/const.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,7 @@ class CommonService {
 
     // Check if the input date is today or in the future
     if (inputDateOnly.isAfter(nowDate)) {
+      print(emoji);
       return true;
     }
     // if (inputDateOnly.isAtSameMomentAs(nowDate)){
@@ -94,5 +96,19 @@ class CommonService {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  static track_ticket_date_format(String text) {
+    String utcTime = text;
+
+    // Parse the UTC time string to DateTime
+    DateTime utcDateTime = DateTime.parse(utcTime);
+
+    // Convert UTC to IST (UTC+5:30)
+    DateTime istDateTime = utcDateTime.add(Duration(hours: 5, minutes: 30));
+
+    // Format IST DateTime to 12-hour format with AM/PM
+    String formattedIST = DateFormat('hh:mm:ss a').format(istDateTime);
+    return formattedIST;
   }
 }

@@ -4,9 +4,13 @@ class Popularevents {
   final String location;
   final String img;
   final String time;
+  final String description;
+  final String manageThrough;
 
   Popularevents(
-      {required this.date,
+      {required this.manageThrough,
+      required this.description,
+      required this.date,
       required this.eventname,
       required this.location,
       required this.img,
@@ -14,11 +18,13 @@ class Popularevents {
 
   factory Popularevents.fromJson(Map<String, dynamic> json) {
     return Popularevents(
-        date: json["date"],
-        eventname: json["name"],
-        location: json["location"],
-        img: json["images"][0],
-        time: json['time']);
+        description: json["description"] ?? "des",
+        date: json["date"] ?? "date",
+        eventname: json["name"] ?? "event",
+        location: json["location"] ?? "location",
+        img: json["images"][0] ?? "img",
+        time: json['time'] ?? "time",
+        manageThrough: json["this.manageThrough"] ?? "ManageThrough");
   }
 
   Map<String, dynamic> toJson() {
@@ -27,7 +33,8 @@ class Popularevents {
       "name": eventname,
       "location": location,
       "images": img,
-      'time': time
+      'time': time,
+      "description": description
     };
   }
 }
@@ -47,10 +54,10 @@ class Latestpost {
       required this.location});
   factory Latestpost.fromJson(Map<String, dynamic> json) {
     return Latestpost(
-        name: json["name"],
-        desc: json["desc"] ?? "",
-        img: json["image"],
-        date: json["createdAt"],
+        name: json["name"] ?? "name",
+        desc: json["desc"] ?? "des",
+        img: json["image"] ?? "image",
+        date: json["createdAt"] ?? "date",
         location: json["location"] ?? "location");
   }
 

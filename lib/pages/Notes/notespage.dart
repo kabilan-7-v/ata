@@ -1,11 +1,15 @@
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:ata/models/eventmodels.dart';
+import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/event_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class NotesPage extends StatefulWidget {
@@ -23,17 +27,29 @@ class _NotesPageState extends State<NotesPage> {
   bool isloading = true;
   @override
   void initState() {
+    get_internet();
     getEventsData();
     super.initState();
   }
 
   getEventsData() async {
-    print(emoji);
     onGoingEventsLst = await EventService.fetchOngoingEvents();
     upcomingEventsLst = await EventService.fetchUpcomingEvents();
 
     isloading = false;
     setState(() {});
+  }
+
+  bool connect_internet = false;
+
+  get_internet() async {
+    bool isConnected = await InternetConnection().hasInternetAccess;
+    if (!isConnected) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const NoInternetPage()),
+          (e) => false);
+    }
   }
 
   @override
@@ -131,7 +147,7 @@ class _NotesPageState extends State<NotesPage> {
             body: Column(
               children: [
                 const SizedBox(
-                  height: 40,
+                  height: 35,
                 ),
                 const TabBar(
                     labelPadding: EdgeInsets.zero,
@@ -165,7 +181,10 @@ class _NotesPageState extends State<NotesPage> {
                     child: TabBarView(children: [
                   onGoingEvents(context),
                   upcomingEvents(context)
-                ]))
+                ])),
+                const SizedBox(
+                  height: 65,
+                )
               ],
             ),
           ),
@@ -225,7 +244,7 @@ class _NotesPageState extends State<NotesPage> {
         curve: Curves.decelerate,
         duration: const Duration(milliseconds: 1000),
         child: Container(
-          height: select == true ? 225 : 330,
+          height: select == true ? 220 : 330,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
               color: Colors.white,

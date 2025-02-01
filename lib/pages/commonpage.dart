@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:ata/pages/Blog/blog_list_page.dart';
-import 'package:ata/pages/Blog/blog_page.dart';
 import 'package:ata/pages/Home/homepage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
-import 'package:ata/pages/Profile/profilepage.dart';
+import 'package:ata/pages/Profile/newmembership.dart';
 import 'package:ata/service/login.dart';
+import 'package:ata/service/membership_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +38,8 @@ class _CommonpageState extends State<Commonpage> {
             const Homepage(),
             const NotesPage(),
             const BlogListPage(),
-            const Profilepage(),
+            const Newmembership()
+            // const Profilepage(),
           ]),
           Positioned(
             bottom: 0,

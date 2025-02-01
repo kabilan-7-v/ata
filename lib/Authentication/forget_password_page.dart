@@ -161,7 +161,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () async {
           if (!_key.currentState!.validate()) return;
+          isloading = true;
+          setState(() {});
           bool issend = await forgetpassword(emailController.text);
+          isloading = false;
+          setState(() {});
           if (issend) {
             return SnackbarService().showSnackBar("Link Send to Mail", context);
           } else {

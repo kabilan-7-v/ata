@@ -30,12 +30,9 @@ Future<bool> login(String email, String password, BuildContext context) async {
     if (response.statusCode == 200) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
-      if (kDebugMode) {
-        print(emoji);
-        print(data);
-        print(data['user']["_id"]);
-        print(emoji);
-      }
+      // if (kDebugMode) {
+      //   print(data['user']["_id"]);
+      // }
 
       context.read<UserCubit>().setUser(UserModel.fromJson(data['user']));
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,11 +47,11 @@ Future<bool> login(String email, String password, BuildContext context) async {
         data['user']['gender'] ?? "Null",
         data['user']['_id'] ?? "Null"
       ]);
-      if (kDebugMode) {
-        print(data);
-        print(emoji);
-        print(data["user"]);
-      }
+      // if (kDebugMode) {
+      //   print(data);
+      //   print(emoji);
+      //   print(data["user"]);
+      // }
       return true;
     } else {
       // Handle error response

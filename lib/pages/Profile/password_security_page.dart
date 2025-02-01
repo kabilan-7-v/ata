@@ -47,7 +47,7 @@ class _PasswordSecurityPageState extends State<PasswordSecurityPage> {
                 "Please enter newpassword"),
             customtextfield("Confirm Password", "hint", confirmpassword,
                 "Please enter Confirmpassword"),
-            Spacer(),
+           const Spacer(),
             InkWell(
               onTap: !isclick
                   ? null

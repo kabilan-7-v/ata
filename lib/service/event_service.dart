@@ -20,7 +20,6 @@ class EventService {
         // Parse the JSON response into a list of events
 
         final List<dynamic> jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
 
         for (var i in jsonResponse) {
           // if (kDebugMode) {
@@ -29,7 +28,6 @@ class EventService {
           //   print(i);
           //   print(emoji);
           // }
-          print(emoji);
           if (!CommonService.isTodayOrFuture(i["date"])) {
             ongoingevent.add(OnGoingEventmodels.fromJson(i));
           }
@@ -64,6 +62,8 @@ class EventService {
           //   print(emoji);
           // }
           if (CommonService.isTodayOrFuture(i["date"])) {
+            log(i["date"]);
+
             upComingEvents.add(UpcomingEventmodels.fromJson(i));
           }
         }

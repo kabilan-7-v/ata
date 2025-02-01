@@ -1,4 +1,3 @@
-import 'package:ata/widget/const.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +15,6 @@ class CommonService {
 
     // Check if the input date is today or in the future
     if (inputDateOnly.isAfter(nowDate)) {
-      print(emoji);
       return true;
     }
     // if (inputDateOnly.isAtSameMomentAs(nowDate)){

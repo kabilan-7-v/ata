@@ -48,7 +48,6 @@ Future<bool> editUserProfile(
 
       if (kDebugMode) {
         print(data);
-        print(emoji);
       }
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? profileimgeurl = prefs.getString("profileimgeurl");

@@ -15,7 +15,7 @@ class OnGoingEventmodels {
       required this.isselected});
   factory OnGoingEventmodels.fromJson(Map<String, dynamic> json) {
     return OnGoingEventmodels(
-        date: json["createdAt"] ?? "",
+        date: json["date"] ?? "",
         eventname: json["name"] ?? "",
         location: json["location"] ?? "location",
         description: json["description"] ?? "description",
@@ -54,7 +54,7 @@ class UpcomingEventmodels {
 
   factory UpcomingEventmodels.fromJson(Map<String, dynamic> json) {
     return UpcomingEventmodels(
-        date: json["createdAt"] ?? "",
+        date: json["date"] ?? "",
         eventname: json["name"] ?? "",
         location: json["location"] ?? "location",
         description: json["description"] ?? "description",

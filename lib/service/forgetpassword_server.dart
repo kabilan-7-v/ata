@@ -77,7 +77,6 @@ Future<bool> passwordandsecurity(
 
       if (kDebugMode) {
         print(response.body);
-        print(emoji);
       }
 
       SnackbarService().showSnackBar("Password changed successfully!", context);

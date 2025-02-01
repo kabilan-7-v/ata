@@ -56,29 +56,8 @@ class Helpsupport extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Text(
-                "There are no recent support ticket raisee in last 30 days!",
-                style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            const Center(
-              child: Text(
-                "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
-                style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

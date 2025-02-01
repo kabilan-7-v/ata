@@ -67,9 +67,9 @@ class LocalNotificationService {
     if (kDebugMode) {
       print(prefs.getBool("switch"));
     }
-    if (kDebugMode) {
-      print(emoji);
-    }
+    // if (kDebugMode) {
+    //   // print(emoji);
+    // }
     if (prefs.getBool("switch") == true) {
       await LocalNotificationService().init();
 
@@ -89,10 +89,10 @@ class LocalNotificationService {
               prefs.getStringList("notification")! +
                   ["$body#*#${DateTime.now()}"]);
         }
-        if (kDebugMode) {
-          print(emoji);
-          print("Received message: ${message.notification?.body}");
-        }
+        // if (kDebugMode) {
+        //   print(emoji);
+        //   print("Received message: ${message.notification?.body}");
+        // }
       });
     }
   }
@@ -103,7 +103,7 @@ class LocalNotificationService {
     firebaseMessaging.getToken().then((token) {
       if (kDebugMode) {
         print("FCM Token: $token");
-        print(emoji);
+        // print(emoji);
       }
     });
   }

@@ -27,7 +27,6 @@ class HomeService {
         // log(jsonResponse.toString());
 
         for (var i in jsonResponse) {
-          log(i.toString());
           populareventslst.add(Popularevents.fromJson(i));
         }
         return populareventslst;

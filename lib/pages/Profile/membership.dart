@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:ata/service/membership_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -22,6 +23,17 @@ class _MembershipState extends State<Membership> {
     ["Silver-Family", "20"],
     ["Silver-Single", "50"]
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    setmembership();
+    super.initState();
+  }
+
+  setmembership() async {
+    await membershipdetailsfetch(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

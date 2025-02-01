@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+import 'dart:developer';
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
 import 'package:ata/pages/Blog/blog_page.dart';
 import 'package:ata/pages/Home/detailviewevent.dart';
+import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/home_service.dart';
 import 'package:ata/widget/const.dart';
@@ -11,6 +14,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class Homepage extends StatefulWidget {
@@ -32,19 +36,31 @@ class _HomepageState extends State<Homepage> {
   bool issearch = false;
   bool issearchwidgetShow = false;
   List<String> recentsearch = [];
+  bool connect_internet = false;
 
   @override
   void initState() {
+    get_internet();
     getHomeData();
     setState(() {});
+
     super.initState();
+  }
+
+  get_internet() async {
+    bool isConnected = await InternetConnection().hasInternetAccess;
+    if (!isConnected) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => NoInternetPage()),
+          (e) => false);
+    }
   }
 
   getHomeData() async {
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
     popularEvents = await HomeService.fetchPopularevents();
-
     recentsearch = await HomeService.getreacentsearch(context);
     Future.delayed(Durations.long4);
     setState(() {
@@ -268,6 +284,7 @@ class _HomepageState extends State<Homepage> {
                                               scrollDirection: Axis.horizontal,
                                               itemCount: popularEvents.length,
                                               padding: EdgeInsets.zero,
+                                              reverse: true,
                                               itemBuilder: (context, index) {
                                                 return _buildEventCard(
                                                   popularEvents[index].img,
@@ -585,11 +602,15 @@ class _HomepageState extends State<Homepage> {
                                           itemBuilder: (context, ind) {
                                             return GestureDetector(
                                               onTap: () {
-                                                searchEvents(recentsearch[ind]);
                                                 searchController.text =
                                                     recentsearch[
                                                         recentsearch.length -
                                                             (ind + 1)];
+                                                searchEvents(recentsearch[
+                                                    recentsearch.length -
+                                                        (ind + 1)]);
+
+                                                setState(() {});
                                               },
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
@@ -649,52 +670,67 @@ class _HomepageState extends State<Homepage> {
                                               reverse: true,
                                               scrollDirection: Axis.horizontal,
                                               itemBuilder: (context, ind) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 15),
-                                                  child: Container(
-                                                    height: 25,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                        border: Border.all(
-                                                          color: Colors.white54,
-                                                        )),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 2,
-                                                        ),
-                                                        Icon(
-                                                          Icons.update,
-                                                          color: Colors.white54,
-                                                          size: 20,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          recentsearch[recentsearch
-                                                                              .length -
-                                                                          (ind +
-                                                                              1)]
-                                                                      .length >
-                                                                  6
-                                                              ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
-                                                              : recentsearch[
-                                                                  recentsearch
-                                                                          .length -
-                                                                      (ind +
-                                                                          1)],
-                                                          style: TextStyle(
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    searchController.text =
+                                                        recentsearch[
+                                                            recentsearch
+                                                                    .length -
+                                                                (ind + 1)];
+                                                    searchEvents(recentsearch[
+                                                        recentsearch.length -
+                                                            (ind + 1)]);
+
+                                                    setState(() {});
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15),
+                                                    child: Container(
+                                                      height: 25,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          border: Border.all(
                                                             color:
-                                                                Colors.white60,
+                                                                Colors.white54,
+                                                          )),
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 2,
                                                           ),
-                                                        )
-                                                      ],
+                                                          Icon(
+                                                            Icons.update,
+                                                            color:
+                                                                Colors.white54,
+                                                            size: 20,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            recentsearch[recentsearch.length -
+                                                                            (ind +
+                                                                                1)]
+                                                                        .length >
+                                                                    6
+                                                                ? "${recentsearch[recentsearch.length - (ind + 1)].substring(0, 6)}..."
+                                                                : recentsearch[
+                                                                    recentsearch
+                                                                            .length -
+                                                                        (ind +
+                                                                            1)],
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .white60,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 );
@@ -812,8 +848,8 @@ class _HomepageState extends State<Homepage> {
       },
       child: Padding(
         padding: ind + 1 == popularEvents.length
-            ? const EdgeInsets.only(left: 16, bottom: 0, top: 5, right: 16)
-            : const EdgeInsets.only(left: 16, bottom: 0, top: 5),
+            ? const EdgeInsets.only(left: 16, bottom: 0, top: 5, )
+            : const EdgeInsets.only(left: 16, bottom: 0, top: 5, right: 10),
         child: Stack(
           children: [
             ClipRRect(
@@ -957,6 +993,8 @@ class _HomepageState extends State<Homepage> {
             scrollDirection: Axis.horizontal,
             itemCount: latestPosts.length,
             itemBuilder: (context, index) {
+              log(latestPosts[index].img);
+
               return _buildLatestPostCard(
                   "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
                   latestPosts[index].date,

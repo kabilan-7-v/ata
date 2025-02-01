@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
-import 'dart:developer';
 
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/pages/Internet/no_internet_page.dart';

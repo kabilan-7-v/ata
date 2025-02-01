@@ -5,7 +5,6 @@ import 'package:ata/pages/Home/homepage.dart';
 import 'package:ata/pages/Notes/notespage.dart';
 import 'package:ata/pages/Profile/newmembership.dart';
 import 'package:ata/service/login.dart';
-import 'package:ata/service/membership_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 

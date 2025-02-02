@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
-
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/service/common_service.dart';
@@ -204,11 +203,8 @@ class _NotesPageState extends State<NotesPage> {
             itemCount: onGoingEventsLst.length,
             shrinkWrap: true,
             itemBuilder: (context, ind) {
-              return ongoineventCard(
-                  context,
-                  "https://picsum.photos/id/237/300/100",
-                  onGoingEventsLst[ind].isselected!,
-                  ind);
+              return ongoineventCard(context, onGoingEventsLst[ind].image,
+                  onGoingEventsLst[ind].isselected!, ind);
             });
   }
 
@@ -224,7 +220,7 @@ class _NotesPageState extends State<NotesPage> {
             itemCount: upcomingEventsLst.length,
             shrinkWrap: true,
             itemBuilder: (context, ind) {
-              return upcomingeventCart(context, "https://picsum.photos/300/100",
+              return upcomingeventCart(context, upcomingEventsLst[ind].image,
                   upcomingEventsLst[ind].isselected!, ind);
             });
   }
@@ -269,8 +265,19 @@ class _NotesPageState extends State<NotesPage> {
                       child: CachedNetworkImage(
                         width: double.infinity,
                         height: select == true ? 120 : 170,
-                        imageUrl: img,
+                        imageUrl: "$renderurl/upload/$img",
                         fit: BoxFit.cover,
+                        placeholder: (context, url) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        errorWidget: (context, url, error) {
+                          return Image.network(
+                            "https://picsum.photos/id/237/300/100",
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                     ClipRRect(
@@ -539,8 +546,19 @@ class _NotesPageState extends State<NotesPage> {
                         child: CachedNetworkImage(
                           width: double.infinity,
                           height: select == true ? 110 : 170,
-                          imageUrl: img,
+                          imageUrl: "$renderurl/upload/$img",
                           fit: BoxFit.cover,
+                          placeholder: (context, url) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorWidget: (context, url, error) {
+                            return Image.network(
+                              "https://picsum.photos/id/237/300/100",
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
                       ),
                       Positioned(

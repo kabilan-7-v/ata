@@ -1,7 +1,9 @@
+import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/pages/commonpage.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NoInternetPage extends StatefulWidget {
   const NoInternetPage({super.key});
@@ -59,12 +61,22 @@ class _NoInternetPageState extends State<NoInternetPage> {
                   await get_internet();
                   loading = false;
                   setState(() {});
-                  if (connect_internet) {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  if (connect_internet && prefs.getBool("isLoggedIn")! ) {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const Commonpage()),
                         (e) => false);
+                  }
+                  else if (!prefs.getBool("isLoggedIn")!){
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SigninPage()),
+                        (e) => false);
+
+
                   }
                 },
                 child: Container(

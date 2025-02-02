@@ -19,6 +19,7 @@ class _CommonpageState extends State<Commonpage> {
   int tab = 0;
   @override
   void initState() {
+    
     setUserDetails(context);
     super.initState();
   }

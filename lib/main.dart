@@ -1,11 +1,14 @@
 import 'package:ata/Authentication/create_account.dart';
+import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/cubit/usercubit.dart';
+import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,11 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   LocalNotificationService.setup();
-  await Permission.notification.isDenied.then((value) {
-    if (value) {
-      Permission.notification.request();
-    }
-  });
+ 
 
   //FCM Token: fEHosdlbSJuwnCwgnQgEhX:APA91bHLHjSNiM8uApWxIFBrEF395TSWrYMUNQc-OpExDPqjwpNqn5bsQA9ge4kL4HZxnY0K-JTCoFgWX6aaocn0hQn4t07ZGXeqz1VY4DrcA2Zqk4PG84s
   runApp(const MyApp());
@@ -33,10 +32,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool? isLoggedIn;
   bool isLoading = true;
+  bool isConnected = false;
 
   // This widget is the root of your application.
   @override
   void initState() {
+    getinternet();
     checkLoginStatus();
     super.initState();
   }
@@ -44,6 +45,16 @@ class _MyAppState extends State<MyApp> {
   checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    isLoading = false;
+    setState(() {});
+  }
+
+  getinternet() async {
+    isLoading = true;
+    if (!mounted) return;
+    setState(() {});
+
+    isConnected = await InternetConnection().hasInternetAccess;
     isLoading = false;
     setState(() {});
   }
@@ -75,9 +86,11 @@ class _MyAppState extends State<MyApp> {
                   child: CircularProgressIndicator(),
                 ),
               )
-            : isLoggedIn == true
-                ? const Commonpage()
-                : const CreateAccount(),
+            : (!isConnected)
+                ? const NoInternetPage()
+                : (isLoggedIn == true
+                    ? const Commonpage()
+                    : const SigninPage()),
       ),
     );
   }

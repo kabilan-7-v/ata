@@ -52,12 +52,16 @@ class _BlogListPageState extends State<BlogListPage> {
           : ListView.builder(
               itemCount: bloglist.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BlogPage()));
+                            builder: (context) => BlogPage(
+                                  title: bloglist[index].name,
+                                  desc: bloglist[index].desc!,
+                                  img: bloglist[index].img,
+                                )));
                   },
                   child: Center(
                     child: Padding(
@@ -79,9 +83,21 @@ class _BlogListPageState extends State<BlogListPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"),
+                                  imageUrl:
+                                      "$renderurl/uploads/${bloglist[index].img}",
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) {
+                                    return Image.network(
+                                      "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
                               )),
                           Container(
                               width: MediaQuery.of(context).size.width - 32,

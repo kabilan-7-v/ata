@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:ata/cubit/usercubit.dart';
@@ -7,6 +9,7 @@ import 'package:ata/service/membership_service.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Newmembership extends StatefulWidget {
   const Newmembership({super.key});
@@ -20,27 +23,52 @@ class _NewmembershipState extends State<Newmembership> {
   bool two = false;
   bool three = false;
   bool four = false;
+  bool loading = false;
   List<String> membershhiplst = [];
-  List<dynamic> family = [];
+  List<String> family = [];
+  TextEditingController addmembershipcontroller = TextEditingController();
   @override
   void initState() {
-    setmembership();
+    setmembership("");
     super.initState();
   }
 
-  setmembership() async {
-    membershhiplst = await membershipdetailsfetch(context);
+  @override
+  dispose() {
+    addmembershipcontroller.dispose();
+    super.dispose();
+  }
+
+  setmembership(String email) async {
+    loading = true;
+    setState(() {});
+    SharedPreferences pres = await SharedPreferences.getInstance();
+
+    if (pres.getStringList("memberships") == null) {
+    membershhiplst = await membershipdetailsfetch(
+        context, email == "" ? context.read<UserCubit>().state.email : email);
+    pres.setStringList("memberships", membershhiplst);
+    } else {
+    membershhiplst = pres.getStringList("memberships")!;
+    }
+
     setState(() {});
     if (membershhiplst.isNotEmpty) {
       if (membershhiplst[0] != "Single") {
         // log();
-        family = await membershipdetailsfamily(
-            context, membershhiplst[0].toString());
-        log(family.toString());
+        if (pres.getStringList("listoffamily") == null) {
+          family = await membershipdetailsfamily(
+              context, membershhiplst[0].toString());
+
+          pres.setStringList("listoffamily", family);
+        } else {
+          family = pres.getStringList("listoffamily")!;
+        }
         setState(() {});
       }
       log(membershhiplst.toString());
     }
+    loading = false;
 
     setState(() {});
   }
@@ -85,7 +113,7 @@ class _NewmembershipState extends State<Newmembership> {
                         width: 16,
                       ),
                       const Text(
-                        "+91-7010185919 , ",
+                        "+91-7010185919,",
                         style: TextStyle(
                           fontSize: 11,
                         ),
@@ -102,6 +130,12 @@ class _NewmembershipState extends State<Newmembership> {
                 ],
               ),
             ),
+            loading
+                ? LinearProgressIndicator(
+                    color: orange,
+                  )
+                : SizedBox(),
+
             membershhiplst.isNotEmpty && membershhiplst[1] != ""
                 ? benfitcard(context)
                 : const SizedBox(),
@@ -131,8 +165,8 @@ class _NewmembershipState extends State<Newmembership> {
                     )
                   ])
                 : const SizedBox.shrink(),
-            const SizedBox(
-              height: 16,
+            SizedBox(
+              height: family.isNotEmpty ? 16 : 0,
             ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 10, top: 10),
@@ -164,7 +198,7 @@ class _NewmembershipState extends State<Newmembership> {
             //     ),
             //   ],
             // ),
-            family.isNotEmpty && family[0]["spouse"] != null
+            family.isNotEmpty
                 ? Center(
                     child: Container(
                         width: MediaQuery.of(context).size.width - 16,
@@ -182,42 +216,14 @@ class _NewmembershipState extends State<Newmembership> {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 16),
-                                      child: Text(
-                                        family[0]["spouse"]["name"],
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
-                                        const Text("Children , "),
-                                        Text(
-                                            "Age: ${family[0]["spouse"]["age"]}"),
-                                      ],
-                                    ),
-                                  ],
-                                ),
                               ),
                               family.isNotEmpty
                                   ? ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: family.isNotEmpty
-                                          ? family[0]["children"].length
-                                          : 0,
+                                      itemCount:
+                                          family.isNotEmpty ? family.length : 0,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, ind) {
@@ -232,8 +238,7 @@ class _NewmembershipState extends State<Newmembership> {
                                                 padding: const EdgeInsets.only(
                                                     left: 8),
                                                 child: Text(
-                                                  family[0]["children"][ind]
-                                                      ["name"],
+                                                  family[ind].split("&#&")[0],
                                                   style: const TextStyle(
                                                       fontSize: 20,
                                                       fontWeight:
@@ -245,9 +250,10 @@ class _NewmembershipState extends State<Newmembership> {
                                                   const SizedBox(
                                                     width: 8,
                                                   ),
-                                                  const Text("Children , "),
                                                   Text(
-                                                      "Age: ${family[0]["children"][ind]["age"]}"),
+                                                      "${family[ind].split("&#&")[2]} , "),
+                                                  Text(
+                                                      "Age: ${family[ind].split("&#&")[1]}"),
                                                 ],
                                               ),
                                             ],
@@ -255,10 +261,38 @@ class _NewmembershipState extends State<Newmembership> {
                                         );
                                       })
                                   : const SizedBox(),
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               )
                             ])),
+                  )
+                : const SizedBox(),
+            family.isEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text(
+                          "Add Membership",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Center(
+                        child: customTextfield(
+                            context,
+                            const Icon(Icons.mail_outline),
+                            "Add Primary mail id",
+                            addmembershipcontroller),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
                   )
                 : const SizedBox(),
             family.isEmpty
@@ -489,13 +523,68 @@ class _NewmembershipState extends State<Newmembership> {
                   )
                 : const SizedBox(),
             line(context),
-            SizedBox(
+            const SizedBox(
               height: 60,
-            )
+            ),
+
             //////////////////////////////////////////// quess three /////////////////////////////////////
+            ///
           ],
         ),
       ),
+    );
+  }
+
+  Widget customTextfield(BuildContext context, Icon icon, String hinttext,
+      TextEditingController controller) {
+    return Row(
+      children: [
+        const SizedBox(
+          width: 14,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width - 80,
+          // height: 80,
+          child: TextFormField(
+              controller: controller,
+              decoration: InputDecoration(
+                  hintStyle:
+                      const TextStyle(color: Color.fromRGBO(187, 187, 188, 1)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(width: 1.2),
+                  ),
+                  hintText: hinttext,
+                  prefixIcon: icon,
+                  focusedBorder: OutlineInputBorder(
+                      // gapPadding: 10,
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: orange, width: 2)),
+                  border: OutlineInputBorder(
+                      // gapPadding: 10,
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(color: Colors.black, width: 1.2)))),
+        ),
+        GestureDetector(
+          onTap: () async {
+            setmembership(addmembershipcontroller.text);
+          },
+          child: Container(
+              margin: const EdgeInsets.only(left: 10),
+              decoration:
+                  const BoxDecoration(shape: BoxShape.circle, color: orange),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 3),
+                    child: Icon(Icons.send),
+                  ),
+                ),
+              )),
+        )
+      ],
     );
   }
 

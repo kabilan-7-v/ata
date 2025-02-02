@@ -181,9 +181,19 @@ class Detailviewevent extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: CachedNetworkImage(
-                    imageUrl: img,
-                    fit: BoxFit.cover,
-                  ),
+                      imageUrl: img,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return Image.network(
+                          "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                          fit: BoxFit.cover,
+                        );
+                      }),
                 ),
               ),
               title: Text(
@@ -218,9 +228,19 @@ class Detailviewevent extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
-                imageUrl: img,
-                fit: BoxFit.cover,
-              ))),
+                  imageUrl: img,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  errorWidget: (context, url, error) {
+                    return Image.network(
+                      "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                      fit: BoxFit.cover,
+                    );
+                  }))),
     );
   }
 }

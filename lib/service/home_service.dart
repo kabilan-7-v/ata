@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/homemodels.dart';
@@ -23,7 +24,6 @@ class HomeService {
       if (response.statusCode == 200) {
         // Parse the JSON response into a list of events
         final List<dynamic> jsonResponse = jsonDecode(response.body);
-        // log(jsonResponse.toString());
 
         for (var i in jsonResponse) {
           populareventslst.add(Popularevents.fromJson(i));
@@ -48,6 +48,7 @@ class HomeService {
 
         final List<dynamic> jsonResponse = jsonDecode(response.body);
         // log("fetch_latestpost${jsonResponse} :${jsonResponse.length}");
+        log(jsonResponse.toString());
 
         for (var i in jsonResponse) {
           if (!CommonService.isTodayOrFuture(i["createdAt"])) {
@@ -64,19 +65,26 @@ class HomeService {
   }
 
   static Future<List<Sponsers>> fetchSponsers() async {
-    List<Sponsers> sponser = [
-      Sponsers(
-        img: "assets/sponser/sponser1.webp",
-      ),
-      Sponsers(
-        img: "assets/sponser/sponser2.webp",
-      ),
-      Sponsers(
-        img: "assets/sponser/sponser3.webp",
-      ),
-      Sponsers(img: "assets/sponser/sponser4.webp")
-    ];
-    return sponser;
+    List<Sponsers> sponserlst = [];
+    String url = '$renderurl/sponsorship/get';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response into a list of events
+        final List<dynamic> jsonResponse = jsonDecode(response.body);
+
+        for (var i in jsonResponse) {
+          sponserlst.add(Sponsers.fromJson(i));
+        }
+        return sponserlst;
+      } else {
+        throw Exception('Failed to load events: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
   }
 
   static storerecentsearch(String prompt, BuildContext context) async {

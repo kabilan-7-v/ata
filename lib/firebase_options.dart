@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'ata-pushnotifications.firebasestorage.app',
     iosBundleId: 'com.example.ata',
   );
+
 }

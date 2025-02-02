@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:developer';
@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:skeleton_shimmer_loading/skeleton_shimmer_loading.dart';
 
 class Homepage extends StatefulWidget {
@@ -58,11 +59,17 @@ class _HomepageState extends State<Homepage> {
   }
 
   getHomeData() async {
+    await Permission.notification.isDenied.then((value) {
+      if (value) {
+        Permission.notification.request();
+      }
+    });
     latestPosts = await HomeService.fetchLatestPost();
     sponsers = await HomeService.fetchSponsers();
     popularEvents = await HomeService.fetchPopularevents();
     recentsearch = await HomeService.getreacentsearch(context);
     Future.delayed(Durations.long4);
+    if (!mounted) return;
     setState(() {
       isloading = false;
     });
@@ -77,6 +84,7 @@ class _HomepageState extends State<Homepage> {
 ////////////////////////////////////////////////////////////////////////////////////// SEARCH ////////////////////////////////////////////
   void searchEvents(String query) {
     if (searchController.text.isNotEmpty) {
+      if (!mounted) return;
       setState(() {
         issearchwidgetShow = true;
       });
@@ -212,11 +220,12 @@ class _HomepageState extends State<Homepage> {
                                   itemCount: filteredPost.length,
                                   itemBuilder: (context, index) {
                                     return _buildLatestPostCard(
-                                        "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                        filteredPost[index].img,
                                         filteredPost[index].date,
                                         filteredPost[index].name,
                                         filteredPost[index].location!,
-                                        false);
+                                        false,
+                                        filteredPost[index].desc!);
                                   },
                                 )
                               : SizedBox(),
@@ -284,7 +293,6 @@ class _HomepageState extends State<Homepage> {
                                               scrollDirection: Axis.horizontal,
                                               itemCount: popularEvents.length,
                                               padding: EdgeInsets.zero,
-                                              reverse: true,
                                               itemBuilder: (context, index) {
                                                 return _buildEventCard(
                                                   popularEvents[index].img,
@@ -432,11 +440,12 @@ class _HomepageState extends State<Homepage> {
                                                 padding: const EdgeInsets.only(
                                                     left: 0),
                                                 child: _buildLatestPostCard(
-                                                    "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                                                    latestPosts[0].img,
                                                     latestPosts[0].date,
                                                     latestPosts[0].name,
                                                     latestPosts[0].location!,
-                                                    true),
+                                                    true,
+                                                    latestPosts[0].desc!),
                                               )
                                             ]),
                                           )
@@ -462,41 +471,61 @@ class _HomepageState extends State<Homepage> {
                                             ),
                                           )
                                         : SizedBox(),
-                                    ShimmerItem(
-                                      isFitChild: true,
-                                      child: CarouselSlider(
-                                        options: CarouselOptions(
-                                          height: 100.0,
-                                          autoPlay: true,
-                                          aspectRatio: 16 / 9,
-                                          autoPlayCurve: Curves.linear,
-                                          enableInfiniteScroll: true,
-                                          autoPlayInterval:
-                                              const Duration(seconds: 10),
-                                          autoPlayAnimationDuration:
-                                              const Duration(milliseconds: 500),
-                                          viewportFraction: 0.7,
-                                        ),
-                                        items: sponsers.map((item) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: SizedBox(
-                                              height: 100,
-                                              width: 230,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      "https://picsum.photos/200/300",
-                                                  fit: BoxFit.cover,
-                                                ),
+                                    sponsers.isEmpty
+                                        ? SizedBox()
+                                        : ShimmerItem(
+                                            isFitChild: true,
+                                            child: CarouselSlider.builder(
+                                              options: CarouselOptions(
+                                                height: 100.0,
+                                                autoPlay: true,
+                                                aspectRatio: 16 / 9,
+                                                autoPlayCurve: Curves.linear,
+                                                enableInfiniteScroll: true,
+                                                autoPlayInterval:
+                                                    const Duration(seconds: 10),
+                                                autoPlayAnimationDuration:
+                                                    const Duration(
+                                                        milliseconds: 500),
+                                                viewportFraction: 0.7,
                                               ),
+                                              itemCount: sponsers.length,
+                                              itemBuilder: (context, ind, i) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    height: 100,
+                                                    width: 230,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://atabackend.onrender.com/uploads/${sponsers[ind].img}",
+                                                        fit: BoxFit.cover,
+                                                        placeholder:
+                                                            (context, url) {
+                                                          return Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          );
+                                                        },
+                                                        errorWidget: (context,
+                                                            url, error) {
+                                                          return Image.network(
+                                                            "https://picsum.photos/200/300",
+                                                            fit: BoxFit.cover,
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
+                                          ),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -597,7 +626,6 @@ class _HomepageState extends State<Homepage> {
                                       child: ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: recentsearch.length,
-                                          reverse: true,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, ind) {
                                             return GestureDetector(
@@ -837,7 +865,7 @@ class _HomepageState extends State<Homepage> {
             context,
             MaterialPageRoute(
                 builder: (context) => Detailviewevent(
-                      img: "https://picsum.photos/200/300",
+                      img: imageUrl,
                       eventdate: date,
                       eventname: eventname,
                       eventtime: time,
@@ -848,7 +876,7 @@ class _HomepageState extends State<Homepage> {
       },
       child: Padding(
         padding: ind + 1 == popularEvents.length
-            ? const EdgeInsets.only(left: 16, bottom: 0, top: 5, )
+            ? const EdgeInsets.only(left: 16, bottom: 0, top: 5, right: 16)
             : const EdgeInsets.only(left: 16, bottom: 0, top: 5, right: 10),
         child: Stack(
           children: [
@@ -862,8 +890,19 @@ class _HomepageState extends State<Homepage> {
                       : MediaQuery.of(context).size.width - 32,
                   height: 230,
                   child: CachedNetworkImage(
-                    imageUrl: "https://picsum.photos/200/300",
+                    imageUrl: imageUrl,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorWidget: (context, url, error) {
+                      return Image.network(
+                        "https://picsum.photos/200/300",
+                        fit: BoxFit.cover,
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -996,11 +1035,12 @@ class _HomepageState extends State<Homepage> {
               log(latestPosts[index].img);
 
               return _buildLatestPostCard(
-                  "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                  latestPosts[index].date,
                   latestPosts[index].date,
                   latestPosts[index].name,
                   latestPosts[index].location!,
-                  true);
+                  true,
+                  latestPosts[index].desc!);
             },
           ),
         ),
@@ -1009,7 +1049,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget _buildLatestPostCard(String img, String date, String eventname,
-      String location, bool issearchpos) {
+      String location, bool issearchpos, String desc) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, bottom: 10, right: 16),
       child: Container(
@@ -1037,10 +1077,21 @@ class _HomepageState extends State<Homepage> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
                   child: CachedNetworkImage(
-                    imageUrl: img,
+                    imageUrl: "https://atabackend.onrender.com/uploads/$img",
                     width: double.infinity,
                     height: 130,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorWidget: (context, url, error) {
+                      return Image.network(
+                        "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI",
+                        fit: BoxFit.cover,
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -1076,7 +1127,12 @@ class _HomepageState extends State<Homepage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BlogPage()));
+                                builder: (context) => BlogPage(
+                                      img:
+                                          "https://atabackend.onrender.com/uploads/$img",
+                                      title: eventname,
+                                      desc: desc,
+                                    )));
                       },
                       child: const Text(
                         "View Post",

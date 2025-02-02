@@ -78,13 +78,13 @@ class Sponsers {
   Sponsers({required this.img});
   factory Sponsers.fromJson(Map<String, dynamic> json) {
     return Sponsers(
-      img: json["img"],
+      img: json["image"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "img": img,
+      "image": img,
     };
   }
 }

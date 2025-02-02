@@ -28,10 +28,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -66,4 +63,12 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.ata',
   );
 
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBSor59qrvIy-x5zul2Qh_8L7O7M2u90vc',
+    appId: '1:93755209436:ios:847bd77b07622d2f60e619',
+    messagingSenderId: '93755209436',
+    projectId: 'ata-pushnotifications',
+    storageBucket: 'ata-pushnotifications.firebasestorage.app',
+    iosBundleId: 'com.example.ata',
+  );
 }

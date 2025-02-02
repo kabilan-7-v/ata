@@ -55,31 +55,41 @@ class LocalNotificationService {
 
   static setup() async {
     final prefs = await SharedPreferences.getInstance();
-    bool isnotification = await Permission.notification.isGranted;
-    log(isnotification.toString());
+    bool isNotificationGranted = await Permission.notification.isGranted;
+    log('Notification Permission: $isNotificationGranted');
 
-    prefs.setBool("switch", isnotification);
+    prefs.setBool("switch", isNotificationGranted);
 
-    gettoken();
+    // getToken();
     FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
 
+    // Debug logging
     if (kDebugMode) {
       print(prefs.getBool("switch"));
     }
-    // if (kDebugMode) {
-    //   // print(emoji);
-    // }
-    if (prefs.getBool("switch") == true) {
+
+    // Initialize notification service if permission granted
+    if (isNotificationGranted) {
       await LocalNotificationService().init();
+       FirebaseMessaging messaging = FirebaseMessaging.instance;
+      NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  print('User granted permission: ${settings.authorizationStatus}');
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        // Handle the received message here
-        String body = message.notification?.body ?? "Ata";
+        String body = message.notification?.body ?? "No body";
+        String title = message.notification?.title ?? "No title";
+        
         LocalNotificationService().showNotification(
           body: body,
-          title: "ATA",
-          id: 0,
+          title: title,
+          id: DateTime.now().millisecondsSinceEpoch,  // Unique ID based on timestamp
         );
+
+        // Save notifications in SharedPreferences
         if (prefs.getStringList("notification") == null) {
           prefs.setStringList("notification", ["$body#*#${DateTime.now()}"]);
         } else {
@@ -88,62 +98,37 @@ class LocalNotificationService {
               prefs.getStringList("notification")! +
                   ["$body#*#${DateTime.now()}"]);
         }
-        // if (kDebugMode) {
-        //   print(emoji);
-        //   print("Received message: ${message.notification?.body}");
-        // }
       });
     }
   }
 
-  static gettoken() async {
+  static getToken() async {
     FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
     FirebaseMessaging.instance.subscribeToTopic('all');
-    firebaseMessaging.getToken().then((token) {
-      if (kDebugMode) {
-        print("FCM Token: $token");
-        // print(emoji);
-      }
+
+    // Check for existing token or get a new one
+    String? token = await firebaseMessaging.getToken();
+    if (token != null && kDebugMode) {
+      print("FCM Token: $token");
+    }
+
+    // Listen for token refresh
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      print("FCM Token refreshed: $newToken");
     });
   }
 
   static Future<void> _backgroundHandler(RemoteMessage message) async {
     // Handle background message
-
     if (kDebugMode) {
       print('Handling a background message: ${message.messageId}');
     }
+// Getting the FCM token (APNS token)
+Future<void> getTokenios() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  String? token = await messaging.getToken();
+  print('FCM Token: $token');  // Ensure you're logging the token to check it's retrieved
+}
+    // You can show a notification or handle the message here.
   }
 }
-
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-// class NotificationService {
-//   static final FlutterLocalNotificationsPlugin notificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-
-//   static Future<void> initNotification() async {
-//     AndroidInitializationSettings initializationSettingsAndroid =
-//         const AndroidInitializationSettings('flutter_logo');
-
-//     var initializationSettings = InitializationSettings(
-//       android: initializationSettingsAndroid,
-//     );
-//     await notificationsPlugin.initialize(initializationSettings,
-//         onDidReceiveNotificationResponse:
-//             (NotificationResponse notificationResponse) async {});
-//   }
-
-//   static notificationDetails() {
-//     return const NotificationDetails(
-//         android: AndroidNotificationDetails('channelId', 'channelName',
-//             importance: Importance.max),
-//         iOS: DarwinNotificationDetails());
-//   }
-
-//   static Future showNotification(
-//       {int id = 0, String? title, String? body, String? payLoad}) async {
-//     return notificationsPlugin.show(
-//         id, title, body, await notificationDetails());
-//   }
-// }

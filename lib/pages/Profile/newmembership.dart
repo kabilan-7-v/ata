@@ -79,6 +79,7 @@ class _NewmembershipState extends State<Newmembership> {
       backgroundColor: ataBackgroundcolor,
       appBar: AppBar(
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 15,
@@ -89,6 +90,7 @@ class _NewmembershipState extends State<Newmembership> {
             ),
           ],
         ),
+        centerTitle: false,
         scrolledUnderElevation: 0,
         toolbarHeight: 50,
         backgroundColor: const Color.fromARGB(255, 247, 229, 214),

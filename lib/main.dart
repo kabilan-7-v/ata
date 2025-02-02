@@ -1,4 +1,3 @@
-import 'package:ata/Authentication/create_account.dart';
 import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/pages/Internet/no_internet_page.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

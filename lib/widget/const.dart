@@ -9,7 +9,7 @@ List popularevent = [];
 List latestPost = [];
 
 String emoji = "🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳🥳";
-String renderurl = 'https://atabackend.onrender.com';
+String renderurl = 'http://atabackend.quindltechnologies.com/';
 String quindlurl = 'https://atabackend.quindltechnologies.com:3003/';
 String aboutusurl = 'https://atauser.quindltechnologies.com/about';
 //https://atabackend.onrender.com

@@ -142,28 +142,28 @@ class _SigninPageState extends State<SigninPage> {
                 ),
                 const SizedBox(height: 140),
                 Center(child: custombutton(context, "Login")),
-                const SizedBox(height: 25),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CreateAccount()),
-                        (e) => false);
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Don't have an account?"),
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            color: Color.fromRGBO(76, 117, 244, 1),
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                )
+                // const SizedBox(height: 25),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.pushAndRemoveUntil(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const CreateAccount()),
+                //         (e) => false);
+                //   },
+                //   child: const Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text("Don't have an account?"),
+                //       Text(
+                //         "Sign Up",
+                //         style: TextStyle(
+                //             color: Color.fromRGBO(76, 117, 244, 1),
+                //             fontWeight: FontWeight.bold),
+                //       ),
+                //     ],
+                //   ),
+                // )
               ],
             ),
           ),

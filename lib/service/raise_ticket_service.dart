@@ -43,7 +43,7 @@ Future<bool> raisedticket(
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        "name": context.read<UserCubit>().state.userName,
+        "name": context.read<UserCubit>().state.firstname+context.read<UserCubit>().state.lastname,
         "email": context.read<UserCubit>().state.email,
         "countryCode": "+91",
         "phone": context.read<UserCubit>().state.phno,

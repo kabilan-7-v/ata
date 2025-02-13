@@ -117,16 +117,16 @@ class _EditprofileState extends State<Editprofile> {
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromRGBO(225, 104, 17, 1)),
         onPressed: () async {
-          await editUserProfile(
-              name.text,
-              username.text,
-              bio.text,
-              gender.text,
-              dateofbirth.text,
-              context,
-              context.read<UserCubit>().state.userid ?? "s",
-              "phno");
-          setState(() {});
+          // await editUserProfile(
+          //     name.text,
+          //     username.text,
+          //     bio.text,
+          //     gender.text,
+          //     dateofbirth.text,
+          //     context,
+          //     context.read<UserCubit>().state.userid ?? "s",
+          //     "phno");
+          // setState(() {});
           Navigator.pop(context);
         },
         child: isloading

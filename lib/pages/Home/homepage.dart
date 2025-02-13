@@ -9,6 +9,7 @@ import 'package:ata/pages/Home/detailviewevent.dart';
 import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/home_service.dart';
+import 'package:ata/service/login.dart';
 import 'package:ata/widget/const.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
+    setUserDetails(context);
     get_internet();
     getHomeData();
     setState(() {});
@@ -503,7 +505,7 @@ class _HomepageState extends State<Homepage> {
                                                               10),
                                                       child: CachedNetworkImage(
                                                         imageUrl:
-                                                            "https://atabackend.onrender.com/uploads/${sponsers[ind].img}",
+                                                            "$renderurl/uploads/${sponsers[ind].img}",
                                                         fit: BoxFit.cover,
                                                         placeholder:
                                                             (context, url) {
@@ -602,7 +604,7 @@ class _HomepageState extends State<Homepage> {
                       child: Text(
                         (issearch | issearchwidgetShow)
                             ? "Recently searches"
-                            : "Hello, ${context.watch<UserCubit>().state.userName}",
+                            : "Hello, ${context.watch<UserCubit>().state.firstname+context.watch<UserCubit>().state.lastname}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -1077,7 +1079,7 @@ class _HomepageState extends State<Homepage> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
                   child: CachedNetworkImage(
-                    imageUrl: "https://atabackend.onrender.com/uploads/$img",
+                    imageUrl: "$renderurl/uploads/$img",
                     width: double.infinity,
                     height: 130,
                     fit: BoxFit.cover,
@@ -1128,10 +1130,10 @@ class _HomepageState extends State<Homepage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => BlogPage(
-                                      img:
-                                          "https://atabackend.onrender.com/uploads/$img",
+                                      img: "$renderurl/uploads$img",
                                       title: eventname,
                                       desc: desc,
+                                      date: date,
                                     )));
                       },
                       child: const Text(

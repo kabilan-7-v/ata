@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:developer';
 import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/models/usermodel.dart';
 import 'package:ata/widget/const.dart';
@@ -12,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> login(String email, String password, BuildContext context) async {
   // Define the URL
-   String url = '$renderurl/auth/login';
+  String url = '$renderurl/auth/login';
 
   try {
     // Make the POST request
@@ -26,26 +27,28 @@ Future<bool> login(String email, String password, BuildContext context) async {
         'password': password,
       }),
     );
+    log(response.body);
     // Check the response status
     if (response.statusCode == 200) {
       // Parse the response if successful
       final data = jsonDecode(response.body);
-      // if (kDebugMode) {
-      //   print(data['user']["_id"]);
-      // }
 
       context.read<UserCubit>().setUser(UserModel.fromJson(data['user']));
+      log(data['user']['firstName']);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool("isLoggedIn", true);
+      await prefs.setStringList("listoffamily", []);
+      await prefs.setStringList("memberships", []);
       await prefs.setStringList("user_details", [
-        data['user']['userName'] ?? "NULL",
+        data['user']['firstName'] ?? "NULL",
         data['user']['email'] ?? "Null",
         data['user']['phoneNumber'] ?? "Null",
         data['user']['bio'] ?? "Null",
         data['user']['image'] ?? "Null",
         data['user']['dateOfBirth'] ?? "Null",
         data['user']['gender'] ?? "Null",
-        data['user']['_id'] ?? "Null"
+        data['user']['_id'] ?? "Null",
+        data['user']['lastName'] ?? "Null",
       ]);
       // if (kDebugMode) {
       //   print(data);
@@ -71,7 +74,7 @@ Future<bool> login(String email, String password, BuildContext context) async {
 Future<bool> createAccount(
     String name, String email, String password, BuildContext context) async {
   // Define the URL
-   String url = '$renderurl/auth/register';
+  String url = '$renderurl/auth/register';
 
   try {
     // Make the POST request
@@ -135,16 +138,19 @@ setUserDetails(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   List<String>? userLst = prefs.getStringList("user_details");
+  log("users");
   if (userLst != null) {
+    log(userLst.toString());
     Map<String, dynamic> user = {
-      "userName": userLst[0],
+      "firstName": userLst[0],
       "email": userLst[1],
       "phoneNumber": userLst[2],
       "bio": userLst[3],
       "image": userLst[4],
       "dateOfBirth": userLst[5],
       "gender": userLst[6],
-      "_id": userLst[7]
+      "_id": userLst[7],
+      "lastName": userLst[8]
     };
 
     context.read<UserCubit>().setUser(UserModel.fromJson(user));

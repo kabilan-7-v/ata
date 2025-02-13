@@ -7,6 +7,7 @@ import 'package:ata/pages/Profile/drawer.dart';
 import 'package:ata/service/common_service.dart';
 import 'package:ata/service/membership_service.dart';
 import 'package:ata/widget/const.dart';
+import 'package:ata/widget/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,19 +45,18 @@ class _NewmembershipState extends State<Newmembership> {
     setState(() {});
     SharedPreferences pres = await SharedPreferences.getInstance();
 
-    if (pres.getStringList("memberships") == null) {
-    membershhiplst = await membershipdetailsfetch(
-        context, email == "" ? context.read<UserCubit>().state.email : email);
-    pres.setStringList("memberships", membershhiplst);
+    if (pres.getStringList("memberships")!.isEmpty || email == "") {
+      membershhiplst = await membershipdetailsfetch(
+          context, email == "" ? context.read<UserCubit>().state.email : email);
     } else {
-    membershhiplst = pres.getStringList("memberships")!;
+      membershhiplst = pres.getStringList("memberships")!;
     }
 
     setState(() {});
     if (membershhiplst.isNotEmpty) {
       if (membershhiplst[0] != "Single") {
         // log();
-        if (pres.getStringList("listoffamily") == null) {
+        if (pres.getStringList("listoffamily")!.isEmpty) {
           family = await membershipdetailsfamily(
               context, membershhiplst[0].toString());
 
@@ -85,7 +85,8 @@ class _NewmembershipState extends State<Newmembership> {
               height: 15,
             ),
             Text(
-              context.watch<UserCubit>().state.userName,
+              context.watch<UserCubit>().state.firstname +
+                  context.watch<UserCubit>().state.lastname,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
@@ -570,7 +571,15 @@ class _NewmembershipState extends State<Newmembership> {
         ),
         GestureDetector(
           onTap: () async {
+            loading = true;
+            setState(() {});
             setmembership(addmembershipcontroller.text);
+            if (family.isNotEmpty && family[0] == "Single") {
+              SnackbarService()
+                  .showSnackBar("No membership found in this mail", context);
+            }
+            loading = false;
+            setState(() {});
           },
           child: Container(
               margin: const EdgeInsets.only(left: 10),

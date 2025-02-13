@@ -61,6 +61,7 @@ class _BlogListPageState extends State<BlogListPage> {
                                   title: bloglist[index].name,
                                   desc: bloglist[index].desc!,
                                   img: bloglist[index].img,
+                                  date: bloglist[index].date,
                                 )));
                   },
                   child: Center(

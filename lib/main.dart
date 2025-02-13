@@ -80,9 +80,7 @@ class _MyAppState extends State<MyApp> {
                   child: CircularProgressIndicator(),
                 ),
               )
-            : (!isConnected)
-                ? const NoInternetPage()
-                : (isLoggedIn == true
+           : (isLoggedIn == true
                     ? const Commonpage()
                     : const SigninPage()),
       ),

@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future membershipdetailsfetch(BuildContext context, String email) async {
   // Define the URL
+  log(emoji);
+  log(email);
   String url = '$renderurl/membership/get';
   try {
     // Make the POST request
@@ -30,6 +32,13 @@ Future membershipdetailsfetch(BuildContext context, String email) async {
       log(jsonResponse["membership"][0]["userId"].toString());
 
       // Parse the response if successful
+      SharedPreferences pres = await SharedPreferences.getInstance();
+
+      pres.setStringList("memberships", [
+        jsonResponse["membership"][0]["userId"].toString(),
+        jsonResponse["membership"][0]["membershipName"].toString()
+      ]);
+
       return [
         jsonResponse["membership"][0]["userId"].toString(),
         jsonResponse["membership"][0]["membershipName"].toString()
@@ -43,7 +52,6 @@ Future membershipdetailsfetch(BuildContext context, String email) async {
       print('Error: $e');
     }
   }
-  return ["Single", ""];
 }
 
 Future<List<String>> membershipdetailsfamily(

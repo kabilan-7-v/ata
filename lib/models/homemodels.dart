@@ -57,7 +57,7 @@ class Latestpost {
         name: json["name"] ?? "name",
         desc: json["desc"] ?? "des",
         img: json["image"] ?? "image",
-        date: json["createdAt"] ?? "date",
+        date: json["date"] ?? "date",
         location: json["location"] ?? "location");
   }
 
@@ -66,7 +66,7 @@ class Latestpost {
       "name": name,
       "desc": desc ?? "",
       "images": img,
-      "createdAt": date,
+      "date": date,
       "location": location ?? ""
     };
   }

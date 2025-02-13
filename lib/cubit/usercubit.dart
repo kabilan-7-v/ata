@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UserCubit extends Cubit<UserModel> {
   UserCubit()
       : super(
-          UserModel(userName: "", email: "", phno: "",
+          UserModel(firstname: "",lastname: '', email: "", phno: "",
           bio: "",dateofbirth: "",image: "",gender: "",
           userid: ""
           ),

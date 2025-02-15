@@ -259,14 +259,14 @@ class _NewmembershipState extends State<Newmembership> {
                                                       "Age: ${family[ind].split("&#&")[1]}"),
                                                 ],
                                               ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
                                             ],
                                           ),
                                         );
                                       })
                                   : const SizedBox(),
-                              const SizedBox(
-                                height: 16,
-                              )
                             ])),
                   )
                 : const SizedBox(),
@@ -402,7 +402,10 @@ class _NewmembershipState extends State<Newmembership> {
             const SizedBox(
               height: 20,
             ),
-            customtitle("One Lite FAQs"),
+            customtitle("FAQs"),
+            const SizedBox(
+              height: 10,
+            ),
             //// quess one /////////////////////////////////////
             GestureDetector(
               onTap: () {
@@ -411,6 +414,7 @@ class _NewmembershipState extends State<Newmembership> {
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(
                     width: 14,
@@ -713,33 +717,37 @@ class _NewmembershipState extends State<Newmembership> {
 
   Widget customtitle(String text) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
-      child: SafeArea(
-        child: Row(
-          children: [
-            Text(
-              text,
-              style: const TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-              child: Container(
-                  height: 1,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Colors.grey.shade300,
-                      Colors.grey.shade300,
-                      Colors.white70
-                    ]),
-                  )),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.only(
+        left: 8,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                text,
+                style: const TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Container(
+                    height: 1,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.grey.shade300,
+                        Colors.grey.shade300,
+                        Colors.white70
+                      ]),
+                    )),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

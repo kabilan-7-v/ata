@@ -22,7 +22,7 @@ class _NotificationspageState extends State<Notificationspage> {
 
   setnotifylst() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Notifylst = prefs.getStringList("notification")!;
+    Notifylst = prefs.getStringList("notification") ??[];
     Notifylst = Notifylst.reversed.toList();
 
     setState(() {});

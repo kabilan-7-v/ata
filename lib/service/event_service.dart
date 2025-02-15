@@ -20,6 +20,7 @@ class EventService {
         // Parse the JSON response into a list of events
 
         final List<dynamic> jsonResponse = jsonDecode(response.body);
+        log(jsonResponse.toString());
 
         for (var i in jsonResponse) {
           // if (kDebugMode) {

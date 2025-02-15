@@ -47,7 +47,7 @@ class _CommonpageState extends State<Commonpage> {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               child: Container(
-                height: 70,
+                height: 90,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: ataBackgroundcolor,
@@ -92,6 +92,10 @@ class _CommonpageState extends State<Commonpage> {
                                 ],
                               )
                             : Column(
+
+
+                                mainAxisAlignment: MainAxisAlignment.center,
+
                                 children: [
                                   SizedBox(
                                       height: 40,

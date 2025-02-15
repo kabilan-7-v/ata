@@ -1,6 +1,5 @@
 import 'package:ata/Authentication/signin_page.dart';
 import 'package:ata/cubit/usercubit.dart';
-import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/pages/commonpage.dart';
 import 'package:ata/service/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';

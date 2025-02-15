@@ -235,6 +235,9 @@ class _HomepageState extends State<Homepage> {
                             height: 60,
                           )
                         ]),
+                    SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
               ));
@@ -538,7 +541,7 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ),
                         SizedBox(
-                          height: 60,
+                          height: 90,
                         )
                       ],
                     ),
@@ -604,7 +607,7 @@ class _HomepageState extends State<Homepage> {
                       child: Text(
                         (issearch | issearchwidgetShow)
                             ? "Recently searches"
-                            : "Hello, ${context.watch<UserCubit>().state.firstname+context.watch<UserCubit>().state.lastname}",
+                            : "Hello, ${context.watch<UserCubit>().state.firstname + context.watch<UserCubit>().state.lastname}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -983,7 +986,7 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
             Positioned(
-              bottom: 43,
+              bottom: 35,
               // right: 13,
               right: issearchPos ? 13 : 30,
               child: Container(

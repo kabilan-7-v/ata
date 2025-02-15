@@ -15,7 +15,7 @@ String aboutusurl = 'https://atauser.quindltechnologies.com/about';
 //https://atabackend.onrender.com
 
 String quesone =
-    'How do I purchase a membership, and what\ntypes are available?';
+    'How do I purchase a membership, and\nwhattypes are available?';
 String quesTwo = 'How do I contact customer support?';
 String quesThree = 'How do I cancel or downgrade my\nmembership?';
 String quesFour =

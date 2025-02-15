@@ -1,9 +1,6 @@
-import 'package:ata/cubit/usercubit.dart';
 import 'package:ata/service/common_service.dart';
-import 'package:ata/service/edit_user_profile.dart';
 import 'package:ata/widget/const.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Editprofile extends StatefulWidget {
   const Editprofile({super.key});

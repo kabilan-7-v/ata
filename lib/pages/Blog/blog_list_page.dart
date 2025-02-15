@@ -60,7 +60,8 @@ class _BlogListPageState extends State<BlogListPage> {
                             builder: (context) => BlogPage(
                                   title: bloglist[index].name,
                                   desc: bloglist[index].desc!,
-                                  img: bloglist[index].img,
+                                  img:
+                                      "$renderurl/uploads/${bloglist[index].img}",
                                   date: bloglist[index].date,
                                 )));
                   },

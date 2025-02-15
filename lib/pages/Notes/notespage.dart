@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:ata/models/eventmodels.dart';
 import 'package:ata/pages/Internet/no_internet_page.dart';
 import 'package:ata/service/common_service.dart';
@@ -145,7 +147,7 @@ class _NotesPageState extends State<NotesPage> {
             body: Column(
               children: [
                 const SizedBox(
-                  height: 35,
+                  height: 45,
                 ),
                 const TabBar(
                     labelPadding: EdgeInsets.zero,
@@ -227,7 +229,6 @@ class _NotesPageState extends State<NotesPage> {
 
   ongoineventCard(BuildContext context, String img, bool select, ind) {
     bool selected = select;
-
     return GestureDetector(
       onTap: () {
         onGoingEventsLst[ind].isselected = !onGoingEventsLst[ind].isselected!;
@@ -265,7 +266,7 @@ class _NotesPageState extends State<NotesPage> {
                       child: CachedNetworkImage(
                         width: double.infinity,
                         height: select == true ? 120 : 170,
-                        imageUrl: "$renderurl/upload/$img",
+                        imageUrl: img,
                         fit: BoxFit.cover,
                         placeholder: (context, url) {
                           return Center(
@@ -508,6 +509,7 @@ class _NotesPageState extends State<NotesPage> {
 
   upcomingeventCart(BuildContext context, String img, bool select, ind) {
     bool selected = select;
+    log(img);
 
     return GestureDetector(
       onTap: () {
@@ -520,8 +522,8 @@ class _NotesPageState extends State<NotesPage> {
         curve: Curves.linear,
         duration: const Duration(milliseconds: 1000),
         child: Container(
-          height: select == true ? 200 : 340,
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          height: select == true ? 220 : 330,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -546,7 +548,7 @@ class _NotesPageState extends State<NotesPage> {
                         child: CachedNetworkImage(
                           width: double.infinity,
                           height: select == true ? 110 : 170,
-                          imageUrl: "$renderurl/upload/$img",
+                          imageUrl: img,
                           fit: BoxFit.cover,
                           placeholder: (context, url) {
                             return Center(

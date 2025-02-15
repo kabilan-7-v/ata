@@ -94,8 +94,8 @@ class HomeService {
     if (lst == null) {
       prefs.setStringList(userid, []);
     }
-    if (prompt.isNotEmpty) {
-      lst!.add(prompt.trim());
+    if (prompt.isNotEmpty && lst!=null) {
+      lst.add(prompt.trim());
       prefs.setStringList(userid, lst);
     }
   }

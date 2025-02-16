@@ -28,6 +28,8 @@ class HomeService {
         for (var i in jsonResponse) {
           populareventslst.add(Popularevents.fromJson(i));
         }
+        populareventslst.sort(
+            (a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
         return populareventslst;
       } else {
         throw Exception('Failed to load events: ${response.statusCode}');
@@ -55,6 +57,8 @@ class HomeService {
             latestpostlst.add(Latestpost.fromJson(i));
           }
         }
+        latestpostlst.sort(
+            (a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
         return latestpostlst;
       } else {
         throw Exception('Failed to load events: ${response.statusCode}');
@@ -78,6 +82,7 @@ class HomeService {
         for (var i in jsonResponse) {
           sponserlst.add(Sponsers.fromJson(i));
         }
+        
         return sponserlst;
       } else {
         throw Exception('Failed to load events: ${response.statusCode}');
@@ -94,7 +99,7 @@ class HomeService {
     if (lst == null) {
       prefs.setStringList(userid, []);
     }
-    if (prompt.isNotEmpty && lst!=null) {
+    if (prompt.isNotEmpty && lst != null) {
       lst.add(prompt.trim());
       prefs.setStringList(userid, lst);
     }

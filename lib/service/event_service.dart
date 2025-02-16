@@ -29,18 +29,29 @@ class EventService {
           //   print(i);
           //   print(emoji);
           // }
-          if (!CommonService.isTodayOrFuture(i["date"])) {
+          
             ongoingevent.add(OnGoingEventmodels.fromJson(i));
-          }
-        }
+                  }
+        DateTime now = DateTime.now().toUtc();
+  String todayDate = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+  // Filter only today's dates
+   List<OnGoingEventmodels> todayDates = ongoingevent.where((dateStr) {
+    DateTime date = DateTime.parse(dateStr.date).toUtc();
+    String dateStrFormatted = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    return dateStrFormatted == todayDate;
+  }).toList();
+   todayDates.sort(
+        (a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
+  return todayDates;
       } else {
         throw Exception('Failed to load events: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Error: $e');
     }
+   
 
-    return ongoingevent;
   }
 
   static Future<List<UpcomingEventmodels>> fetchUpcomingEvents() async {
@@ -63,8 +74,6 @@ class EventService {
           //   print(emoji);
           // }
           if (CommonService.isTodayOrFuture(i["date"])) {
-            log(i["date"]);
-
             upComingEvents.add(UpcomingEventmodels.fromJson(i));
           }
         }
@@ -74,7 +83,8 @@ class EventService {
     } catch (e) {
       throw Exception('Error: $e');
     }
-
+    upComingEvents.sort(
+        (a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
     return upComingEvents;
   }
 }
